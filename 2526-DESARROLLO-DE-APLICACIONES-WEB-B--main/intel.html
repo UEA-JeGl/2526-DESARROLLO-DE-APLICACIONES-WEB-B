@@ -1,135 +1,400 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecnoSoluciones - Servicios Tecnológicos</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>TecnoSoluciones - Servicios Tecnológicos</title>
+
+<!-- Bootstrap CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background-color:#f4f6f9;
+}
+
+header{
+    background: linear-gradient(135deg,#0d6efd,#084298);
+    color:white;
+    padding:60px 20px;
+    text-align:center;
+}
+
+.hero-btn{
+    margin-top:15px;
+}
+
+.card{
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+section{
+    padding:60px 0;
+}
+
+img{
+    border-radius:10px;
+}
+
+aside{
+    background:#e9ecef;
+    padding:20px;
+    border-radius:10px;
+    margin:30px;
+}
+
+footer{
+    background:#212529;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.social-btn{
+    margin:5px;
+}
+
+.form-container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Media Query */
+@media(max-width:768px){
+
+    header{
+        padding:40px 10px;
+    }
+
+    h1{
+        font-size:2rem;
+    }
+
+    iframe{
+        width:100%;
+        height:250px;
+    }
+
+}
+
+</style>
+
 </head>
 
 <body>
 
-    <!-- Encabezado -->
-    <header>
-        <h1>TecnoSoluciones</h1>
-        <p>Soluciones tecnológicas para empresas y estudiantes</p>
-    </header>
+<!-- NAVBAR RESPONSIVO -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<div class="container">
 
-    <!-- Menú de navegación -->
-    <nav>
-        <ul>
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#quienes-somos">Quiénes Somos</a></li>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
+<a class="navbar-brand" href="#">TecnoSoluciones</a>
 
-    <!-- Contenido principal -->
-    <main>
+<button class="navbar-toggler" type="button"
+data-bs-toggle="collapse"
+data-bs-target="#menu">
 
-        <!-- Sección Inicio -->
-        <section id="inicio">
-            <h2>Inicio</h2>
-            <p>
-                Bienvenido a TecnoSoluciones, una empresa dedicada a brindar
-                servicios tecnológicos innovadores para mejorar la productividad
-                y el desarrollo digital de nuestros clientes. Nuestro objetivo es
-                ofrecer soluciones eficientes, accesibles y adaptadas a las
-                necesidades actuales del mercado.
-            </p>
-        </section>
+<span class="navbar-toggler-icon"></span>
 
-        <!-- Sección Quiénes Somos -->
-        <section id="quienes-somos">
-            <h2>Quiénes Somos</h2>
+</button>
 
-            <article>
-                <p>
-                    TecnoSoluciones es un emprendimiento orientado a la prestación
-                    de servicios tecnológicos para personas, instituciones educativas
-                    y pequeñas empresas. Nuestro proyecto nace con el propósito de
-                    facilitar el acceso a herramientas digitales que permitan mejorar
-                    la comunicación, la gestión de información y la presencia en
-                    internet. Contamos con personal capacitado en desarrollo web,
-                    soporte técnico y asesoría tecnológica. Además, trabajamos con
-                    compromiso y responsabilidad para garantizar la satisfacción de
-                    nuestros clientes. Buscamos impulsar la transformación digital
-                    mediante soluciones modernas, prácticas y adaptadas a las
-                    necesidades específicas de cada usuario. Nuestra visión es
-                    convertirnos en una referencia dentro del sector tecnológico,
-                    promoviendo la innovación y el aprendizaje continuo para generar
-                    valor y contribuir al crecimiento de nuestros clientes.
-                </p>
+<div class="collapse navbar-collapse" id="menu">
 
-                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
-                     alt="Tecnología e innovación"
-                     width="500">
-            </article>
-        </section>
+<ul class="navbar-nav ms-auto">
 
-        <!-- Sección Servicios -->
-        <section id="servicios">
-            <h2>Servicios</h2>
+<li class="nav-item">
+<a class="nav-link" href="#inicio">Inicio</a>
+</li>
 
-            <ul>
-                <li>Desarrollo de páginas web.</li>
-                <li>Mantenimiento y soporte técnico.</li>
-                <li>Instalación de software.</li>
-                <li>Capacitación tecnológica.</li>
-                <li>Asesoría en transformación digital.</li>
-            </ul>
-        </section>
+<li class="nav-item">
+<a class="nav-link" href="#quienes-somos">Quiénes Somos</a>
+</li>
 
-        <!-- Sección Contacto -->
-        <section id="contacto">
-            <h2>Contacto</h2>
+<li class="nav-item">
+<a class="nav-link" href="#servicios">Servicios</a>
+</li>
 
-            <p><strong>Correo:</strong> contacto@tecnosoluciones.com</p>
-            <p><strong>Teléfono:</strong> +593 99 123 4567</p>
-            <p><strong>Dirección:</strong> Guayaquil, Ecuador</p>
+<li class="nav-item">
+<a class="nav-link" href="#contacto">Contacto</a>
+</li>
 
-            <h3>Redes Sociales</h3>
-            <a href="https://www.facebook.com" target="_blank">Facebook</a><br>
-            <a href="https://www.instagram.com" target="_blank">Instagram</a><br>
-            <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
-        </section>
+</ul>
 
-        <!-- Video -->
-        <section>
-            <h2>Video Institucional</h2>
+</div>
+</div>
+</nav>
 
-            <iframe width="560" height="315"
-                src="https://www.youtube.com/embed/Ke90Tje7VS0"
-                title="Video de tecnología"
-                allowfullscreen>
-            </iframe>
-        </section>
+<!-- HEADER -->
+<header id="inicio">
 
-    </main>
+<h1>TecnoSoluciones</h1>
 
-    <!-- Información complementaria -->
-    <aside>
-        <h3>Información Adicional</h3>
+<p class="lead">
+Soluciones tecnológicas para empresas y estudiantes
+</p>
 
-        <p>
-            Promoción especial: 20% de descuento en desarrollo web para nuevos
-            clientes.
-        </p>
+<a href="#contacto" class="btn btn-light hero-btn">
+Solicitar Información
+</a>
 
-        <p>
-            Horario de atención:
-            Lunes a Viernes de 08:00 a 17:00.
-        </p>
-    </aside>
+</header>
 
-    <!-- Pie de página -->
-    <footer>
-        <p>
-            Estudiante: Johanna Gamboa Luna |
-            Asignatura: Desarrollo de Aplicaciones Web |
-            Año: 2026
-        </p>
-    </footer>
+<main class="container">
+
+<!-- QUIENES SOMOS -->
+
+<section id="quienes-somos">
+
+<h2 class="text-center mb-5">Quiénes Somos</h2>
+
+<div class="row align-items-center">
+
+<div class="col-md-6">
+
+<p>
+TecnoSoluciones es un emprendimiento orientado a la prestación
+de servicios tecnológicos para personas, instituciones educativas
+y pequeñas empresas.
+
+Nuestro proyecto nace con el propósito de facilitar el acceso a
+herramientas digitales que permitan mejorar la comunicación,
+la gestión de información y la presencia en internet.
+
+Contamos con personal capacitado en desarrollo web,
+soporte técnico y asesoría tecnológica.
+
+Buscamos impulsar la transformación digital mediante soluciones
+modernas, prácticas y adaptadas a las necesidades específicas
+de cada usuario.
+</p>
+
+</div>
+
+<div class="col-md-6 text-center">
+
+<img
+src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
+alt="Tecnología e innovación"
+class="img-fluid shadow"
+>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- SERVICIOS -->
+
+<section id="servicios">
+
+<h2 class="text-center mb-5">Nuestros Servicios</h2>
+
+<div class="row">
+
+<div class="col-md-4 mb-4">
+
+<div class="card h-100">
+
+<div class="card-body text-center">
+
+<h5 class="card-title">Desarrollo Web</h5>
+
+<p class="card-text">
+Creación de sitios web modernos y responsivos.
+</p>
+
+<a href="#" class="btn btn-primary">
+Más información
+</a>
+
+</div>
+</div>
+</div>
+
+<div class="col-md-4 mb-4">
+
+<div class="card h-100">
+
+<div class="card-body text-center">
+
+<h5 class="card-title">Soporte Técnico</h5>
+
+<p class="card-text">
+Mantenimiento preventivo y correctivo.
+</p>
+
+<a href="#" class="btn btn-success">
+Más información
+</a>
+
+</div>
+</div>
+</div>
+
+<div class="col-md-4 mb-4">
+
+<div class="card h-100">
+
+<div class="card-body text-center">
+
+<h5 class="card-title">Capacitación</h5>
+
+<p class="card-text">
+Cursos y asesorías tecnológicas personalizadas.
+</p>
+
+<a href="#" class="btn btn-warning">
+Más información
+</a>
+
+</div>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- CONTACTO -->
+
+<section id="contacto">
+
+<h2 class="text-center mb-5">Contacto</h2>
+
+<div class="row">
+
+<div class="col-lg-6">
+
+<div class="form-container">
+
+<form>
+
+<div class="mb-3">
+<label class="form-label">Nombre</label>
+<input type="text" class="form-control">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Correo Electrónico</label>
+<input type="email" class="form-control">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Asunto</label>
+<input type="text" class="form-control">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Mensaje</label>
+<textarea class="form-control" rows="5"></textarea>
+</div>
+
+<button type="submit" class="btn btn-primary">
+Enviar Mensaje
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<div class="col-lg-6 mt-4 mt-lg-0">
+
+<h4>Información de Contacto</h4>
+
+<p><strong>Correo:</strong> contacto@tecnosoluciones.com</p>
+<p><strong>Teléfono:</strong> +593 99 123 4567</p>
+<p><strong>Dirección:</strong> Guayaquil, Ecuador</p>
+
+<h5>Redes Sociales</h5>
+
+<a href="https://facebook.com" class="btn btn-primary social-btn">
+Facebook
+</a>
+
+<a href="https://instagram.com" class="btn btn-danger social-btn">
+Instagram
+</a>
+
+<a href="https://linkedin.com" class="btn btn-info social-btn">
+LinkedIn
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- VIDEO -->
+
+<section>
+
+<h2 class="text-center mb-4">
+Video Institucional
+</h2>
+
+<div class="text-center">
+
+<iframe
+width="700"
+height="400"
+src="https://www.youtube.com/embed/Ke90Tje7VS0"
+title="Video Institucional"
+allowfullscreen>
+</iframe>
+
+</div>
+
+</section>
+
+</main>
+
+<!-- ASIDE -->
+
+<aside class="container">
+
+<h3>Información Adicional</h3>
+
+<p>
+Promoción especial: 20% de descuento en desarrollo web para nuevos clientes.
+</p>
+
+<p>
+Horario de atención:
+Lunes a Viernes de 08:00 a 17:00.
+</p>
+
+</aside>
+
+<!-- FOOTER -->
+
+<footer>
+
+<p>
+Estudiante: Johanna Gamboa Luna |
+Asignatura: Desarrollo de Aplicaciones Web |
+Año: 2026
+</p>
+
+</footer>
+
+<!-- Bootstrap JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
+```
