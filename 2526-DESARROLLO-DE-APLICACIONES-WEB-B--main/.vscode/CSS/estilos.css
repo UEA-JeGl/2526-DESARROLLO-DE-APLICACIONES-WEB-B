@@ -1,3 +1,4 @@
+css
 /* ===========================
    ESTILOS GENERALES
 =========================== */
@@ -6,6 +7,7 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     background-color:#f4f6f9;
     color:#333;
+    scroll-behavior:smooth;
 }
 
 /* ===========================
@@ -45,8 +47,8 @@ h2{
 =========================== */
 
 .card{
-    transition:all .3s ease;
     border:none;
+    transition:all .3s ease;
 }
 
 .card:hover{
@@ -75,8 +77,32 @@ img{
     border-radius:8px;
 }
 
+/* Bootstrap mostrará los mensajes
+   cuando el campo tenga is-invalid */
+
+.invalid-feedback{
+    display:block;
+    font-size:.9rem;
+}
+
+.is-valid{
+    border:2px solid #198754 !important;
+}
+
+.is-invalid{
+    border:2px solid #dc3545 !important;
+}
+
 /* ===========================
-   LISTA DINÁMICA
+   MENSAJES
+=========================== */
+
+.alert{
+    margin-top:15px;
+}
+
+/* ===========================
+   LISTA DE SERVICIOS
 =========================== */
 
 #listaServicios .card{
