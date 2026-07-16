@@ -1,248 +1,278 @@
-// ===============================
-// PROYECTO INTEGRADOR - SEMANA 6
-// VALIDACIONES DINÁMICAS
-// ===============================
+// ==========================================
+// DATOS DEL PROYECTO (ARREGLO DE OBJETOS)
+// ==========================================
 
-const formulario = document.getElementById("formServicio");
+let servicios = [
 
-const nombre = document.getElementById("nombre");
-const descripcion = document.getElementById("descripcion");
-const categoria = document.getElementById("categoria");
+{
+    nombre:"Desarrollo Web",
+    descripcion:"Diseño y desarrollo de sitios web modernos.",
+    color:"primary"
+},
 
-const listaServicios = document.getElementById("listaServicios");
-const mensaje = document.getElementById("mensaje");
-const contador = document.getElementById("contador");
+{
+    nombre:"Soporte Técnico",
+    descripcion:"Mantenimiento preventivo y correctivo de equipos.",
+    color:"success"
+},
 
-let totalRegistros = 0;
-
-// ===============================
-// VALIDAR NOMBRE
-// ===============================
-
-function validarNombre() {
-
-    const valor = nombre.value.trim();
-
-    if (valor === "") {
-
-        nombre.classList.add("is-invalid");
-        nombre.classList.remove("is-valid");
-
-        document.getElementById("errorNombre").textContent =
-            "El nombre es obligatorio.";
-
-        return false;
-    }
-
-    if (valor.length < 3) {
-
-        nombre.classList.add("is-invalid");
-        nombre.classList.remove("is-valid");
-
-        document.getElementById("errorNombre").textContent =
-            "Debe ingresar mínimo 3 caracteres.";
-
-        return false;
-    }
-
-    nombre.classList.remove("is-invalid");
-    nombre.classList.add("is-valid");
-
-    document.getElementById("errorNombre").textContent = "";
-
-    return true;
+{
+    nombre:"Capacitación",
+    descripcion:"Cursos y asesorías en herramientas digitales.",
+    color:"warning"
 }
 
-// ===============================
-// VALIDAR DESCRIPCIÓN
-// ===============================
+];
 
-function validarDescripcion() {
+// Solicitudes registradas
+let solicitudes=[];
 
-    const valor = descripcion.value.trim();
+// ==========================================
+// ELEMENTOS DEL HTML
+// ==========================================
 
-    if (valor === "") {
+const contenedorServicios=document.getElementById("contenedorServicios");
 
-        descripcion.classList.add("is-invalid");
-        descripcion.classList.remove("is-valid");
+const listaServicios=document.getElementById("listaServicios");
 
-        document.getElementById("errorDescripcion").textContent =
-            "La descripción es obligatoria.";
+const contador=document.getElementById("contador");
 
-        return false;
-    }
+const formulario=document.getElementById("formServicio");
 
-    if (valor.length < 10) {
+const mensaje=document.getElementById("mensaje");
 
-        descripcion.classList.add("is-invalid");
-        descripcion.classList.remove("is-valid");
+// ==========================================
+// MOSTRAR SERVICIOS DINÁMICAMENTE
+// ==========================================
 
-        document.getElementById("errorDescripcion").textContent =
-            "Debe contener mínimo 10 caracteres.";
+function mostrarServicios(){
 
-        return false;
-    }
+contenedorServicios.innerHTML="";
 
-    descripcion.classList.remove("is-invalid");
-    descripcion.classList.add("is-valid");
+// CONDICIÓN
 
-    document.getElementById("errorDescripcion").textContent = "";
+if(servicios.length===0){
 
-    return true;
+contenedorServicios.innerHTML=`
+
+<div class="alert alert-danger">
+
+No existen servicios registrados.
+
+</div>
+
+`;
+
+return;
+
 }
 
-// ===============================
-// VALIDAR CATEGORÍA
-// ===============================
+// REPETICIÓN
 
-function validarCategoria() {
+servicios.forEach(servicio=>{
 
-    if (categoria.value === "") {
+contenedorServicios.innerHTML+=`
 
-        categoria.classList.add("is-invalid");
-        categoria.classList.remove("is-valid");
+<div class="col-md-4 mb-4">
 
-        document.getElementById("errorCategoria").textContent =
-            "Seleccione un tipo de servicio.";
+<div class="card h-100 shadow">
 
-        return false;
-    }
+<div class="card-body text-center">
 
-    categoria.classList.remove("is-invalid");
-    categoria.classList.add("is-valid");
+<h4>${servicio.nombre}</h4>
 
-    document.getElementById("errorCategoria").textContent = "";
+<p>${servicio.descripcion}</p>
 
-    return true;
-}
+<button class="btn btn-${servicio.color}">
+Más información
+</button>
 
-// ===============================
-// EVENTOS
-// ===============================
+</div>
 
-nombre.addEventListener("input", validarNombre);
-nombre.addEventListener("blur", validarNombre);
+</div>
 
-descripcion.addEventListener("input", validarDescripcion);
-descripcion.addEventListener("blur", validarDescripcion);
+</div>
 
-categoria.addEventListener("change", validarCategoria);
-
-// ===============================
-// ENVIAR FORMULARIO
-// ===============================
-
-formulario.addEventListener("submit", function (evento) {
-
-    evento.preventDefault();
-
-    const nombreValido = validarNombre();
-    const descripcionValida = validarDescripcion();
-    const categoriaValida = validarCategoria();
-
-    if (!nombreValido || !descripcionValida || !categoriaValida) {
-
-        mensaje.innerHTML = `
-            <div class="alert alert-danger">
-                Corrija los errores antes de registrar la solicitud.
-            </div>
-        `;
-
-        return;
-    }
-
-    mensaje.innerHTML = `
-        <div class="alert alert-success">
-            La solicitud fue registrada correctamente.
-        </div>
-    `;
-        // ===============================
-    // CREAR TARJETA DEL SERVICIO
-    // ===============================
-
-    const tarjeta = document.createElement("div");
-    tarjeta.classList.add("card", "shadow-sm", "mb-3");
-
-    const cuerpo = document.createElement("div");
-    cuerpo.classList.add("card-body");
-
-    const titulo = document.createElement("h5");
-    titulo.classList.add("card-title");
-    titulo.textContent = nombre.value;
-
-    const texto = document.createElement("p");
-    texto.classList.add("card-text");
-    texto.textContent = descripcion.value;
-
-    const etiqueta = document.createElement("span");
-    etiqueta.classList.add("badge", "bg-primary");
-    etiqueta.textContent = categoria.value;
-
-    const salto1 = document.createElement("br");
-    const salto2 = document.createElement("br");
-
-    const botonEliminar = document.createElement("button");
-
-    botonEliminar.textContent = "Eliminar";
-
-    botonEliminar.classList.add(
-        "btn",
-        "btn-outline-danger",
-        "btn-sm",
-        "float-end"
-    );
-
-    // ===============================
-    // ELIMINAR REGISTRO
-    // ===============================
-
-    botonEliminar.addEventListener("click", function () {
-
-        tarjeta.remove();
-
-        totalRegistros--;
-
-        contador.textContent = totalRegistros;
-
-        mensaje.innerHTML = `
-            <div class="alert alert-warning">
-                El registro fue eliminado correctamente.
-            </div>
-        `;
-
-    });
-
-    cuerpo.appendChild(titulo);
-    cuerpo.appendChild(texto);
-    cuerpo.appendChild(etiqueta);
-    cuerpo.appendChild(salto1);
-    cuerpo.appendChild(salto2);
-    cuerpo.appendChild(botonEliminar);
-
-    tarjeta.appendChild(cuerpo);
-
-    listaServicios.appendChild(tarjeta);
-
-    // ===============================
-    // ACTUALIZAR CONTADOR
-    // ===============================
-
-    totalRegistros++;
-
-    contador.textContent = totalRegistros;
-
-    // ===============================
-    // LIMPIAR FORMULARIO
-    // ===============================
-
-    formulario.reset();
-
-    nombre.classList.remove("is-valid");
-    descripcion.classList.remove("is-valid");
-    categoria.classList.remove("is-valid");
-
-    document.getElementById("errorNombre").textContent = "";
-    document.getElementById("errorDescripcion").textContent = "";
-    document.getElementById("errorCategoria").textContent = "";
+`;
 
 });
+
+}
+
+// ==========================================
+// MOSTRAR SOLICITUDES
+// ==========================================
+
+function mostrarSolicitudes(){
+
+listaServicios.innerHTML="";
+
+contador.innerHTML=solicitudes.length;
+
+// CONDICIÓN
+
+if(solicitudes.length===0){
+
+listaServicios.innerHTML=`
+
+<div class="alert alert-warning">
+
+Todavía no existen solicitudes registradas.
+
+</div>
+
+`;
+
+return;
+
+}
+
+// REPETICIÓN
+
+solicitudes.forEach((dato,index)=>{
+
+listaServicios.innerHTML+=`
+
+<div class="servicio">
+
+<h5>${dato.nombre}</h5>
+
+<p>
+
+<strong>Servicio:</strong>
+
+${dato.categoria}
+
+</p>
+
+<p>
+
+${dato.descripcion}
+
+</p>
+
+<small>
+
+Registro #${index+1}
+
+</small>
+
+</div>
+
+`;
+
+});
+
+}
+
+// ==========================================
+// VALIDACIONES
+// ==========================================
+
+formulario.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const nombre=document.getElementById("nombre");
+
+const descripcion=document.getElementById("descripcion");
+
+const categoria=document.getElementById("categoria");
+
+// limpiar errores
+
+nombre.classList.remove("is-invalid");
+
+descripcion.classList.remove("is-invalid");
+
+categoria.classList.remove("is-invalid");
+
+document.getElementById("errorNombre").innerHTML="";
+
+document.getElementById("errorDescripcion").innerHTML="";
+
+document.getElementById("errorCategoria").innerHTML="";
+
+mensaje.innerHTML="";
+
+// VALIDACIÓN NOMBRE
+
+if(nombre.value.trim()==""){
+
+nombre.classList.add("is-invalid");
+
+document.getElementById("errorNombre").innerHTML="Ingrese su nombre.";
+
+return;
+
+}
+
+// VALIDACIÓN DESCRIPCIÓN
+
+if(descripcion.value.trim().length<10){
+
+descripcion.classList.add("is-invalid");
+
+document.getElementById("errorDescripcion").innerHTML="La descripción debe tener mínimo 10 caracteres.";
+
+return;
+
+}
+
+// VALIDACIÓN CATEGORÍA
+
+if(categoria.value==""){
+
+categoria.classList.add("is-invalid");
+
+document.getElementById("errorCategoria").innerHTML="Seleccione un servicio.";
+
+return;
+
+}
+
+// CREAR OBJETO
+
+const nuevaSolicitud={
+
+nombre:nombre.value,
+
+descripcion:descripcion.value,
+
+categoria:categoria.value
+
+};
+
+// GUARDAR EN EL ARREGLO
+
+solicitudes.push(nuevaSolicitud);
+
+// ACTUALIZAR LISTA
+
+mostrarSolicitudes();
+
+// MENSAJE
+
+mensaje.innerHTML=`
+
+<div class="alert alert-success">
+
+Solicitud registrada correctamente.
+
+</div>
+
+`;
+
+// LIMPIAR FORMULARIO
+
+formulario.reset();
+
+});
+
+// ==========================================
+// INICIAR
+// ==========================================
+
+mostrarServicios();
+
+mostrarSolicitudes();
