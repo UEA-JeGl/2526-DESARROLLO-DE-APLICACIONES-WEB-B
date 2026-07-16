@@ -1,101 +1,106 @@
 // ==========================================
-// DATOS DEL PROYECTO (ARREGLO DE OBJETOS)
+// SERVICIOS (ARREGLO DE OBJETOS)
 // ==========================================
 
-let servicios = [
-
-{
-    nombre:"Desarrollo Web",
-    descripcion:"Diseño y desarrollo de sitios web modernos.",
-    color:"primary"
-},
-
-{
-    nombre:"Soporte Técnico",
-    descripcion:"Mantenimiento preventivo y correctivo de equipos.",
-    color:"success"
-},
-
-{
-    nombre:"Capacitación",
-    descripcion:"Cursos y asesorías en herramientas digitales.",
-    color:"warning"
-}
-
+const servicios = [
+    {
+        nombre: "Desarrollo Web",
+        descripcion: "Diseño y desarrollo de sitios web modernos y responsivos.",
+        color: "primary"
+    },
+    {
+        nombre: "Soporte Técnico",
+        descripcion: "Mantenimiento preventivo y correctivo de equipos de cómputo.",
+        color: "success"
+    },
+    {
+        nombre: "Capacitación",
+        descripcion: "Cursos y asesorías en herramientas digitales.",
+        color: "warning"
+    },
+    {
+        nombre: "Consultoría",
+        descripcion: "Asesoría tecnológica para empresas y emprendedores.",
+        color: "info"
+    }
 ];
 
-// Solicitudes registradas
-let solicitudes=[];
-
 // ==========================================
-// ELEMENTOS DEL HTML
+// SOLICITUDES
 // ==========================================
 
-const contenedorServicios=document.getElementById("contenedorServicios");
-
-const listaServicios=document.getElementById("listaServicios");
-
-const contador=document.getElementById("contador");
-
-const formulario=document.getElementById("formServicio");
-
-const mensaje=document.getElementById("mensaje");
+let solicitudes = [];
 
 // ==========================================
-// MOSTRAR SERVICIOS DINÁMICAMENTE
+// ELEMENTOS HTML
 // ==========================================
 
-function mostrarServicios(){
+const contenedorServicios = document.getElementById("contenedorServicios");
+const listaServicios = document.getElementById("listaServicios");
+const contador = document.getElementById("contador");
+const formulario = document.getElementById("formServicio");
+const mensaje = document.getElementById("mensaje");
+const spinner = document.getElementById("spinner");
 
-contenedorServicios.innerHTML="";
+// ==========================================
+// MOSTRAR SERVICIOS
+// ==========================================
 
-// CONDICIÓN
+function mostrarServicios() {
 
-if(servicios.length===0){
+    contenedorServicios.innerHTML = "";
 
-contenedorServicios.innerHTML=`
+    servicios.forEach(servicio => {
 
-<div class="alert alert-danger">
+        contenedorServicios.innerHTML += `
 
-No existen servicios registrados.
+        <div class="col-md-6 col-lg-3 mb-4">
 
-</div>
+            <div class="card h-100 shadow">
 
-`;
+                <div class="card-body text-center">
 
-return;
+                    <h5>${servicio.nombre}</h5>
+
+                    <p>${servicio.descripcion}</p>
+
+                    <button
+                        class="btn btn-${servicio.color}"
+                        onclick="abrirModal('${servicio.nombre}','${servicio.descripcion}')">
+
+                        Ver detalles
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
 
 }
 
-// REPETICIÓN
+// ==========================================
+// MODAL
+// ==========================================
 
-servicios.forEach(servicio=>{
+function abrirModal(nombre, descripcion) {
 
-contenedorServicios.innerHTML+=`
+    document.getElementById("detalleModal").innerHTML = `
+        <h4>${nombre}</h4>
+        <hr>
+        <p>${descripcion}</p>
+    `;
 
-<div class="col-md-4 mb-4">
+    const modal = new bootstrap.Modal(
+        document.getElementById("modalServicio")
+    );
 
-<div class="card h-100 shadow">
-
-<div class="card-body text-center">
-
-<h4>${servicio.nombre}</h4>
-
-<p>${servicio.descripcion}</p>
-
-<button class="btn btn-${servicio.color}">
-Más información
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
+    modal.show();
 
 }
 
@@ -103,65 +108,51 @@ Más información
 // MOSTRAR SOLICITUDES
 // ==========================================
 
-function mostrarSolicitudes(){
+function mostrarSolicitudes() {
 
-listaServicios.innerHTML="";
+    listaServicios.innerHTML = "";
 
-contador.innerHTML=solicitudes.length;
+    contador.textContent = solicitudes.length;
 
-// CONDICIÓN
+    if (solicitudes.length === 0) {
 
-if(solicitudes.length===0){
+        listaServicios.innerHTML = `
 
-listaServicios.innerHTML=`
+        <tr>
 
-<div class="alert alert-warning">
+            <td colspan="4" class="text-center text-muted">
 
-Todavía no existen solicitudes registradas.
+                No existen solicitudes registradas.
 
-</div>
+            </td>
 
-`;
+        </tr>
 
-return;
+        `;
 
-}
+        return;
 
-// REPETICIÓN
+    }
 
-solicitudes.forEach((dato,index)=>{
+    solicitudes.forEach((item, index) => {
 
-listaServicios.innerHTML+=`
+        listaServicios.innerHTML += `
 
-<div class="servicio">
+        <tr>
 
-<h5>${dato.nombre}</h5>
+            <td>${index + 1}</td>
 
-<p>
+            <td>${item.nombre}</td>
 
-<strong>Servicio:</strong>
+            <td>${item.categoria}</td>
 
-${dato.categoria}
+            <td>${item.descripcion}</td>
 
-</p>
+        </tr>
 
-<p>
+        `;
 
-${dato.descripcion}
-
-</p>
-
-<small>
-
-Registro #${index+1}
-
-</small>
-
-</div>
-
-`;
-
-});
+    });
 
 }
 
@@ -169,108 +160,96 @@ Registro #${index+1}
 // VALIDACIONES
 // ==========================================
 
-formulario.addEventListener("submit",function(e){
+formulario.addEventListener("submit", function (e) {
 
-e.preventDefault();
+    e.preventDefault();
 
-const nombre=document.getElementById("nombre");
+    const nombre = document.getElementById("nombre");
+    const descripcion = document.getElementById("descripcion");
+    const categoria = document.getElementById("categoria");
 
-const descripcion=document.getElementById("descripcion");
+    nombre.classList.remove("is-invalid");
+    descripcion.classList.remove("is-invalid");
+    categoria.classList.remove("is-invalid");
 
-const categoria=document.getElementById("categoria");
+    document.getElementById("errorNombre").innerHTML = "";
+    document.getElementById("errorDescripcion").innerHTML = "";
+    document.getElementById("errorCategoria").innerHTML = "";
 
-// limpiar errores
+    mensaje.innerHTML = "";
 
-nombre.classList.remove("is-invalid");
+    if (nombre.value.trim() === "") {
 
-descripcion.classList.remove("is-invalid");
+        nombre.classList.add("is-invalid");
+        document.getElementById("errorNombre").textContent =
+            "Ingrese su nombre.";
 
-categoria.classList.remove("is-invalid");
+        return;
 
-document.getElementById("errorNombre").innerHTML="";
+    }
 
-document.getElementById("errorDescripcion").innerHTML="";
+    if (descripcion.value.trim().length < 10) {
 
-document.getElementById("errorCategoria").innerHTML="";
+        descripcion.classList.add("is-invalid");
+        document.getElementById("errorDescripcion").textContent =
+            "La descripción debe tener al menos 10 caracteres.";
 
-mensaje.innerHTML="";
+        return;
 
-// VALIDACIÓN NOMBRE
+    }
 
-if(nombre.value.trim()==""){
+    if (categoria.value === "") {
 
-nombre.classList.add("is-invalid");
+        categoria.classList.add("is-invalid");
+        document.getElementById("errorCategoria").textContent =
+            "Seleccione un servicio.";
 
-document.getElementById("errorNombre").innerHTML="Ingrese su nombre.";
+        return;
 
-return;
+    }
 
-}
+    spinner.classList.remove("d-none");
 
-// VALIDACIÓN DESCRIPCIÓN
+    setTimeout(() => {
 
-if(descripcion.value.trim().length<10){
+        spinner.classList.add("d-none");
 
-descripcion.classList.add("is-invalid");
+        solicitudes.push({
 
-document.getElementById("errorDescripcion").innerHTML="La descripción debe tener mínimo 10 caracteres.";
+            nombre: nombre.value,
+            descripcion: descripcion.value,
+            categoria: categoria.value
 
-return;
+        });
 
-}
+        mostrarSolicitudes();
 
-// VALIDACIÓN CATEGORÍA
+        mensaje.innerHTML = `
 
-if(categoria.value==""){
+        <div class="alert alert-success alert-dismissible fade show">
 
-categoria.classList.add("is-invalid");
+            <strong>Éxito.</strong>
 
-document.getElementById("errorCategoria").innerHTML="Seleccione un servicio.";
+            La solicitud fue registrada correctamente.
 
-return;
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
 
-}
+        </div>
 
-// CREAR OBJETO
+        `;
 
-const nuevaSolicitud={
+        formulario.reset();
 
-nombre:nombre.value,
-
-descripcion:descripcion.value,
-
-categoria:categoria.value
-
-};
-
-// GUARDAR EN EL ARREGLO
-
-solicitudes.push(nuevaSolicitud);
-
-// ACTUALIZAR LISTA
-
-mostrarSolicitudes();
-
-// MENSAJE
-
-mensaje.innerHTML=`
-
-<div class="alert alert-success">
-
-Solicitud registrada correctamente.
-
-</div>
-
-`;
-
-// LIMPIAR FORMULARIO
-
-formulario.reset();
+    }, 1500);
 
 });
 
 // ==========================================
-// INICIAR
+// INICIO
 // ==========================================
 
 mostrarServicios();

@@ -2,300 +2,501 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecnoSoluciones - Servicios Tecnológicos</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/estilos.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>TecnoSoluciones</title>
+
+<!-- Bootstrap -->
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- CSS -->
+
+<link rel="stylesheet" href="css/estilos.css">
+
 </head>
 
 <body>
 
-    <!-- ========================================= -->
-    <!-- FUTURA PLANTILLA: base.html -->
-    <!-- ========================================= -->
+<!-- ========================= -->
+<!-- FUTURA PLANTILLA base.html -->
+<!-- ========================= -->
 
-    <!-- include 'navbar.html' -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<!-- include navbar -->
 
-        <div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow sticky-top">
 
-            <a class="navbar-brand" href="#">
-                TecnoSoluciones
-            </a>
+<div class="container">
 
-            <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#menu">
+<a class="navbar-brand fw-bold" href="#">
 
-                <span class="navbar-toggler-icon"></span>
+TecnoSoluciones
 
-            </button>
+</a>
 
-            <div class="collapse navbar-collapse" id="menu">
+<button
 
-                <ul class="navbar-nav ms-auto">
+class="navbar-toggler"
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#inicio">Inicio</a>
-                    </li>
+type="button"
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#quienes">Quiénes Somos</a>
-                    </li>
+data-bs-toggle="collapse"
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#servicios">Servicios</a>
-                    </li>
+data-bs-target="#menu">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#registro">Registro</a>
-                    </li>
+<span class="navbar-toggler-icon"></span>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contacto">Contacto</a>
-                    </li>
+</button>
 
-                </ul>
+<div class="collapse navbar-collapse" id="menu">
 
-            </div>
+<ul class="navbar-nav ms-auto">
 
-        </div>
+<li class="nav-item">
 
-    </nav>
+<a class="nav-link" href="#inicio">
 
-    <!-- include 'header.html' -->
-    <header id="inicio" class="bg-primary text-white text-center py-5">
+Inicio
 
-        <div class="container">
+</a>
 
-            <h1 class="display-4">
-                TecnoSoluciones
-            </h1>
+</li>
 
-            <p class="lead">
-                Soluciones tecnológicas para empresas y estudiantes.
-            </p>
+<li class="nav-item">
 
-            <a href="#registro" class="btn btn-light">
-                Solicitar Servicio
-            </a>
+<a class="nav-link" href="#quienes">
 
-        </div>
+Quiénes Somos
 
-    </header>
+</a>
 
-    <!-- block content -->
+</li>
 
-    <section id="quienes" class="container py-5">
+<li class="nav-item">
 
-        <h2 class="text-center mb-4">
-            Quiénes Somos
-        </h2>
+<a class="nav-link" href="#servicios">
 
-        <div class="row align-items-center">
+Servicios
 
-            <div class="col-md-6">
+</a>
 
-                <p>
-                    Somos una empresa dedicada al desarrollo web, soporte técnico y
-                    capacitación tecnológica para estudiantes, emprendedores y empresas.
-                </p>
+</li>
 
-                <p>
-                    Nuestro objetivo es ofrecer soluciones innovadoras y de calidad.
-                </p>
+<li class="nav-item">
 
-            </div>
+<a class="nav-link" href="#registro">
 
-            <div class="col-md-6">
+Registro
 
-                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
-                    class="img-fluid rounded shadow"
-                    alt="Tecnología">
+</a>
 
-            </div>
+</li>
 
-        </div>
+<li class="nav-item">
 
-    </section>
+<a class="nav-link" href="#contacto">
 
-    <!-- SERVICIOS DINÁMICOS -->
+Contacto
 
-    <section id="servicios" class="container py-5">
+</a>
 
-        <h2 class="text-center mb-5">
-            Nuestros Servicios
-        </h2>
+</li>
 
-        <div class="row" id="contenedorServicios">
+</ul>
 
-            <!-- JavaScript renderiza aquí -->
+</div>
 
-        </div>
+</div>
 
-    </section>
+</nav>
 
-    <!-- REGISTRO -->
+<!-- include header -->
 
-    <section id="registro" class="container py-5">
+<header
 
-        <h2 class="text-center mb-5">
-            Registro de Solicitudes
-        </h2>
+id="inicio"
 
-        <div class="row">
+class="bg-primary text-white text-center py-5">
 
-            <div class="col-lg-5">
+<div class="container">
 
-                <div class="card shadow">
+<h1 class="display-4 fw-bold">
 
-                    <div class="card-body">
+TecnoSoluciones
 
-                        <form id="formServicio">
+</h1>
 
-                            <div class="mb-3">
+<p class="lead">
 
-                                <label class="form-label">
-                                    Nombre
-                                </label>
+Soluciones tecnológicas para estudiantes y empresas.
 
-                                <input
-                                    type="text"
-                                    id="nombre"
-                                    class="form-control">
+</p>
 
-                                <div
-                                    id="errorNombre"
-                                    class="invalid-feedback">
-                                </div>
+<a
 
-                            </div>
+href="#registro"
 
-                            <div class="mb-3">
+class="btn btn-warning btn-lg">
 
-                                <label class="form-label">
-                                    Descripción
-                                </label>
+Solicitar Servicio
 
-                                <textarea
-                                    id="descripcion"
-                                    class="form-control"
-                                    rows="4"></textarea>
+</a>
 
-                                <div
-                                    id="errorDescripcion"
-                                    class="invalid-feedback">
-                                </div>
+</div>
 
-                            </div>
+</header>
 
-                            <div class="mb-3">
+<!-- ALERTA -->
 
-                                <label class="form-label">
-                                    Categoría
-                                </label>
+<div class="container mt-4">
 
-                                <select
-                                    id="categoria"
-                                    class="form-select">
+<div class="alert alert-info alert-dismissible fade show">
 
-                                    <option value="">
-                                        Seleccione
-                                    </option>
+<strong>Bienvenido.</strong>
 
-                                    <option>
-                                        Desarrollo Web
-                                    </option>
+Ahora puedes registrar tus solicitudes de servicio.
 
-                                    <option>
-                                        Soporte Técnico
-                                    </option>
+<button
 
-                                    <option>
-                                        Capacitación
-                                    </option>
+type="button"
 
-                                    <option>
-                                        Consultoría
-                                    </option>
+class="btn-close"
 
-                                </select>
+data-bs-dismiss="alert">
 
-                                <div
-                                    id="errorCategoria"
-                                    class="invalid-feedback">
-                                </div>
+</button>
 
-                            </div>
+</div>
 
-                            <button
-                                class="btn btn-primary w-100"
-                                type="submit">
+</div>
 
-                                Registrar Servicio
+<!-- block content -->
 
-                            </button>
+<section
 
-                        </form>
+id="quienes"
 
-                        <div id="mensaje" class="mt-3"></div>
+class="container py-5">
 
-                    </div>
+<h2 class="text-center mb-5">
 
-                </div>
+Quiénes Somos
 
-            </div>
+</h2>
 
-            <div class="col-lg-7">
+<div class="row align-items-center">
 
-                <h4>
-                    Solicitudes Registradas
-                </h4>
+<div class="col-lg-6">
 
-                <p>
+<p>
 
-                    Total:
-                    <strong id="contador">0</strong>
+Somos una empresa dedicada al desarrollo web,
+soporte técnico,
+consultoría tecnológica
+y capacitación.
 
-                </p>
+</p>
 
-                <div id="listaServicios">
+<p>
 
-                </div>
+Nuestro objetivo es brindar soluciones
+eficientes para estudiantes y empresas.
 
-            </div>
+</p>
 
-        </div>
+</div>
 
-    </section>
+<div class="col-lg-6">
 
-    <!-- CONTACTO -->
+<img
+
+src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
+
+class="img-fluid rounded shadow"
+
+alt="Tecnología">
+
+</div>
+
+</div>
+
+</section>
+
+<!-- SERVICIOS -->
+
+<section
+
+id="servicios"
+
+class="container py-5">
+
+<h2 class="text-center mb-5">
+
+Nuestros Servicios
+
+</h2>
+
+<div
+
+class="row"
+
+id="contenedorServicios">
+
+</div>
+
+</section>
+
+<!-- REGISTRO -->
+
+<section
+
+id="registro"
+
+class="container py-5">
+
+<h2 class="text-center mb-5">
+
+Registro de Solicitudes
+
+</h2>
+
+<div class="row">
+
+<div class="col-lg-5">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<form id="formServicio">
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Nombre
+
+</label>
+
+<input
+
+type="text"
+
+id="nombre"
+
+class="form-control">
+
+<div
+
+id="errorNombre"
+
+class="invalid-feedback">
+
+</div>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Descripción
+
+</label>
+
+<textarea
+
+id="descripcion"
+
+rows="4"
+
+class="form-control">
+
+</textarea>
+
+<div
+
+id="errorDescripcion"
+
+class="invalid-feedback">
+
+</div>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Servicio
+
+</label>
+
+<select
+
+id="categoria"
+
+class="form-select">
+
+<option value="">
+
+Seleccione
+
+</option>
+
+<option>
+
+Desarrollo Web
+
+</option>
+
+<option>
+
+Soporte Técnico
+
+</option>
+
+<option>
+
+Capacitación
+
+</option>
+
+<option>
+
+Consultoría
+
+</option>
+
+</select>
+
+<div
+
+id="errorCategoria"
+
+class="invalid-feedback">
+
+</div>
+
+</div>
+
+<button
+
+type="submit"
+
+class="btn btn-success w-100">
+
+Registrar Solicitud
+
+</button>
+
+</form>
+
+<!-- SPINNER -->
+
+<div class="text-center mt-3">
+
+<div
+
+id="spinner"
+
+class="spinner-border text-primary d-none">
+
+</div>
+
+</div>
+
+<div id="mensaje"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-7">
+
+<h4>
+
+Solicitudes Registradas
+
+</h4>
+
+<p>
+
+Total:
+
+<strong id="contador">
+
+0
+
+</strong>
+
+</p>
+
+<div class="table-responsive">
+
+<table class="table table-hover table-striped">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>#</th>
+
+<th>Cliente</th>
+
+<th>Servicio</th>
+
+<th>Descripción</th>
+
+</tr>
+
+</thead>
+
+<tbody id="listaServicios">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+    <!-- ================= CONTACTO ================= -->
 
     <section id="contacto" class="container py-5">
 
-        <h2 class="text-center mb-4">
-            Contacto
+        <h2 class="text-center mb-5">
+            Contáctanos
         </h2>
 
         <div class="row">
 
             <div class="col-md-6">
 
-                <div class="card shadow">
+                <div class="card shadow h-100">
 
                     <div class="card-body">
 
-                        <p><strong>Correo:</strong> contacto@tecnosoluciones.com</p>
+                        <h4 class="text-primary">
+                            Información de Contacto
+                        </h4>
 
-                        <p><strong>Teléfono:</strong> +593 99 123 4567</p>
+                        <hr>
 
-                        <p><strong>Dirección:</strong> Guayaquil - Ecuador</p>
+                        <p><strong>📧 Correo:</strong> contacto@tecnosoluciones.com</p>
+
+                        <p><strong>📞 Teléfono:</strong> +593 99 123 4567</p>
+
+                        <p><strong>📍 Dirección:</strong> Guayaquil - Ecuador</p>
 
                     </div>
 
@@ -305,11 +506,31 @@
 
             <div class="col-md-6">
 
-                <h5>Síguenos</h5>
+                <div class="card shadow h-100">
 
-                <a href="#" class="btn btn-primary m-1">Facebook</a>
-                <a href="#" class="btn btn-danger m-1">Instagram</a>
-                <a href="#" class="btn btn-info m-1">LinkedIn</a>
+                    <div class="card-body text-center">
+
+                        <h4 class="text-success">
+                            Redes Sociales
+                        </h4>
+
+                        <hr>
+
+                        <a href="#" class="btn btn-primary m-2">
+                            Facebook
+                        </a>
+
+                        <a href="#" class="btn btn-danger m-2">
+                            Instagram
+                        </a>
+
+                        <a href="#" class="btn btn-info text-white m-2">
+                            LinkedIn
+                        </a>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -317,62 +538,164 @@
 
     </section>
 
-    <!-- VIDEO -->
+    <!-- ================= VIDEO ================= -->
 
     <section class="container py-5">
 
         <h2 class="text-center mb-4">
+
             Video Institucional
+
         </h2>
 
-        <div class="ratio ratio-16x9">
+        <div class="ratio ratio-16x9 shadow">
 
             <iframe
+
                 src="https://www.youtube.com/embed/Ke90Tje7VS0"
+
                 allowfullscreen>
+
             </iframe>
 
         </div>
 
     </section>
 
-    <!-- INFORMACIÓN -->
+    <!-- ================= INFORMACIÓN ================= -->
 
-    <aside class="container bg-light rounded shadow p-4 mb-5">
+    <aside class="container mb-5">
 
-        <h3>
-            Información Adicional
-        </h3>
+        <div class="alert alert-warning shadow">
 
-        <p>
-            Durante este mes ofrecemos un 20% de descuento en todos nuestros
-            servicios web.
-        </p>
+            <h4>
 
-        <p>
-            Horario:
-            Lunes a Viernes de 08h00 a 17h00.
-        </p>
+                Promoción Especial
+
+            </h4>
+
+            <p>
+
+                Durante este mes ofrecemos un
+
+                <strong>20% de descuento</strong>
+
+                en todos los proyectos de Desarrollo Web.
+
+            </p>
+
+            <p>
+
+                Horario de atención:
+
+                Lunes a Viernes de 08h00 a 17h00.
+
+            </p>
+
+        </div>
 
     </aside>
 
-    <!-- include 'footer.html' -->
+    <!-- ================= MODAL BOOTSTRAP ================= -->
+
+    <div
+        class="modal fade"
+        id="modalServicio"
+        tabindex="-1">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+
+                    <h5 class="modal-title">
+
+                        Información del Servicio
+
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <p id="detalleModal">
+
+                        Aquí aparecerá la información del servicio.
+
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                        Cerrar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+
+    <!-- include footer.html -->
 
     <footer class="bg-dark text-white text-center p-4">
 
-        <p class="mb-0">
+        <div class="container">
 
-            Estudiante: Johanna Gamboa Luna |
-            Desarrollo de Aplicaciones Web |
-            2026
+            <h5>
 
-        </p>
+                TecnoSoluciones
+
+            </h5>
+
+            <p>
+
+                Proyecto Integrador - Desarrollo de Aplicaciones Web
+
+            </p>
+
+            <p>
+
+                Estudiante:
+                Johanna Gamboa Luna
+
+            </p>
+
+            <p class="mb-0">
+
+                © 2026 Todos los derechos reservados.
+
+            </p>
+
+        </div>
 
     </footer>
 
     <!-- endblock -->
 
+    <!-- Bootstrap -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript -->
 
     <script src="js/script.js"></script>
 
