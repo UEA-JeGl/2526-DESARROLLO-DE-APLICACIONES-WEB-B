@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Proveedores | TecnoSoluciones
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="container py-5">
+
+    <h1 class="text-primary">
+
+        Módulo de Proveedores
+
+    </h1>
+
+    <p class="text-muted">
+
+        Registro demostrativo de proveedores tecnológicos.
+
+    </p>
+
+
+    <div class="row g-4">
+
+        {% for proveedor in proveedores %}
+
+        <div class="col-md-6">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body">
+
+                    <h5>
+
+                        {{ proveedor.empresa }}
+
+                    </h5>
+
+                    <hr>
+
+                    <p>
+
+                        <strong>Contacto:</strong>
+
+                        {{ proveedor.contacto }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Servicio:</strong>
+
+                        {{ proveedor.servicio }}
+
+                    </p>
+
+                    <span class="badge text-bg-success">
+
+                        {{ proveedor.estado }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

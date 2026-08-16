@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Inicio | TecnoSoluciones
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<header
+    id="inicio"
+    class="hero-section text-white text-center py-5">
+
+    <div class="container py-4">
+
+        <h1 class="display-4 fw-bold">
+
+            TecnoSoluciones
+
+        </h1>
+
+        <p class="lead">
+
+            Soluciones tecnológicas para estudiantes,
+            emprendedores y empresas.
+
+        </p>
+
+        <a
+            href="#registro"
+            class="btn btn-warning btn-lg">
+
+            Solicitar Servicio
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<section
+    id="quienes"
+    class="container py-5">
+
+    <h2 class="text-center mb-5">
+
+        Quiénes Somos
+
+    </h2>
+
+    <div class="row align-items-center">
+
+        <div class="col-lg-6">
+
+            <p>
+
+                Somos una empresa dedicada al desarrollo web,
+                soporte técnico, consultoría tecnológica
+                y capacitación.
+
+            </p>
+
+            <p>
+
+                Nuestro objetivo es brindar soluciones
+                eficientes para estudiantes y empresas.
+
+            </p>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <img
+                src="{{ url_for('static', filename='img/tecnologia.svg') }}"
+                class="img-fluid rounded shadow"
+                alt="Tecnología">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section
+    id="servicios"
+    class="container py-5">
+
+    <h2 class="text-center mb-5">
+
+        Nuestros Servicios
+
+    </h2>
+
+    <div
+        class="row"
+        id="contenedorServicios">
+
+    </div>
+
+</section>
+
+
+<section
+    id="registro"
+    class="container py-5">
+
+    <h2 class="text-center mb-5">
+
+        Registro de Solicitudes
+
+    </h2>
+
+    <div class="row">
+
+        <div class="col-lg-5">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <form id="formServicio">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Nombre
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nombre"
+                                class="form-control">
+
+                            <div
+                                id="errorNombre"
+                                class="invalid-feedback">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Descripción
+
+                            </label>
+
+                            <textarea
+                                id="descripcion"
+                                rows="4"
+                                class="form-control">
+                            </textarea>
+
+                            <div
+                                id="errorDescripcion"
+                                class="invalid-feedback">
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Servicio
+
+                            </label>
+
+                            <select
+                                id="categoria"
+                                class="form-select">
+
+                                <option value="">
+
+                                    Seleccione
+
+                                </option>
+
+                                <option>
+                                    Desarrollo Web
+                                </option>
+
+                                <option>
+                                    Soporte Técnico
+                                </option>
+
+                                <option>
+                                    Capacitación
+                                </option>
+
+                                <option>
+                                    Consultoría
+                                </option>
+
+                            </select>
+
+                            <div
+                                id="errorCategoria"
+                                class="invalid-feedback">
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100">
+
+                            Registrar Solicitud
+
+                        </button>
+
+                    </form>
+
+                    <div
+                        class="text-center mt-3">
+
+                        <div
+                            id="spinner"
+                            class="spinner-border text-primary d-none">
+
+                        </div>
+
+                    </div>
+
+                    <div id="mensaje"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-7">
+
+            <h4>
+
+                Solicitudes Registradas
+
+            </h4>
+
+            <p>
+
+                Total:
+
+                <strong id="contador">
+
+                    0
+
+                </strong>
+
+            </p>
+
+            <div class="table-responsive">
+
+                <table
+                    class="table table-hover table-striped">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Cliente</th>
+
+                            <th>Servicio</th>
+
+                            <th>Descripción</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="listaServicios">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section
+    id="contacto"
+    class="container py-5">
+
+    <h2 class="text-center mb-5">
+
+        Contáctanos
+
+    </h2>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <h4 class="text-primary">
+
+                        Información de Contacto
+
+                    </h4>
+
+                    <hr>
+
+                    <p>
+
+                        <strong>Correo:</strong>
+                        contacto@tecnosoluciones.com
+
+                    </p>
+
+                    <p>
+
+                        <strong>Teléfono:</strong>
+                        +593 99 123 4567
+
+                    </p>
+
+                    <p>
+
+                        <strong>Dirección:</strong>
+                        Guayaquil - Ecuador
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+{% endblock %}

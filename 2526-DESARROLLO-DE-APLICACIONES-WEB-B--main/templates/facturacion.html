@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Facturación | TecnoSoluciones
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="container py-5">
+
+    <h1 class="text-primary">
+
+        Módulo de Facturación
+
+    </h1>
+
+    <p class="text-muted">
+
+        Registro demostrativo de facturas.
+
+    </p>
+
+
+    <div class="table-responsive">
+
+        <table class="table table-hover">
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>Número</th>
+
+                    <th>Cliente</th>
+
+                    <th>Fecha</th>
+
+                    <th>Total</th>
+
+                    <th>Estado</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for factura in facturas %}
+
+                <tr>
+
+                    <td>
+                        {{ factura.numero }}
+                    </td>
+
+                    <td>
+                        {{ factura.cliente }}
+                    </td>
+
+                    <td>
+                        {{ factura.fecha }}
+                    </td>
+
+                    <td>
+                        ${{ "%.2f"|format(factura.total) }}
+                    </td>
+
+                    <td>
+
+                        {% if factura.estado == "Pagada" %}
+
+                            <span class="badge text-bg-success">
+                                Pagada
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge text-bg-warning">
+                                Pendiente
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}
