@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Productos | TecnoSoluciones
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="text-primary fw-bold">
+
+            Módulo de Productos
+
+        </h1>
+
+        <p class="text-muted">
+
+            Listado dinámico de servicios ofrecidos por
+            TecnoSoluciones.
+
+        </p>
+
+    </div>
+
+
+    <!-- ==================================================
+         LISTADO DINÁMICO DE PRODUCTOS
+    =================================================== -->
+
+    <div class="row g-4">
+
+        {% for producto in productos %}
+
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body">
+
+                    <!-- Categoría -->
+
+                    <span class="badge text-bg-info">
+
+                        {{ producto.categoria }}
+
+                    </span>
+
+
+                    <!-- Nombre -->
+
+                    <h5 class="mt-3 fw-bold">
+
+                        {{ producto.nombre|upper }}
+
+                    </h5>
+
+
+                    <!-- Código -->
+
+                    <p class="text-muted">
+
+                        Código:
+                        <strong>{{ producto.id }}</strong>
+
+                    </p>
+
+
+                    <!-- Precio -->
+
+                    <h4 class="text-success">
+
+                        ${{ "%.2f"|format(producto.precio) }}
+
+                    </h4>
+
+
+                    <!-- =================================
+                         CONDICIONAL IF / ELSE
+                    ================================== -->
+
+                    {% if producto.stock > 0 %}
+
+                        <span class="badge text-bg-success">
+
+                            Disponible
+
+                        </span>
+
+                        <p class="mt-2 mb-0">
+
+                            Stock disponible:
+                            <strong>{{ producto.stock }}</strong>
+
+                        </p>
+
+                    {% else %}
+
+                        <span class="badge text-bg-danger">
+
+                            Agotado
+
+                        </span>
+
+                        <p class="mt-2 mb-0 text-danger">
+
+                            Producto sin stock.
+
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <!-- Se muestra si la lista está vacía -->
+
+        <div class="col-12">
+
+            <div class="alert alert-warning text-center">
+
+                No existen productos registrados.
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+{% endblock %}
