@@ -3,6 +3,8 @@ from forms.producto_form import ProductoForm
 from forms.cliente_form import ClienteForm
 from forms.proveedor_form import ProveedorForm
 from forms.facturacion_form import FacturacionForm
+import sqlite3
+import os
 
 # ==========================================================
 # CONFIGURACIÓN DE FLASK
@@ -12,6 +14,42 @@ app = Flask(__name__)
 
 # SECRET_KEY necesaria para Flask-WTF y protección CSRF
 app.config["SECRET_KEY"] = "TecnoSoluciones_2026_Semana11"
+
+# Ruta de la base de datos SQLite
+DATABASE = os.path.join("data", "ferreteria.db")
+
+
+# ==========================================================
+# CONEXIÓN CON SQLITE
+# ==========================================================
+
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+# ==========================================================
+# INICIALIZAR BASE DE DATOS
+# ==========================================================
+
+def init_db():
+    os.makedirs("data", exist_ok=True)
+
+    conn = get_db_connection()
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS productos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            categoria TEXT NOT NULL,
+            precio REAL NOT NULL,
+            stock INTEGER NOT NULL
+        )
+    """)
+
+    conn.commit()
+    conn.close()
 
 
 # ==========================================================
@@ -57,55 +95,30 @@ def inicio():
 
 
 # ==========================================================
-# MÓDULO DE PRODUCTOS
+# MÓDULO DE PRODUCTOS - SELECT
 # ==========================================================
 
 @app.route("/productos")
 def productos():
 
-    productos_demo = [
-        {
-            "id": 1,
-            "nombre": "Diseño Web Empresarial",
-            "categoria": "Desarrollo Web",
-            "precio": 350.00,
-            "stock": 5,
-            "estado": "Disponible"
-        },
-        {
-            "id": 2,
-            "nombre": "Mantenimiento de Computadores",
-            "categoria": "Soporte Técnico",
-            "precio": 45.00,
-            "stock": 8,
-            "estado": "Disponible"
-        },
-        {
-            "id": 3,
-            "nombre": "Curso de Herramientas Digitales",
-            "categoria": "Capacitación",
-            "precio": 60.00,
-            "stock": 0,
-            "estado": "Agotado"
-        },
-        {
-            "id": 4,
-            "nombre": "Consultoría Tecnológica",
-            "categoria": "Consultoría",
-            "precio": 90.00,
-            "stock": 3,
-            "estado": "Disponible"
-        }
-    ]
+    conn = get_db_connection()
+
+    productos = conn.execute("""
+        SELECT id, nombre, categoria, precio, stock
+        FROM productos
+        ORDER BY id DESC
+    """).fetchall()
+
+    conn.close()
 
     return render_template(
         "productos.html",
-        productos=productos_demo
+        productos=productos
     )
 
 
 # ==========================================================
-# FORMULARIO DE PRODUCTOS
+# FORMULARIO DE PRODUCTOS - INSERT
 # ==========================================================
 
 @app.route("/productos/nuevo", methods=["GET", "POST"])
@@ -115,15 +128,23 @@ def formulario_producto():
 
     if form.validate_on_submit():
 
-        producto = {
-            "nombre": form.nombre.data,
-            "categoria": form.categoria.data,
-            "precio": form.precio.data,
-            "stock": form.stock.data
-        }
+        conn = get_db_connection()
+
+        conn.execute("""
+            INSERT INTO productos (nombre, categoria, precio, stock)
+            VALUES (?, ?, ?, ?)
+        """, (
+            form.nombre.data,
+            form.categoria.data,
+            float(form.precio.data),
+            form.stock.data
+        ))
+
+        conn.commit()
+        conn.close()
 
         flash(
-            f"Producto '{producto['nombre']}' registrado correctamente.",
+            f"Producto '{form.nombre.data}' registrado correctamente.",
             "success"
         )
 
@@ -254,7 +275,7 @@ def formulario_proveedor():
         }
 
         flash(
-            f"Proveedor '{proveedor['empresa']}' registrado correctamente.",
+            f"Proveedor '{proveedor['empresa']} registrado correctamente.",
             "success"
         )
 
@@ -339,5 +360,5 @@ def formulario_facturacion():
 # ==========================================================
 
 if __name__ == "__main__":
+    init_db()
     app.run(debug=True)
-
