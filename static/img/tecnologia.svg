@@ -1,0 +1,94 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 800 500">
+
+    <rect
+        width="800"
+        height="500"
+        rx="30"
+        fill="#e9f2ff"/>
+
+    <!-- Monitor -->
+
+    <rect
+        x="180"
+        y="90"
+        width="440"
+        height="270"
+        rx="15"
+        fill="#212529"/>
+
+    <rect
+        x="205"
+        y="115"
+        width="390"
+        height="220"
+        rx="8"
+        fill="#0d6efd"/>
+
+    <!-- Líneas de código -->
+
+    <rect
+        x="245"
+        y="155"
+        width="180"
+        height="12"
+        rx="6"
+        fill="white"/>
+
+    <rect
+        x="245"
+        y="185"
+        width="250"
+        height="12"
+        rx="6"
+        fill="white"/>
+
+    <rect
+        x="245"
+        y="215"
+        width="210"
+        height="12"
+        rx="6"
+        fill="#ffc107"/>
+
+    <rect
+        x="245"
+        y="245"
+        width="160"
+        height="12"
+        rx="6"
+        fill="white"/>
+
+    <!-- Base -->
+
+    <rect
+        x="350"
+        y="360"
+        width="100"
+        height="35"
+        fill="#212529"/>
+
+    <rect
+        x="300"
+        y="395"
+        width="200"
+        height="20"
+        rx="10"
+        fill="#212529"/>
+
+    <!-- Elementos decorativos -->
+
+    <circle
+        cx="100"
+        cy="150"
+        r="30"
+        fill="#ffc107"/>
+
+    <circle
+        cx="700"
+        cy="350"
+        r="35"
+        fill="#0d6efd"/>
+
+</svg>

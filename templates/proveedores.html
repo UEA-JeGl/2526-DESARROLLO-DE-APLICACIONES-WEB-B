@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+Proveedores - TecnoSoluciones
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Proveedores</h1>
+
+        <a href="{{ url_for('formulario_proveedor') }}" class="btn btn-primary">
+            Registrar proveedor
+        </a>
+    </div>
+
+    <div class="row">
+
+        {% for proveedor in proveedores %}
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ proveedor.empresa }}
+                    </h5>
+
+                    <p class="card-text">
+                        <strong>Contacto:</strong>
+                        {{ proveedor.contacto }}
+                    </p>
+
+                    <p class="card-text">
+                        <strong>Servicio:</strong>
+                        {{ proveedor.servicio }}
+                    </p>
+
+                    <p class="card-text">
+                        <strong>Estado:</strong>
+                        {{ proveedor.estado }}
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+
+        {% else %}
+
+        <div class="col-12">
+            <div class="alert alert-info">
+                No hay proveedores registrados.
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
