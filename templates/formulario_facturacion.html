@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}
+Registrar Factura - TecnoSoluciones
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+                    <h2 class="mb-0">Registrar Factura</h2>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {{ form.hidden_tag() }}
+
+                        <!-- NÚMERO -->
+                        <div class="mb-3">
+
+                            {{ form.numero.label(class="form-label") }}
+
+                            {{ form.numero(
+                                class="form-control",
+                                placeholder="Ejemplo: FAC-004"
+                            ) }}
+
+                            {% for error in form.numero.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- CLIENTE -->
+                        <div class="mb-3">
+
+                            {{ form.cliente.label(class="form-label") }}
+
+                            {{ form.cliente(
+                                class="form-control",
+                                placeholder="Ingrese el nombre del cliente"
+                            ) }}
+
+                            {% for error in form.cliente.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- FECHA -->
+                        <div class="mb-3">
+
+                            {{ form.fecha.label(class="form-label") }}
+
+                            {{ form.fecha(class="form-control") }}
+
+                            {% for error in form.fecha.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- TOTAL -->
+                        <div class="mb-3">
+
+                            {{ form.total.label(class="form-label") }}
+
+                            {{ form.total(
+                                class="form-control",
+                                placeholder="Ingrese el total"
+                            ) }}
+
+                            {% for error in form.total.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- BOTONES -->
+                        <div class="d-flex gap-2">
+
+                            {{ form.submit(class="btn btn-primary") }}
+
+                            <a
+                                href="{{ url_for('facturacion') }}"
+                                class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

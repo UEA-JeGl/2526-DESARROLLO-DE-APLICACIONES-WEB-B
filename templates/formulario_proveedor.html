@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}
+Registrar Proveedor - TecnoSoluciones
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+                    <h2 class="mb-0">Registrar Proveedor</h2>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {{ form.hidden_tag() }}
+
+                        <!-- EMPRESA -->
+                        <div class="mb-3">
+
+                            {{ form.empresa.label(class="form-label") }}
+
+                            {{ form.empresa(
+                                class="form-control",
+                                placeholder="Ingrese el nombre de la empresa"
+                            ) }}
+
+                            {% for error in form.empresa.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- CONTACTO -->
+                        <div class="mb-3">
+
+                            {{ form.contacto.label(class="form-label") }}
+
+                            {{ form.contacto(
+                                class="form-control",
+                                placeholder="Ingrese el teléfono de contacto"
+                            ) }}
+
+                            {% for error in form.contacto.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- SERVICIO -->
+                        <div class="mb-3">
+
+                            {{ form.servicio.label(class="form-label") }}
+
+                            {{ form.servicio(
+                                class="form-control",
+                                placeholder="Ingrese el servicio proporcionado"
+                            ) }}
+
+                            {% for error in form.servicio.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- BOTONES -->
+                        <div class="d-flex gap-2">
+
+                            {{ form.submit(class="btn btn-primary") }}
+
+                            <a
+                                href="{{ url_for('proveedores') }}"
+                                class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}
+Registrar Cliente - TecnoSoluciones
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+                    <h2 class="mb-0">Registrar Cliente</h2>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {{ form.hidden_tag() }}
+
+                        <!-- NOMBRE -->
+                        <div class="mb-3">
+
+                            {{ form.nombre.label(class="form-label") }}
+
+                            {{ form.nombre(
+                                class="form-control",
+                                placeholder="Ingrese el nombre completo"
+                            ) }}
+
+                            {% for error in form.nombre.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- CORREO -->
+                        <div class="mb-3">
+
+                            {{ form.correo.label(class="form-label") }}
+
+                            {{ form.correo(
+                                class="form-control",
+                                placeholder="Ingrese el correo electrónico"
+                            ) }}
+
+                            {% for error in form.correo.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- TIPO -->
+                        <div class="mb-3">
+
+                            {{ form.tipo.label(class="form-label") }}
+
+                            {{ form.tipo(class="form-select") }}
+
+                            {% for error in form.tipo.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!-- BOTONES -->
+                        <div class="d-flex gap-2">
+
+                            {{ form.submit(class="btn btn-primary") }}
+
+                            <a
+                                href="{{ url_for('clientes') }}"
+                                class="btn btn-secondary">
+                                Cancelar
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
