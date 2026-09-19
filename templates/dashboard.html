@@ -1,0 +1,61 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+        <div class="card-body text-center">
+
+            <h1 class="mb-3">
+                Bienvenido a TecnoSoluciones
+            </h1>
+
+            <p class="lead">
+                Has iniciado sesión correctamente.
+            </p>
+
+            <p>
+                Usuario:
+                <strong>{{ current_user.usuario }}</strong>
+            </p>
+
+            <hr>
+
+            <div class="d-flex justify-content-center gap-2 flex-wrap">
+
+                <a href="{{ url_for('productos') }}"
+                   class="btn btn-primary">
+                    Gestionar productos
+                </a>
+
+                <a href="{{ url_for('clientes') }}"
+                   class="btn btn-secondary">
+                    Clientes
+                </a>
+
+                <a href="{{ url_for('proveedores') }}"
+                   class="btn btn-secondary">
+                    Proveedores
+                </a>
+
+                <a href="{{ url_for('facturacion') }}"
+                   class="btn btn-secondary">
+                    Facturación
+                </a>
+
+                <a href="{{ url_for('logout') }}"
+                   class="btn btn-danger">
+                    Cerrar sesión
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+```

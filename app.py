@@ -1,28 +1,70 @@
 from flask import Flask, render_template, redirect, url_for, flash
 from flask_wtf.csrf import CSRFProtect
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from forms.producto_form import ProductoForm
 from forms.cliente_form import ClienteForm
 from forms.proveedor_form import ProveedorForm
 from forms.facturacion_form import FacturacionForm
+from forms.usuario_form import UsuarioForm
+from forms.login_form import LoginForm
 
 from conexion.conexion import obtener_conexion
+from models import Usuario
 
 
-# ==========================================================
-# CONFIGURACIÓN DE FLASK
-# ==========================================================
-
-app = Flask(__name__)
+app = Flask("tecnosoluciones")
 
 app.config["SECRET_KEY"] = "TecnoSoluciones_2026_Semana11"
 
-# Protección CSRF
 csrf = CSRFProtect(app)
 
 
 # ==========================================================
-# PÁGINA PRINCIPAL
+# FLASK-LOGIN
+# ==========================================================
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+login_manager.login_view = "login"
+login_manager.login_message = "Debe iniciar sesión para acceder a esta página."
+login_manager.login_message_category = "warning"
+
+
+@login_manager.user_loader
+def load_user(user_id):
+
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+
+    cursor.execute(
+        """
+        SELECT id, usuario, password
+        FROM usuarios
+        WHERE id = %s
+        """,
+        (user_id,)
+    )
+
+    datos = cursor.fetchone()
+
+    cursor.close()
+    conexion.close()
+
+    if datos:
+        return Usuario(
+            datos["id"],
+            datos["usuario"],
+            datos["password"]
+        )
+
+    return None
+
+
+# ==========================================================
+# PAGINA PRINCIPAL
 # ==========================================================
 
 @app.route("/")
@@ -64,17 +106,189 @@ def inicio():
 
 
 # ==========================================================
-# PRODUCTOS - LISTAR
-# SELECT + JOIN
+# REGISTRO DE USUARIO
+# ==========================================================
+
+@app.route("/registro", methods=["GET", "POST"])
+def registro():
+
+    form = UsuarioForm()
+
+    if form.validate_on_submit():
+
+        usuario = form.usuario.data
+        password = form.password.data
+
+        conexion = obtener_conexion()
+        cursor = conexion.cursor(dictionary=True)
+
+        cursor.execute(
+            """
+            SELECT id
+            FROM usuarios
+            WHERE usuario = %s
+            """,
+            (usuario,)
+        )
+
+        usuario_existente = cursor.fetchone()
+
+        if usuario_existente:
+
+            cursor.close()
+            conexion.close()
+
+            flash(
+                "El nombre de usuario ya existe.",
+                "danger"
+            )
+
+            return render_template(
+                "registro.html",
+                form=form
+            )
+
+        password_hash = generate_password_hash(password)
+
+        cursor.close()
+
+        cursor = conexion.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO usuarios (usuario, password)
+            VALUES (%s, %s)
+            """,
+            (usuario, password_hash)
+        )
+
+        conexion.commit()
+
+        cursor.close()
+        conexion.close()
+
+        flash(
+            "Usuario registrado correctamente. Ahora puede iniciar sesión.",
+            "success"
+        )
+
+        return redirect(url_for("login"))
+
+    return render_template(
+        "registro.html",
+        form=form
+    )
+
+
+# ==========================================================
+# LOGIN
+# ==========================================================
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
+
+    form = LoginForm()
+
+    if form.validate_on_submit():
+
+        usuario = form.usuario.data
+        password = form.password.data
+
+        conexion = obtener_conexion()
+        cursor = conexion.cursor(dictionary=True)
+
+        cursor.execute(
+            """
+            SELECT id, usuario, password
+            FROM usuarios
+            WHERE usuario = %s
+            """,
+            (usuario,)
+        )
+
+        datos = cursor.fetchone()
+
+        cursor.close()
+        conexion.close()
+
+        if datos and check_password_hash(
+            datos["password"],
+            password
+        ):
+
+            usuario_obj = Usuario(
+                datos["id"],
+                datos["usuario"],
+                datos["password"]
+            )
+
+            login_user(usuario_obj)
+
+            flash(
+                "Inicio de sesión correcto.",
+                "success"
+            )
+
+            return redirect(url_for("dashboard"))
+
+        flash(
+            "Usuario o contraseña incorrectos.",
+            "danger"
+        )
+
+    return render_template(
+        "login.html",
+        form=form
+    )
+
+
+# ==========================================================
+# DASHBOARD
+# ==========================================================
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+
+    return render_template(
+        "dashboard.html"
+    )
+
+
+# ==========================================================
+# LOGOUT
+# ==========================================================
+
+@app.route("/logout")
+@login_required
+def logout():
+
+    logout_user()
+
+    flash(
+        "Sesión cerrada correctamente.",
+        "success"
+    )
+
+    return redirect(url_for("login"))
+
+
+# ==========================================================
+# PRODUCTOS
 # ==========================================================
 
 @app.route("/productos")
+@login_required
 def productos():
 
     conexion = obtener_conexion()
     cursor = conexion.cursor(dictionary=True)
 
-    cursor.execute("""
+    cursor.execute(
+        """
         SELECT
             p.id_producto,
             p.nombre,
@@ -87,7 +301,8 @@ def productos():
         LEFT JOIN proveedores pr
             ON p.id_proveedor = pr.id_proveedor
         ORDER BY p.id_producto DESC
-    """)
+        """
+    )
 
     productos = cursor.fetchall()
 
@@ -101,11 +316,11 @@ def productos():
 
 
 # ==========================================================
-# PRODUCTOS - REGISTRAR
-# INSERT
+# NUEVO PRODUCTO
 # ==========================================================
 
 @app.route("/productos/nuevo", methods=["GET", "POST"])
+@login_required
 def formulario_producto():
 
     form = ProductoForm()
@@ -115,17 +330,20 @@ def formulario_producto():
         conexion = obtener_conexion()
         cursor = conexion.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO productos
                 (nombre, categoria, precio, stock)
             VALUES
                 (%s, %s, %s, %s)
-        """, (
-            form.nombre.data,
-            form.categoria.data,
-            form.precio.data,
-            form.stock.data
-        ))
+            """,
+            (
+                form.nombre.data,
+                form.categoria.data,
+                form.precio.data,
+                form.stock.data
+            )
+        )
 
         conexion.commit()
 
@@ -147,18 +365,18 @@ def formulario_producto():
 
 
 # ==========================================================
-# PRODUCTOS - EDITAR
-# UPDATE
+# EDITAR PRODUCTO
 # ==========================================================
 
 @app.route("/productos/editar/<int:id_producto>", methods=["GET", "POST"])
+@login_required
 def editar_producto(id_producto):
 
-    # Buscar producto
     conexion = obtener_conexion()
     cursor = conexion.cursor(dictionary=True)
 
-    cursor.execute("""
+    cursor.execute(
+        """
         SELECT
             id_producto,
             nombre,
@@ -167,7 +385,9 @@ def editar_producto(id_producto):
             stock
         FROM productos
         WHERE id_producto = %s
-    """, (id_producto,))
+        """,
+        (id_producto,)
+    )
 
     producto = cursor.fetchone()
 
@@ -190,7 +410,8 @@ def editar_producto(id_producto):
         conexion = obtener_conexion()
         cursor = conexion.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             UPDATE productos
             SET
                 nombre = %s,
@@ -198,13 +419,15 @@ def editar_producto(id_producto):
                 precio = %s,
                 stock = %s
             WHERE id_producto = %s
-        """, (
-            form.nombre.data,
-            form.categoria.data,
-            form.precio.data,
-            form.stock.data,
-            id_producto
-        ))
+            """,
+            (
+                form.nombre.data,
+                form.categoria.data,
+                form.precio.data,
+                form.stock.data,
+                id_producto
+            )
+        )
 
         conexion.commit()
 
@@ -218,7 +441,6 @@ def editar_producto(id_producto):
 
         return redirect(url_for("productos"))
 
-    # Cargar datos existentes
     if not form.is_submitted():
 
         form.nombre.data = producto["nombre"]
@@ -235,20 +457,23 @@ def editar_producto(id_producto):
 
 
 # ==========================================================
-# PRODUCTOS - ELIMINAR
-# DELETE
+# ELIMINAR PRODUCTO
 # ==========================================================
 
 @app.route("/productos/eliminar/<int:id_producto>", methods=["POST"])
+@login_required
 def eliminar_producto(id_producto):
 
     conexion = obtener_conexion()
     cursor = conexion.cursor()
 
-    cursor.execute("""
+    cursor.execute(
+        """
         DELETE FROM productos
         WHERE id_producto = %s
-    """, (id_producto,))
+        """,
+        (id_producto,)
+    )
 
     conexion.commit()
 
@@ -279,6 +504,7 @@ def eliminar_producto(id_producto):
 # ==========================================================
 
 @app.route("/clientes")
+@login_required
 def clientes():
 
     clientes_demo = [
@@ -312,10 +538,11 @@ def clientes():
 
 
 # ==========================================================
-# FORMULARIO CLIENTES
+# NUEVO CLIENTE
 # ==========================================================
 
 @app.route("/clientes/nuevo", methods=["GET", "POST"])
+@login_required
 def formulario_cliente():
 
     form = ClienteForm()
@@ -346,6 +573,7 @@ def formulario_cliente():
 # ==========================================================
 
 @app.route("/proveedores")
+@login_required
 def proveedores():
 
     proveedores_demo = [
@@ -376,10 +604,11 @@ def proveedores():
 
 
 # ==========================================================
-# FORMULARIO PROVEEDORES
+# NUEVO PROVEEDOR
 # ==========================================================
 
 @app.route("/proveedores/nuevo", methods=["GET", "POST"])
+@login_required
 def formulario_proveedor():
 
     form = ProveedorForm()
@@ -406,10 +635,11 @@ def formulario_proveedor():
 
 
 # ==========================================================
-# FACTURACIÓN
+# FACTURACION
 # ==========================================================
 
 @app.route("/facturacion")
+@login_required
 def facturacion():
 
     facturas_demo = [
@@ -443,10 +673,11 @@ def facturacion():
 
 
 # ==========================================================
-# FORMULARIO FACTURACIÓN
+# NUEVA FACTURA
 # ==========================================================
 
 @app.route("/facturacion/nueva", methods=["GET", "POST"])
+@login_required
 def formulario_facturacion():
 
     form = FacturacionForm()
@@ -474,7 +705,7 @@ def formulario_facturacion():
 
 
 # ==========================================================
-# EJECUTAR APLICACIÓN
+# EJECUTAR APLICACION
 # ==========================================================
 
 if __name__ == "__main__":
