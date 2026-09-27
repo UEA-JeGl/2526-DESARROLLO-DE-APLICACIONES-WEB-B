@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, flash
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from psycopg2.extras import RealDictCursor
 
 from forms.producto_form import ProductoForm
 from forms.cliente_form import ClienteForm
@@ -22,7 +23,7 @@ csrf = CSRFProtect(app)
 
 
 # ==========================================================
-# FLASK-LOGIN
+# LOGIN
 # ==========================================================
 
 login_manager = LoginManager()
@@ -37,16 +38,13 @@ login_manager.login_message_category = "warning"
 def load_user(user_id):
 
     conexion = obtener_conexion()
-    cursor = conexion.cursor(dictionary=True)
+    cursor = conexion.cursor(cursor_factory=RealDictCursor)
 
-    cursor.execute(
-        """
+    cursor.execute("""
         SELECT id, usuario, password
         FROM usuarios
         WHERE id = %s
-        """,
-        (user_id,)
-    )
+    """, (user_id,))
 
     datos = cursor.fetchone()
 
@@ -64,7 +62,7 @@ def load_user(user_id):
 
 
 # ==========================================================
-# PAGINA PRINCIPAL
+# INICIO
 # ==========================================================
 
 @app.route("/")
@@ -106,7 +104,7 @@ def inicio():
 
 
 # ==========================================================
-# REGISTRO DE USUARIO
+# REGISTRO
 # ==========================================================
 
 @app.route("/registro", methods=["GET", "POST"])
@@ -120,16 +118,13 @@ def registro():
         password = form.password.data
 
         conexion = obtener_conexion()
-        cursor = conexion.cursor(dictionary=True)
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
 
-        cursor.execute(
-            """
+        cursor.execute("""
             SELECT id
             FROM usuarios
             WHERE usuario = %s
-            """,
-            (usuario,)
-        )
+        """, (usuario,))
 
         usuario_existente = cursor.fetchone()
 
@@ -154,13 +149,10 @@ def registro():
 
         cursor = conexion.cursor()
 
-        cursor.execute(
-            """
+        cursor.execute("""
             INSERT INTO usuarios (usuario, password)
             VALUES (%s, %s)
-            """,
-            (usuario, password_hash)
-        )
+        """, (usuario, password_hash))
 
         conexion.commit()
 
@@ -198,16 +190,13 @@ def login():
         password = form.password.data
 
         conexion = obtener_conexion()
-        cursor = conexion.cursor(dictionary=True)
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
 
-        cursor.execute(
-            """
+        cursor.execute("""
             SELECT id, usuario, password
             FROM usuarios
             WHERE usuario = %s
-            """,
-            (usuario,)
-        )
+        """, (usuario,))
 
         datos = cursor.fetchone()
 
@@ -277,7 +266,7 @@ def logout():
 
 
 # ==========================================================
-# PRODUCTOS
+# PRODUCTOS - READ
 # ==========================================================
 
 @app.route("/productos")
@@ -285,10 +274,11 @@ def logout():
 def productos():
 
     conexion = obtener_conexion()
-    cursor = conexion.cursor(dictionary=True)
+    cursor = conexion.cursor(
+        cursor_factory=RealDictCursor
+    )
 
-    cursor.execute(
-        """
+    cursor.execute("""
         SELECT
             p.id_producto,
             p.nombre,
@@ -301,8 +291,7 @@ def productos():
         LEFT JOIN proveedores pr
             ON p.id_proveedor = pr.id_proveedor
         ORDER BY p.id_producto DESC
-        """
-    )
+    """)
 
     productos = cursor.fetchall()
 
@@ -316,10 +305,13 @@ def productos():
 
 
 # ==========================================================
-# NUEVO PRODUCTO
+# PRODUCTOS - CREATE
 # ==========================================================
 
-@app.route("/productos/nuevo", methods=["GET", "POST"])
+@app.route(
+    "/productos/nuevo",
+    methods=["GET", "POST"]
+)
 @login_required
 def formulario_producto():
 
@@ -330,20 +322,17 @@ def formulario_producto():
         conexion = obtener_conexion()
         cursor = conexion.cursor()
 
-        cursor.execute(
-            """
+        cursor.execute("""
             INSERT INTO productos
                 (nombre, categoria, precio, stock)
             VALUES
                 (%s, %s, %s, %s)
-            """,
-            (
-                form.nombre.data,
-                form.categoria.data,
-                form.precio.data,
-                form.stock.data
-            )
-        )
+        """, (
+            form.nombre.data,
+            form.categoria.data,
+            form.precio.data,
+            form.stock.data
+        ))
 
         conexion.commit()
 
@@ -355,7 +344,9 @@ def formulario_producto():
             "success"
         )
 
-        return redirect(url_for("productos"))
+        return redirect(
+            url_for("productos")
+        )
 
     return render_template(
         "formulario_producto.html",
@@ -365,18 +356,23 @@ def formulario_producto():
 
 
 # ==========================================================
-# EDITAR PRODUCTO
+# PRODUCTOS - UPDATE
 # ==========================================================
 
-@app.route("/productos/editar/<int:id_producto>", methods=["GET", "POST"])
+@app.route(
+    "/productos/editar/<int:id_producto>",
+    methods=["GET", "POST"]
+)
 @login_required
 def editar_producto(id_producto):
 
     conexion = obtener_conexion()
-    cursor = conexion.cursor(dictionary=True)
 
-    cursor.execute(
-        """
+    cursor = conexion.cursor(
+        cursor_factory=RealDictCursor
+    )
+
+    cursor.execute("""
         SELECT
             id_producto,
             nombre,
@@ -385,9 +381,7 @@ def editar_producto(id_producto):
             stock
         FROM productos
         WHERE id_producto = %s
-        """,
-        (id_producto,)
-    )
+    """, (id_producto,))
 
     producto = cursor.fetchone()
 
@@ -401,7 +395,9 @@ def editar_producto(id_producto):
             "danger"
         )
 
-        return redirect(url_for("productos"))
+        return redirect(
+            url_for("productos")
+        )
 
     form = ProductoForm()
 
@@ -410,8 +406,7 @@ def editar_producto(id_producto):
         conexion = obtener_conexion()
         cursor = conexion.cursor()
 
-        cursor.execute(
-            """
+        cursor.execute("""
             UPDATE productos
             SET
                 nombre = %s,
@@ -419,15 +414,13 @@ def editar_producto(id_producto):
                 precio = %s,
                 stock = %s
             WHERE id_producto = %s
-            """,
-            (
-                form.nombre.data,
-                form.categoria.data,
-                form.precio.data,
-                form.stock.data,
-                id_producto
-            )
-        )
+        """, (
+            form.nombre.data,
+            form.categoria.data,
+            form.precio.data,
+            form.stock.data,
+            id_producto
+        ))
 
         conexion.commit()
 
@@ -439,7 +432,9 @@ def editar_producto(id_producto):
             "success"
         )
 
-        return redirect(url_for("productos"))
+        return redirect(
+            url_for("productos")
+        )
 
     if not form.is_submitted():
 
@@ -457,23 +452,23 @@ def editar_producto(id_producto):
 
 
 # ==========================================================
-# ELIMINAR PRODUCTO
+# PRODUCTOS - DELETE
 # ==========================================================
 
-@app.route("/productos/eliminar/<int:id_producto>", methods=["POST"])
+@app.route(
+    "/productos/eliminar/<int:id_producto>",
+    methods=["POST"]
+)
 @login_required
 def eliminar_producto(id_producto):
 
     conexion = obtener_conexion()
     cursor = conexion.cursor()
 
-    cursor.execute(
-        """
+    cursor.execute("""
         DELETE FROM productos
         WHERE id_producto = %s
-        """,
-        (id_producto,)
-    )
+    """, (id_producto,))
 
     conexion.commit()
 
@@ -496,7 +491,9 @@ def eliminar_producto(id_producto):
             "danger"
         )
 
-    return redirect(url_for("productos"))
+    return redirect(
+        url_for("productos")
+    )
 
 
 # ==========================================================
@@ -537,11 +534,10 @@ def clientes():
     )
 
 
-# ==========================================================
-# NUEVO CLIENTE
-# ==========================================================
-
-@app.route("/clientes/nuevo", methods=["GET", "POST"])
+@app.route(
+    "/clientes/nuevo",
+    methods=["GET", "POST"]
+)
 @login_required
 def formulario_cliente():
 
@@ -560,7 +556,9 @@ def formulario_cliente():
             "success"
         )
 
-        return redirect(url_for("clientes"))
+        return redirect(
+            url_for("clientes")
+        )
 
     return render_template(
         "formulario_cliente.html",
@@ -603,11 +601,10 @@ def proveedores():
     )
 
 
-# ==========================================================
-# NUEVO PROVEEDOR
-# ==========================================================
-
-@app.route("/proveedores/nuevo", methods=["GET", "POST"])
+@app.route(
+    "/proveedores/nuevo",
+    methods=["GET", "POST"]
+)
 @login_required
 def formulario_proveedor():
 
@@ -626,7 +623,9 @@ def formulario_proveedor():
             "success"
         )
 
-        return redirect(url_for("proveedores"))
+        return redirect(
+            url_for("proveedores")
+        )
 
     return render_template(
         "formulario_proveedor.html",
@@ -635,7 +634,7 @@ def formulario_proveedor():
 
 
 # ==========================================================
-# FACTURACION
+# FACTURACIÓN
 # ==========================================================
 
 @app.route("/facturacion")
@@ -672,11 +671,10 @@ def facturacion():
     )
 
 
-# ==========================================================
-# NUEVA FACTURA
-# ==========================================================
-
-@app.route("/facturacion/nueva", methods=["GET", "POST"])
+@app.route(
+    "/facturacion/nueva",
+    methods=["GET", "POST"]
+)
 @login_required
 def formulario_facturacion():
 
@@ -696,7 +694,9 @@ def formulario_facturacion():
             "success"
         )
 
-        return redirect(url_for("facturacion"))
+        return redirect(
+            url_for("facturacion")
+        )
 
     return render_template(
         "formulario_facturacion.html",
@@ -705,7 +705,7 @@ def formulario_facturacion():
 
 
 # ==========================================================
-# EJECUTAR APLICACION
+# EJECUTAR APLICACIÓN
 # ==========================================================
 
 if __name__ == "__main__":
