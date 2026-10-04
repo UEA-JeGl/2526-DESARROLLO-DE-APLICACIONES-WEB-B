@@ -690,44 +690,82 @@ def clientes():
 
 
 # ==========================================================
-# CLIENTES - NUEVO
+# EDITAR CLIENTE
 # ==========================================================
 
 @app.route(
-    "/clientes/nuevo",
+    "/clientes/editar/<int:id>",
     methods=["GET", "POST"]
 )
 @login_required
-def formulario_cliente():
+def editar_cliente(id):
 
-    form = ClienteForm()
+    conexion = None
 
-    if form.validate_on_submit():
+    try:
 
-        conexion = None
+        conexion = obtener_conexion()
 
-        try:
+        cursor = conexion.cursor(
+            cursor_factory=RealDictCursor
+        )
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                nombre,
+                correo,
+                tipo,
+                estado
+            FROM clientes
+            WHERE id = %s
+            """,
+            (id,)
+        )
+
+        cliente = cursor.fetchone()
+
+        cursor.close()
+        conexion.close()
+
+        if not cliente:
+
+            flash(
+                "Cliente no encontrado.",
+                "danger"
+            )
+
+            return redirect(
+                url_for("clientes")
+            )
+
+        form = ClienteForm()
+
+        if form.validate_on_submit():
 
             conexion = obtener_conexion()
 
             cursor = conexion.cursor()
 
-            cursor.execute("""
-                INSERT INTO clientes
+            cursor.execute(
+                """
+                UPDATE clientes
+                SET
+                    nombre = %s,
+                    correo = %s,
+                    tipo = %s,
+                    estado = %s
+                WHERE id = %s
+                """,
                 (
-                    nombre,
-                    correo,
-                    tipo,
-                    estado
+                    form.nombre.data,
+                    form.correo.data,
+                    form.tipo.data,
+                    form.estado.data,
+                    id
                 )
-                VALUES
-                (%s, %s, %s, %s)
-            """, (
-                form.nombre.data,
-                form.correo.data,
-                form.tipo.data,
-                form.estado.data
-            ))
+            )
 
             conexion.commit()
 
@@ -735,8 +773,7 @@ def formulario_cliente():
             conexion.close()
 
             flash(
-                f"Cliente '{form.nombre.data}' "
-                "registrado correctamente.",
+                "Cliente actualizado correctamente.",
                 "success"
             )
 
@@ -744,64 +781,39 @@ def formulario_cliente():
                 url_for("clientes")
             )
 
-        except Exception as e:
+        if not form.is_submitted():
 
-            print(
-                "ERROR AL REGISTRAR CLIENTE:",
-                e
-            )
+            form.nombre.data = cliente["nombre"]
+            form.correo.data = cliente["correo"]
+            form.tipo.data = cliente["tipo"]
+            form.estado.data = cliente["estado"]
 
-            if conexion:
+        return render_template(
+            "formulario_cliente.html",
+            form=form,
+            titulo="Editar cliente"
+        )
 
-                conexion.rollback()
-                conexion.close()
+    except Exception as e:
 
-            flash(
-                "No se pudo registrar el cliente.",
-                "danger"
-            )
+        print(
+            "ERROR AL EDITAR CLIENTE:",
+            e
+        )
 
-    return render_template(
-        "formulario_cliente.html",
-        form=form
-    )
+        if conexion:
 
+            conexion.rollback()
+            conexion.close()
 
-# ==========================================================
-# PROVEEDORES
-# ==========================================================
+        flash(
+            "No se pudo actualizar el cliente.",
+            "danger"
+        )
 
-@app.route("/proveedores")
-@login_required
-def proveedores():
-
-    proveedores_demo = [
-        {
-            "empresa": "Tech Ecuador",
-            "contacto": "0999999999",
-            "servicio": "Equipos informáticos",
-            "estado": "Activo"
-        },
-        {
-            "empresa": "Digital Solutions",
-            "contacto": "0988888888",
-            "servicio": "Software",
-            "estado": "Activo"
-        },
-        {
-            "empresa": "InnovaTech",
-            "contacto": "0977777777",
-            "servicio": "Servicios tecnológicos",
-            "estado": "Inactivo"
-        }
-    ]
-
-    return render_template(
-        "proveedores.html",
-        proveedores=proveedores_demo
-    )
-
-
+        return redirect(
+            url_for("clientes")
+        )
 # ==========================================================
 # PROVEEDORES - NUEVO
 # ==========================================================
