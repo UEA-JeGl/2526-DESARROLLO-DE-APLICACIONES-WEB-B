@@ -1,3 +1,4 @@
+```html
 {% extends "base.html" %}
 
 {% block title %}
@@ -9,9 +10,16 @@ Clientes - TecnoSoluciones
 <div class="container mt-5 mb-5">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Clientes</h1>
+        <div>
+            <h1 class="fw-bold">Clientes</h1>
+            <p class="text-muted">
+                Administración de clientes de TecnoSoluciones
+            </p>
+        </div>
 
-        <a href="{{ url_for('formulario_cliente') }}" class="btn btn-primary">
+        <a href="{{ url_for('formulario_cliente') }}"
+           class="btn btn-primary">
+            <i class="bi bi-person-plus"></i>
             Registrar cliente
         </a>
     </div>
@@ -21,40 +29,54 @@ Clientes - TecnoSoluciones
         {% for cliente in clientes %}
 
         <div class="col-md-4 mb-4">
-            <div class="card shadow h-100">
+
+            <div class="card shadow-sm h-100 border-0">
 
                 <div class="card-body">
 
-                    <h5 class="card-title">
+                    <h5 class="card-title fw-bold">
                         {{ cliente.nombre }}
                     </h5>
 
-                    <p class="card-text">
-                        <strong>Correo:</strong>
+                    <p class="card-text mb-2">
+                        <strong>Correo:</strong><br>
                         {{ cliente.correo }}
                     </p>
 
-                    <p class="card-text">
+                    <p class="card-text mb-2">
                         <strong>Tipo:</strong>
                         {{ cliente.tipo }}
                     </p>
 
-                    <p class="card-text">
+                    <p class="card-text mb-0">
                         <strong>Estado:</strong>
-                        {{ cliente.estado }}
+
+                        {% if cliente.estado == "Activo" %}
+                            <span class="badge bg-success">
+                                Activo
+                            </span>
+                        {% else %}
+                            <span class="badge bg-secondary">
+                                {{ cliente.estado }}
+                            </span>
+                        {% endif %}
                     </p>
 
                 </div>
 
             </div>
+
         </div>
 
         {% else %}
 
         <div class="col-12">
-            <div class="alert alert-info">
+
+            <div class="alert alert-info shadow-sm">
+                <i class="bi bi-info-circle"></i>
                 No hay clientes registrados.
             </div>
+
         </div>
 
         {% endfor %}
@@ -64,3 +86,4 @@ Clientes - TecnoSoluciones
 </div>
 
 {% endblock %}
+```

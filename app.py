@@ -15,16 +15,56 @@ from conexion.conexion import obtener_conexion
 from models import Usuario
 
 
-# ==========================================================
-# CONFIGURACIÓN DE LA APLICACIÓN
-# ==========================================================
-
 app = Flask("tecnosoluciones")
 
 app.config["SECRET_KEY"] = "TecnoSoluciones_2026_Semana11"
 
 csrf = CSRFProtect(app)
 
+
+# ==========================================================
+# CREAR TABLA CLIENTES AUTOMÁTICAMENTE
+# ==========================================================
+
+def crear_tabla_clientes():
+
+    conexion = None
+
+    try:
+
+        conexion = obtener_conexion()
+
+        cursor = conexion.cursor()
+
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS clientes (
+                id SERIAL PRIMARY KEY,
+                nombre VARCHAR(100) NOT NULL,
+                correo VARCHAR(150) NOT NULL,
+                tipo VARCHAR(30) NOT NULL,
+                estado VARCHAR(20) NOT NULL DEFAULT 'Activo'
+            )
+        """)
+
+        conexion.commit()
+
+        cursor.close()
+        conexion.close()
+
+        print("Tabla clientes verificada correctamente.")
+
+    except Exception as e:
+
+        print(
+            "ERROR AL CREAR TABLA CLIENTES:",
+            e
+        )
+
+        if conexion:
+            conexion.close()
+
+
+crear_tabla_clientes()
 
 # ==========================================================
 # CONFIGURACIÓN DE LOGIN
