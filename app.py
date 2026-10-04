@@ -15,6 +15,10 @@ from conexion.conexion import obtener_conexion
 from models import Usuario
 
 
+# ==========================================================
+# CONFIGURACIÓN DE LA APLICACIÓN
+# ==========================================================
+
 app = Flask("tecnosoluciones")
 
 app.config["SECRET_KEY"] = "TecnoSoluciones_2026_Semana11"
@@ -23,14 +27,18 @@ csrf = CSRFProtect(app)
 
 
 # ==========================================================
-# LOGIN
+# CONFIGURACIÓN DE LOGIN
 # ==========================================================
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 login_manager.login_view = "login"
-login_manager.login_message = "Debe iniciar sesión para acceder a esta página."
+
+login_manager.login_message = (
+    "Debe iniciar sesión para acceder a esta página."
+)
+
 login_manager.login_message_category = "warning"
 
 
@@ -38,7 +46,10 @@ login_manager.login_message_category = "warning"
 def load_user(user_id):
 
     conexion = obtener_conexion()
-    cursor = conexion.cursor(cursor_factory=RealDictCursor)
+
+    cursor = conexion.cursor(
+        cursor_factory=RealDictCursor
+    )
 
     cursor.execute("""
         SELECT id, usuario, password
@@ -72,26 +83,39 @@ def inicio():
 
     informacion = {
         "titulo": "Servicios Tecnológicos",
-        "descripcion": "Soluciones tecnológicas para estudiantes, emprendedores y empresas.",
+        "descripcion": (
+            "Soluciones tecnológicas para estudiantes, "
+            "emprendedores y empresas."
+        ),
         "anio": 2026
     }
 
     servicios = [
         {
             "nombre": "Desarrollo Web",
-            "descripcion": "Diseño y desarrollo de sitios web modernos y funcionales."
+            "descripcion": (
+                "Diseño y desarrollo de sitios web modernos "
+                "y funcionales."
+            )
         },
         {
             "nombre": "Soporte Técnico",
-            "descripcion": "Mantenimiento y asistencia para computadores y equipos."
+            "descripcion": (
+                "Mantenimiento y asistencia para computadores "
+                "y equipos."
+            )
         },
         {
             "nombre": "Capacitación",
-            "descripcion": "Cursos sobre herramientas digitales y tecnología."
+            "descripcion": (
+                "Cursos sobre herramientas digitales y tecnología."
+            )
         },
         {
             "nombre": "Consultoría",
-            "descripcion": "Asesoría para proyectos y soluciones tecnológicas."
+            "descripcion": (
+                "Asesoría para proyectos y soluciones tecnológicas."
+            )
         }
     ]
 
@@ -118,7 +142,10 @@ def registro():
         password = form.password.data
 
         conexion = obtener_conexion()
-        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+
+        cursor = conexion.cursor(
+            cursor_factory=RealDictCursor
+        )
 
         cursor.execute("""
             SELECT id
@@ -152,7 +179,10 @@ def registro():
         cursor.execute("""
             INSERT INTO usuarios (usuario, password)
             VALUES (%s, %s)
-        """, (usuario, password_hash))
+        """, (
+            usuario,
+            password_hash
+        ))
 
         conexion.commit()
 
@@ -160,7 +190,8 @@ def registro():
         conexion.close()
 
         flash(
-            "Usuario registrado correctamente. Ahora puede iniciar sesión.",
+            "Usuario registrado correctamente. "
+            "Ahora puede iniciar sesión.",
             "success"
         )
 
@@ -190,7 +221,10 @@ def login():
         password = form.password.data
 
         conexion = obtener_conexion()
-        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+
+        cursor = conexion.cursor(
+            cursor_factory=RealDictCursor
+        )
 
         cursor.execute("""
             SELECT id, usuario, password
@@ -266,7 +300,37 @@ def logout():
 
 
 # ==========================================================
-# PRODUCTOS - READ
+# FUNCIÓN PARA CARGAR PROVEEDORES
+# ==========================================================
+
+def cargar_proveedores(form):
+
+    conexion = obtener_conexion()
+
+    cursor = conexion.cursor()
+
+    cursor.execute("""
+        SELECT id_proveedor, nombre
+        FROM proveedores
+        ORDER BY nombre
+    """)
+
+    proveedores = cursor.fetchall()
+
+    form.id_proveedor.choices = [
+        (
+            proveedor[0],
+            proveedor[1]
+        )
+        for proveedor in proveedores
+    ]
+
+    cursor.close()
+    conexion.close()
+
+
+# ==========================================================
+# PRODUCTOS - LEER
 # ==========================================================
 
 @app.route("/productos")
@@ -274,6 +338,7 @@ def logout():
 def productos():
 
     conexion = obtener_conexion()
+
     cursor = conexion.cursor(
         cursor_factory=RealDictCursor
     )
@@ -305,7 +370,7 @@ def productos():
 
 
 # ==========================================================
-# PRODUCTOS - CREATE
+# PRODUCTOS - CREAR
 # ==========================================================
 
 @app.route(
@@ -317,21 +382,31 @@ def formulario_producto():
 
     form = ProductoForm()
 
+    cargar_proveedores(form)
+
     if form.validate_on_submit():
 
         conexion = obtener_conexion()
+
         cursor = conexion.cursor()
 
         cursor.execute("""
             INSERT INTO productos
-                (nombre, categoria, precio, stock)
+                (
+                    nombre,
+                    categoria,
+                    precio,
+                    stock,
+                    id_proveedor
+                )
             VALUES
-                (%s, %s, %s, %s)
+                (%s, %s, %s, %s, %s)
         """, (
             form.nombre.data,
             form.categoria.data,
             form.precio.data,
-            form.stock.data
+            form.stock.data,
+            form.id_proveedor.data
         ))
 
         conexion.commit()
@@ -340,7 +415,8 @@ def formulario_producto():
         conexion.close()
 
         flash(
-            f"Producto '{form.nombre.data}' registrado correctamente.",
+            f"Producto '{form.nombre.data}' "
+            "registrado correctamente.",
             "success"
         )
 
@@ -356,7 +432,7 @@ def formulario_producto():
 
 
 # ==========================================================
-# PRODUCTOS - UPDATE
+# PRODUCTOS - ACTUALIZAR
 # ==========================================================
 
 @app.route(
@@ -378,7 +454,8 @@ def editar_producto(id_producto):
             nombre,
             categoria,
             precio,
-            stock
+            stock,
+            id_proveedor
         FROM productos
         WHERE id_producto = %s
     """, (id_producto,))
@@ -401,9 +478,12 @@ def editar_producto(id_producto):
 
     form = ProductoForm()
 
+    cargar_proveedores(form)
+
     if form.validate_on_submit():
 
         conexion = obtener_conexion()
+
         cursor = conexion.cursor()
 
         cursor.execute("""
@@ -412,13 +492,15 @@ def editar_producto(id_producto):
                 nombre = %s,
                 categoria = %s,
                 precio = %s,
-                stock = %s
+                stock = %s,
+                id_proveedor = %s
             WHERE id_producto = %s
         """, (
             form.nombre.data,
             form.categoria.data,
             form.precio.data,
             form.stock.data,
+            form.id_proveedor.data,
             id_producto
         ))
 
@@ -428,7 +510,8 @@ def editar_producto(id_producto):
         conexion.close()
 
         flash(
-            f"Producto '{form.nombre.data}' actualizado correctamente.",
+            f"Producto '{form.nombre.data}' "
+            "actualizado correctamente.",
             "success"
         )
 
@@ -439,9 +522,14 @@ def editar_producto(id_producto):
     if not form.is_submitted():
 
         form.nombre.data = producto["nombre"]
+
         form.categoria.data = producto["categoria"]
+
         form.precio.data = producto["precio"]
+
         form.stock.data = producto["stock"]
+
+        form.id_proveedor.data = producto["id_proveedor"]
 
     return render_template(
         "formulario_producto.html",
@@ -452,7 +540,7 @@ def editar_producto(id_producto):
 
 
 # ==========================================================
-# PRODUCTOS - DELETE
+# PRODUCTOS - ELIMINAR
 # ==========================================================
 
 @app.route(
@@ -463,6 +551,7 @@ def editar_producto(id_producto):
 def eliminar_producto(id_producto):
 
     conexion = obtener_conexion()
+
     cursor = conexion.cursor()
 
     cursor.execute("""
@@ -534,6 +623,10 @@ def clientes():
     )
 
 
+# ==========================================================
+# CLIENTES - NUEVO
+# ==========================================================
+
 @app.route(
     "/clientes/nuevo",
     methods=["GET", "POST"]
@@ -552,7 +645,8 @@ def formulario_cliente():
         }
 
         flash(
-            f"Cliente '{cliente['nombre']}' registrado correctamente.",
+            f"Cliente '{cliente['nombre']}' "
+            "registrado correctamente.",
             "success"
         )
 
@@ -601,6 +695,10 @@ def proveedores():
     )
 
 
+# ==========================================================
+# PROVEEDORES - NUEVO
+# ==========================================================
+
 @app.route(
     "/proveedores/nuevo",
     methods=["GET", "POST"]
@@ -619,7 +717,8 @@ def formulario_proveedor():
         }
 
         flash(
-            f"Proveedor '{proveedor['empresa']}' registrado correctamente.",
+            f"Proveedor '{proveedor['empresa']}' "
+            "registrado correctamente.",
             "success"
         )
 
@@ -671,6 +770,10 @@ def facturacion():
     )
 
 
+# ==========================================================
+# FACTURACIÓN - NUEVA
+# ==========================================================
+
 @app.route(
     "/facturacion/nueva",
     methods=["GET", "POST"]
@@ -690,7 +793,8 @@ def formulario_facturacion():
         }
 
         flash(
-            f"Factura '{factura['numero']}' registrada correctamente.",
+            f"Factura '{factura['numero']}' "
+            "registrada correctamente.",
             "success"
         )
 

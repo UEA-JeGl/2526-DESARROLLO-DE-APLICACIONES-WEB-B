@@ -128,6 +128,28 @@ Registrar Producto - TecnoSoluciones
                         </div>
 
 
+                        <!-- PROVEEDOR -->
+                        <div class="mb-3">
+
+                            {{ form.id_proveedor.label(
+                                class="form-label"
+                            ) }}
+
+                            {{ form.id_proveedor(
+                                class="form-select"
+                            ) }}
+
+                            {% for error in form.id_proveedor.errors %}
+
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
                         <!-- BOTONES -->
                         <div class="d-flex gap-2">
 

@@ -6,97 +6,362 @@ Productos - TecnoSoluciones
 
 {% block content %}
 
-<div class="container mt-5 mb-5">
+<!-- ==========================================================
+     ENCABEZADO DE PRODUCTOS
+     ========================================================== -->
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<section class="products-page">
 
-        <h1>Productos</h1>
+    <div class="container py-5">
 
-        <a href="{{ url_for('formulario_producto') }}"
-           class="btn btn-primary">
-            Registrar producto
-        </a>
+        <!-- ENCABEZADO -->
+        <div class="products-hero mb-5">
 
-    </div>
+            <div class="row align-items-center g-4">
 
-    {% with mensajes = get_flashed_messages(with_categories=true) %}
+                <div class="col-lg-8">
 
-        {% if mensajes %}
+                    <div class="d-flex align-items-center gap-3 mb-3">
 
-            {% for categoria, mensaje in mensajes %}
+                        <div class="products-icon">
+                            <i class="bi bi-box-seam-fill"></i>
+                        </div>
 
-                <div class="alert alert-{{ categoria }} alert-dismissible fade show">
+                        <div>
+                            <span class="section-label">
+                                GESTIÓN DEL INVENTARIO
+                            </span>
 
-                    {{ mensaje }}
+                            <h1 class="products-title mb-0">
+                                Productos
+                            </h1>
+                        </div>
 
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="alert">
-                    </button>
+                    </div>
+
+                    <p class="products-description">
+                        Administra los productos de TecnoSoluciones,
+                        controla el inventario y consulta la información
+                        de cada proveedor.
+                    </p>
 
                 </div>
 
-            {% endfor %}
+                <div class="col-lg-4 text-lg-end">
 
-        {% endif %}
+                    <a href="{{ url_for('formulario_producto') }}"
+                       class="btn btn-primary btn-register-product">
 
-    {% endwith %}
+                        <i class="bi bi-plus-circle-fill"></i>
 
-    <div class="row">
+                        <span>Registrar producto</span>
 
-        {% for producto in productos %}
+                    </a>
 
-        <div class="col-md-4 mb-4">
+                </div>
 
-            <div class="card shadow h-100">
+            </div>
 
-                <div class="card-body">
+        </div>
 
-                    <h5 class="card-title">
-                        {{ producto.nombre }}
-                    </h5>
 
-                    <p>
-                        <strong>Categoría:</strong>
-                        {{ producto.categoria }}
-                    </p>
+        <!-- ==================================================
+             MENSAJES
+             ================================================== -->
 
-                    <p>
-                        <strong>Precio:</strong>
-                        ${{ producto.precio }}
-                    </p>
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
 
-                    <p>
-                        <strong>Stock:</strong>
-                        {{ producto.stock }}
-                    </p>
+            {% if mensajes %}
 
-                    <p>
-                        <strong>Proveedor:</strong>
+                {% for categoria, mensaje in mensajes %}
 
-                        {% if producto.proveedor %}
-                            {{ producto.proveedor }}
+                    <div class="alert alert-{{ categoria }} alert-dismissible fade show shadow-sm mb-4"
+                         role="alert">
+
+                        {% if categoria == "success" %}
+
+                            <i class="bi bi-check-circle-fill me-2"></i>
+
+                        {% elif categoria == "danger" %}
+
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                        {% elif categoria == "warning" %}
+
+                            <i class="bi bi-exclamation-circle-fill me-2"></i>
+
                         {% else %}
-                            Sin proveedor
+
+                            <i class="bi bi-info-circle-fill me-2"></i>
+
                         {% endif %}
 
-                    </p>
+                        {{ mensaje }}
 
-                    <div class="d-flex gap-2 mt-3">
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert"
+                                aria-label="Cerrar">
+                        </button>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- ==================================================
+             RESUMEN
+             ================================================== -->
+
+        <div class="product-summary mb-4">
+
+            <div class="summary-left">
+
+                <div class="summary-icon">
+                    <i class="bi bi-database-fill"></i>
+                </div>
+
+                <div>
+                    <span class="summary-label">
+                        INVENTARIO ACTUAL
+                    </span>
+
+                    <h5 class="mb-0">
+                        Productos registrados
+                    </h5>
+                </div>
+
+            </div>
+
+            <div class="product-count">
+
+                <span>
+                    {{ productos|length }}
+                </span>
+
+                <small>
+                    productos
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             PRODUCTOS
+             ================================================== -->
+
+        <div class="row g-4">
+
+            {% for producto in productos %}
+
+            <div class="col-xl-4 col-lg-6">
+
+                <div class="product-card h-100">
+
+                    <!-- CABECERA DE TARJETA -->
+
+                    <div class="product-card-header">
+
+                        <div class="product-image">
+
+                            <i class="bi bi-box-seam-fill"></i>
+
+                        </div>
+
+                        <div class="product-id">
+
+                            ID #{{ producto.id_producto }}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- INFORMACIÓN -->
+
+                    <div class="product-card-body">
+
+                        <h3 class="product-name">
+
+                            {{ producto.nombre }}
+
+                        </h3>
+
+
+                        <!-- CATEGORÍA -->
+
+                        <div class="product-info">
+
+                            <div class="info-icon">
+                                <i class="bi bi-tags-fill"></i>
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    Categoría
+                                </span>
+
+                                <strong>
+                                    {{ producto.categoria }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PRECIO -->
+
+                        <div class="product-info">
+
+                            <div class="info-icon price-icon">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    Precio
+                                </span>
+
+                                <strong class="product-price">
+                                    ${{ "%.2f"|format(producto.precio) }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STOCK -->
+
+                        <div class="product-info">
+
+                            <div class="info-icon stock-icon">
+                                <i class="bi bi-boxes"></i>
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    Stock disponible
+                                </span>
+
+                                <strong>
+                                    {{ producto.stock }} unidades
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ESTADO STOCK -->
+
+                        <div class="stock-status">
+
+                            {% if producto.stock == 0 %}
+
+                                <span class="stock-badge stock-empty">
+
+                                    <i class="bi bi-x-circle-fill"></i>
+
+                                    Agotado
+
+                                </span>
+
+                            {% elif producto.stock <= 5 %}
+
+                                <span class="stock-badge stock-low">
+
+                                    <i class="bi bi-exclamation-circle-fill"></i>
+
+                                    Stock bajo
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="stock-badge stock-available">
+
+                                    <i class="bi bi-check-circle-fill"></i>
+
+                                    Disponible
+
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- PROVEEDOR -->
+
+                        <div class="product-provider">
+
+                            <div class="provider-icon">
+
+                                <i class="bi bi-truck"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    Proveedor
+                                </span>
+
+                                {% if producto.proveedor %}
+
+                                    <strong>
+                                        {{ producto.proveedor }}
+                                    </strong>
+
+                                {% else %}
+
+                                    <strong class="text-muted">
+                                        Sin proveedor
+                                    </strong>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACCIONES -->
+
+                    <div class="product-card-footer">
 
                         <a href="{{ url_for(
                             'editar_producto',
                             id_producto=producto.id_producto
                         ) }}"
-                           class="btn btn-warning">
+                           class="btn btn-warning btn-product-action">
+
+                            <i class="bi bi-pencil-square"></i>
+
                             Editar
+
                         </a>
+
 
                         <form action="{{ url_for(
                             'eliminar_producto',
                             id_producto=producto.id_producto
                         ) }}"
                               method="POST"
+                              class="delete-product-form"
                               onsubmit="return confirm(
                                   '¿Está seguro de eliminar este producto?'
                               );">
@@ -106,8 +371,12 @@ Productos - TecnoSoluciones
                                    value="{{ csrf_token() }}">
 
                             <button type="submit"
-                                    class="btn btn-danger">
+                                    class="btn btn-danger btn-product-action">
+
+                                <i class="bi bi-trash3-fill"></i>
+
                                 Eliminar
+
                             </button>
 
                         </form>
@@ -118,22 +387,602 @@ Productos - TecnoSoluciones
 
             </div>
 
-        </div>
 
-        {% else %}
+            {% else %}
 
-        <div class="col-12">
+            <!-- SIN PRODUCTOS -->
 
-            <div class="alert alert-info">
-                No hay productos registrados.
+            <div class="col-12">
+
+                <div class="empty-products">
+
+                    <div class="empty-icon">
+
+                        <i class="bi bi-box-seam"></i>
+
+                    </div>
+
+                    <h3>
+                        No hay productos registrados
+                    </h3>
+
+                    <p>
+                        Todavía no existen productos en el inventario.
+                        Puedes registrar el primero utilizando el botón
+                        de abajo.
+                    </p>
+
+                    <a href="{{ url_for('formulario_producto') }}"
+                       class="btn btn-primary btn-register-product">
+
+                        <i class="bi bi-plus-circle-fill"></i>
+
+                        Registrar primer producto
+
+                    </a>
+
+                </div>
+
             </div>
 
-        </div>
+            {% endfor %}
 
-        {% endfor %}
+        </div>
 
     </div>
 
-</div>
+</section>
+
+
+<!-- ==========================================================
+     ESTILOS ESPECÍFICOS DE PRODUCTOS
+     ========================================================== -->
+
+<style>
+
+.products-page {
+    background: #f5f7fb;
+    min-height: 75vh;
+}
+
+
+/* ENCABEZADO */
+
+.products-hero {
+    background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #eef5ff 100%
+    );
+
+    border: 1px solid #e3eaf5;
+    border-radius: 24px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.07);
+}
+
+.products-icon {
+    width: 62px;
+    height: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: linear-gradient(
+        135deg,
+        #0d6efd,
+        #084298
+    );
+
+    color: white;
+
+    font-size: 28px;
+
+    box-shadow:
+        0 8px 20px rgba(13, 110, 253, 0.25);
+}
+
+.section-label {
+    color: #0d6efd;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.products-title {
+    color: #172033;
+    font-weight: 800;
+    font-size: 38px;
+}
+
+.products-description {
+    color: #64748b;
+    max-width: 700px;
+    margin: 15px 0 0 0;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+
+/* BOTÓN REGISTRAR */
+
+.btn-register-product {
+    display: inline-flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    padding: 13px 22px !important;
+
+    border-radius: 12px !important;
+
+    font-weight: 700 !important;
+
+    box-shadow:
+        0 7px 18px rgba(13, 110, 253, 0.25);
+
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+
+/* RESUMEN */
+
+.product-summary {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    background: white;
+
+    border: 1px solid #e5eaf1;
+
+    border-radius: 16px;
+
+    padding: 18px 22px;
+
+    box-shadow:
+        0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+.summary-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.summary-icon {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #eaf2ff;
+
+    color: #0d6efd;
+
+    font-size: 20px;
+}
+
+.summary-label {
+    display: block;
+
+    font-size: 11px;
+
+    color: #94a3b8;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.product-count {
+    text-align: right;
+}
+
+.product-count span {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0d6efd;
+}
+
+.product-count small {
+    display: block;
+    color: #64748b;
+}
+
+
+/* TARJETA */
+
+.product-card {
+    background: white;
+
+    border: 1px solid #e4e9f0;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.06);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px rgba(15, 23, 42, 0.12);
+}
+
+
+/* CABECERA */
+
+.product-card-header {
+    min-height: 120px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0d6efd,
+            #0a58ca
+        );
+}
+
+.product-image {
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.16);
+
+    color: white;
+
+    font-size: 30px;
+}
+
+.product-id {
+    color: rgba(255,255,255,0.85);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    background: rgba(255,255,255,0.12);
+
+    padding: 7px 11px;
+
+    border-radius: 20px;
+}
+
+
+/* CUERPO */
+
+.product-card-body {
+    padding: 25px;
+}
+
+.product-name {
+    color: #172033;
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+    margin-bottom: 22px;
+}
+
+
+/* INFORMACIÓN */
+
+.product-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px 0;
+
+    border-bottom: 1px solid #eef1f5;
+}
+
+.info-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #eef5ff;
+
+    color: #0d6efd;
+}
+
+.price-icon {
+    background: #ecfdf3;
+    color: #198754;
+}
+
+.stock-icon {
+    background: #fff7e6;
+    color: #f59f00;
+}
+
+.info-label {
+    display: block;
+
+    font-size: 11px;
+
+    color: #94a3b8;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: .5px;
+
+    margin-bottom: 2px;
+}
+
+.product-info strong {
+    color: #334155;
+
+    font-size: 14px;
+}
+
+.product-price {
+    color: #198754 !important;
+
+    font-size: 17px !important;
+}
+
+
+/* STOCK */
+
+.stock-status {
+    padding: 15px 0 5px;
+}
+
+.stock-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+.stock-available {
+    background: #e9f8ef;
+    color: #198754;
+}
+
+.stock-low {
+    background: #fff3cd;
+    color: #946200;
+}
+
+.stock-empty {
+    background: #fdecec;
+    color: #dc3545;
+}
+
+
+/* PROVEEDOR */
+
+.product-provider {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 12px;
+
+    padding: 15px;
+
+    background: #f8fafc;
+
+    border-radius: 12px;
+}
+
+.provider-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #e9eef8;
+
+    color: #475569;
+
+    border-radius: 10px;
+}
+
+.product-provider strong {
+    color: #334155;
+
+    font-size: 14px;
+}
+
+
+/* ACCIONES */
+
+.product-card-footer {
+    display: flex;
+
+    gap: 10px;
+
+    padding: 18px 25px;
+
+    border-top: 1px solid #edf0f4;
+
+    background: #fafbfd;
+}
+
+.btn-product-action {
+    flex: 1;
+
+    display: inline-flex !important;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 10px 14px !important;
+
+    border-radius: 9px !important;
+
+    font-weight: 700 !important;
+
+    visibility: visible !important;
+
+    opacity: 1 !important;
+}
+
+.delete-product-form {
+    flex: 1;
+    margin: 0;
+}
+
+.delete-product-form .btn {
+    width: 100%;
+}
+
+
+/* SIN PRODUCTOS */
+
+.empty-products {
+    background: white;
+
+    border: 2px dashed #dce3ed;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    padding: 65px 25px;
+
+    box-shadow:
+        0 5px 20px rgba(15, 23, 42, 0.04);
+}
+
+.empty-icon {
+    width: 85px;
+    height: 85px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eef5ff;
+
+    color: #0d6efd;
+
+    font-size: 38px;
+}
+
+.empty-products h3 {
+    color: #172033;
+
+    font-weight: 800;
+}
+
+.empty-products p {
+    color: #64748b;
+
+    max-width: 500px;
+
+    margin: 10px auto 25px;
+
+    line-height: 1.7;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .products-hero {
+        padding: 25px;
+    }
+
+    .products-title {
+        font-size: 30px;
+    }
+
+    .btn-register-product {
+        width: 100%;
+    }
+
+    .product-summary {
+        padding: 15px;
+    }
+
+    .product-card-footer {
+        flex-direction: column;
+    }
+
+    .delete-product-form {
+        width: 100%;
+    }
+
+}
+
+</style>
 
 {% endblock %}

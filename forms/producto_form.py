@@ -8,7 +8,9 @@ class ProductoForm(FlaskForm):
     nombre = StringField(
         "Nombre del producto",
         validators=[
-            DataRequired(message="El nombre del producto es obligatorio."),
+            DataRequired(
+                message="El nombre del producto es obligatorio."
+            ),
             Length(
                 min=3,
                 max=100,
@@ -24,17 +26,23 @@ class ProductoForm(FlaskForm):
             ("Desarrollo Web", "Desarrollo Web"),
             ("Soporte Técnico", "Soporte Técnico"),
             ("Capacitación", "Capacitación"),
-            ("Consultoría", "Consultoría")
+            ("Consultoría", "Consultoría"),
+            ("Herramientas", "Herramientas"),
+            ("Accesorios", "Accesorios")
         ],
         validators=[
-            DataRequired(message="Debe seleccionar una categoría.")
+            DataRequired(
+                message="Debe seleccionar una categoría."
+            )
         ]
     )
 
     precio = DecimalField(
         "Precio",
         validators=[
-            DataRequired(message="El precio es obligatorio."),
+            DataRequired(
+                message="El precio es obligatorio."
+            ),
             NumberRange(
                 min=0.01,
                 message="El precio debe ser mayor que 0."
@@ -45,7 +53,9 @@ class ProductoForm(FlaskForm):
     stock = IntegerField(
         "Stock",
         validators=[
-            DataRequired(message="El stock es obligatorio."),
+            DataRequired(
+                message="El stock es obligatorio."
+            ),
             NumberRange(
                 min=0,
                 message="El stock no puede ser negativo."
@@ -53,4 +63,16 @@ class ProductoForm(FlaskForm):
         ]
     )
 
-    submit = SubmitField("Registrar producto")
+    id_proveedor = SelectField(
+        "Proveedor",
+        coerce=int,
+        validators=[
+            DataRequired(
+                message="Debe seleccionar un proveedor."
+            )
+        ]
+    )
+
+    submit = SubmitField(
+        "Guardar producto"
+    )
