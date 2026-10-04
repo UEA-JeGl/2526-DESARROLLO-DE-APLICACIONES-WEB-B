@@ -1,3 +1,4 @@
+```python
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Length, Email
@@ -8,7 +9,9 @@ class ClienteForm(FlaskForm):
     nombre = StringField(
         "Nombre completo",
         validators=[
-            DataRequired(message="El nombre es obligatorio."),
+            DataRequired(
+                message="El nombre es obligatorio."
+            ),
             Length(
                 min=3,
                 max=100,
@@ -20,8 +23,12 @@ class ClienteForm(FlaskForm):
     correo = StringField(
         "Correo electrónico",
         validators=[
-            DataRequired(message="El correo electrónico es obligatorio."),
-            Email(message="Ingrese un correo electrónico válido.")
+            DataRequired(
+                message="El correo electrónico es obligatorio."
+            ),
+            Email(
+                message="Ingrese un correo electrónico válido."
+            )
         ]
     )
 
@@ -34,9 +41,28 @@ class ClienteForm(FlaskForm):
             ("Empresa", "Empresa")
         ],
         validators=[
-            DataRequired(message="Debe seleccionar un tipo de cliente.")
+            DataRequired(
+                message="Debe seleccionar un tipo de cliente."
+            )
         ]
     )
 
-    submit = SubmitField("Registrar cliente")
+    estado = SelectField(
+        "Estado",
+        choices=[
+            ("Activo", "Activo"),
+            ("Inactivo", "Inactivo")
+        ],
+        default="Activo",
+        validators=[
+            DataRequired(
+                message="Debe seleccionar un estado."
+            )
+        ]
+    )
+
+    submit = SubmitField(
+        "Registrar cliente"
+    )
+```
 
