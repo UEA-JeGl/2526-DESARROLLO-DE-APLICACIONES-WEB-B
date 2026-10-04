@@ -128,7 +128,7 @@ def inicio():
 
 
 # ==========================================================
-# REGISTRO
+# REGISTRO DE USUARIO
 # ==========================================================
 
 @app.route("/registro", methods=["GET", "POST"])
@@ -195,7 +195,9 @@ def registro():
             "success"
         )
 
-        return redirect(url_for("login"))
+        return redirect(
+            url_for("login")
+        )
 
     return render_template(
         "registro.html",
@@ -211,7 +213,9 @@ def registro():
 def login():
 
     if current_user.is_authenticated:
-        return redirect(url_for("dashboard"))
+        return redirect(
+            url_for("dashboard")
+        )
 
     form = LoginForm()
 
@@ -255,7 +259,9 @@ def login():
                 "success"
             )
 
-            return redirect(url_for("dashboard"))
+            return redirect(
+                url_for("dashboard")
+            )
 
         flash(
             "Usuario o contraseña incorrectos.",
@@ -296,7 +302,9 @@ def logout():
         "success"
     )
 
-    return redirect(url_for("login"))
+    return redirect(
+        url_for("login")
+    )
 
 
 # ==========================================================
@@ -392,15 +400,15 @@ def formulario_producto():
 
         cursor.execute("""
             INSERT INTO productos
-                (
-                    nombre,
-                    categoria,
-                    precio,
-                    stock,
-                    id_proveedor
-                )
+            (
+                nombre,
+                categoria,
+                precio,
+                stock,
+                id_proveedor
+            )
             VALUES
-                (%s, %s, %s, %s, %s)
+            (%s, %s, %s, %s, %s)
         """, (
             form.nombre.data,
             form.categoria.data,
@@ -522,13 +530,9 @@ def editar_producto(id_producto):
     if not form.is_submitted():
 
         form.nombre.data = producto["nombre"]
-
         form.categoria.data = producto["categoria"]
-
         form.precio.data = producto["precio"]
-
         form.stock.data = producto["stock"]
-
         form.id_proveedor.data = producto["id_proveedor"]
 
     return render_template(
@@ -586,41 +590,63 @@ def eliminar_producto(id_producto):
 
 
 # ==========================================================
-# CLIENTES
+# CLIENTES - LEER
 # ==========================================================
 
 @app.route("/clientes")
 @login_required
 def clientes():
 
-    clientes_demo = [
-        {
-            "id": 1,
-            "nombre": "Juan Pérez",
-            "correo": "juan@gmail.com",
-            "tipo": "Estudiante",
-            "estado": "Activo"
-        },
-        {
-            "id": 2,
-            "nombre": "María López",
-            "correo": "maria@gmail.com",
-            "tipo": "Emprendedor",
-            "estado": "Activo"
-        },
-        {
-            "id": 3,
-            "nombre": "Carlos Andrade",
-            "correo": "carlos@gmail.com",
-            "tipo": "Empresa",
-            "estado": "Inactivo"
-        }
-    ]
+    conexion = None
 
-    return render_template(
-        "clientes.html",
-        clientes=clientes_demo
-    )
+    try:
+
+        conexion = obtener_conexion()
+
+        cursor = conexion.cursor(
+            cursor_factory=RealDictCursor
+        )
+
+        cursor.execute("""
+            SELECT
+                id,
+                nombre,
+                correo,
+                tipo,
+                estado
+            FROM clientes
+            ORDER BY id DESC
+        """)
+
+        clientes = cursor.fetchall()
+
+        cursor.close()
+        conexion.close()
+
+        return render_template(
+            "clientes.html",
+            clientes=clientes
+        )
+
+    except Exception as e:
+
+        print(
+            "ERROR AL CARGAR CLIENTES:",
+            e
+        )
+
+        if conexion:
+            conexion.close()
+
+        flash(
+            "No se pudieron cargar los clientes.",
+            "danger"
+        )
+
+        return render_template(
+            "clientes.html",
+            clientes=[]
+        )
 
 
 # ==========================================================
@@ -638,21 +664,62 @@ def formulario_cliente():
 
     if form.validate_on_submit():
 
-        cliente = {
-            "nombre": form.nombre.data,
-            "correo": form.correo.data,
-            "tipo": form.tipo.data
-        }
+        conexion = None
 
-        flash(
-            f"Cliente '{cliente['nombre']}' "
-            "registrado correctamente.",
-            "success"
-        )
+        try:
 
-        return redirect(
-            url_for("clientes")
-        )
+            conexion = obtener_conexion()
+
+            cursor = conexion.cursor()
+
+            cursor.execute("""
+                INSERT INTO clientes
+                (
+                    nombre,
+                    correo,
+                    tipo,
+                    estado
+                )
+                VALUES
+                (%s, %s, %s, %s)
+            """, (
+                form.nombre.data,
+                form.correo.data,
+                form.tipo.data,
+                form.estado.data
+            ))
+
+            conexion.commit()
+
+            cursor.close()
+            conexion.close()
+
+            flash(
+                f"Cliente '{form.nombre.data}' "
+                "registrado correctamente.",
+                "success"
+            )
+
+            return redirect(
+                url_for("clientes")
+            )
+
+        except Exception as e:
+
+            print(
+                "ERROR AL REGISTRAR CLIENTE:",
+                e
+            )
+
+            if conexion:
+
+                conexion.rollback()
+                conexion.close()
+
+            flash(
+                "No se pudo registrar el cliente.",
+                "danger"
+            )
 
     return render_template(
         "formulario_cliente.html",
