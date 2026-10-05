@@ -3,9 +3,9 @@
 {% block title %}
 
 {% if editar %}
-Editar Producto - TecnoSoluciones
+Editar producto | TecnoSoluciones
 {% else %}
-Registrar Producto - TecnoSoluciones
+Registrar producto | TecnoSoluciones
 {% endif %}
 
 {% endblock %}
@@ -13,173 +13,392 @@ Registrar Producto - TecnoSoluciones
 
 {% block content %}
 
-<div class="container mt-5 mb-5">
+<div class="product-form-page">
 
-    <div class="row justify-content-center">
+    <div class="container py-5">
 
-        <div class="col-md-8">
+        <div class="row justify-content-center">
 
-            <div class="card shadow">
+            <div class="col-xl-8 col-lg-9">
+
 
                 <!-- ENCABEZADO -->
-                <div class="card-header bg-dark text-white">
+                <div class="form-page-header mb-4">
 
-                    <h2 class="mb-0">
+                    <div class="form-header-icon">
 
                         {% if editar %}
-                            Editar Producto
+                            <i class="bi bi-pencil-square"></i>
                         {% else %}
-                            Registrar Producto
+                            <i class="bi bi-box-seam-fill"></i>
                         {% endif %}
 
-                    </h2>
+                    </div>
+
+                    <div>
+
+                        <span class="form-section-label">
+                            GESTIÓN DE INVENTARIO
+                        </span>
+
+                        <h1 class="form-page-title">
+
+                            {% if editar %}
+                                Editar producto
+                            {% else %}
+                                Registrar producto
+                            {% endif %}
+
+                        </h1>
+
+                        <p class="form-page-description">
+
+                            {% if editar %}
+                                Actualiza la información del producto
+                                seleccionado.
+                            {% else %}
+                                Registra un nuevo producto en el inventario
+                                de TecnoSoluciones.
+                            {% endif %}
+
+                        </p>
+
+                    </div>
 
                 </div>
 
 
-                <!-- CONTENIDO -->
-                <div class="card-body">
+                <!-- FORMULARIO -->
+                <div class="product-form-card">
 
-                    <form method="POST">
-
-                        {{ form.hidden_tag() }}
+                    <div class="card-body p-4 p-md-5">
 
 
-                        <!-- NOMBRE -->
-                        <div class="mb-3">
+                        <!-- INDICADOR -->
+                        <div class="form-status mb-4">
 
-                            {{ form.nombre.label(class="form-label") }}
+                            <div class="form-status-icon">
 
-                            {{ form.nombre(
-                                class="form-control",
-                                placeholder="Ingrese el nombre del producto"
-                            ) }}
+                                {% if editar %}
+                                    <i class="bi bi-arrow-repeat"></i>
+                                {% else %}
+                                    <i class="bi bi-plus-lg"></i>
+                                {% endif %}
 
-                            {% for error in form.nombre.errors %}
+                            </div>
 
-                                <div class="text-danger mt-1">
-                                    {{ error }}
-                                </div>
+                            <div>
 
-                            {% endfor %}
+                                <strong>
 
-                        </div>
+                                    {% if editar %}
+                                        Actualización de producto
+                                    {% else %}
+                                        Nuevo producto
+                                    {% endif %}
 
+                                </strong>
 
-                        <!-- CATEGORÍA -->
-                        <div class="mb-3">
+                                <small class="d-block text-muted">
 
-                            {{ form.categoria.label(class="form-label") }}
+                                    {% if editar %}
+                                        Modifica los datos necesarios y
+                                        guarda los cambios.
+                                    {% else %}
+                                        Completa todos los campos para
+                                        registrar el producto.
+                                    {% endif %}
 
-                            {{ form.categoria(
-                                class="form-select"
-                            ) }}
+                                </small>
 
-                            {% for error in form.categoria.errors %}
-
-                                <div class="text-danger mt-1">
-                                    {{ error }}
-                                </div>
-
-                            {% endfor %}
-
-                        </div>
-
-
-                        <!-- PRECIO -->
-                        <div class="mb-3">
-
-                            {{ form.precio.label(class="form-label") }}
-
-                            {{ form.precio(
-                                class="form-control",
-                                placeholder="Ingrese el precio"
-                            ) }}
-
-                            {% for error in form.precio.errors %}
-
-                                <div class="text-danger mt-1">
-                                    {{ error }}
-                                </div>
-
-                            {% endfor %}
+                            </div>
 
                         </div>
 
 
-                        <!-- STOCK -->
-                        <div class="mb-3">
+                        <form method="POST" novalidate>
 
-                            {{ form.stock.label(class="form-label") }}
-
-                            {{ form.stock(
-                                class="form-control",
-                                placeholder="Ingrese la cantidad disponible"
-                            ) }}
-
-                            {% for error in form.stock.errors %}
-
-                                <div class="text-danger mt-1">
-                                    {{ error }}
-                                </div>
-
-                            {% endfor %}
-
-                        </div>
+                            {{ form.hidden_tag() }}
 
 
-                        <!-- PROVEEDOR -->
-                        <div class="mb-3">
+                            <!-- NOMBRE -->
+                            <div class="form-group-custom mb-4">
 
-                            {{ form.id_proveedor.label(
-                                class="form-label"
-                            ) }}
-
-                            {{ form.id_proveedor(
-                                class="form-select"
-                            ) }}
-
-                            {% for error in form.id_proveedor.errors %}
-
-                                <div class="text-danger mt-1">
-                                    {{ error }}
-                                </div>
-
-                            {% endfor %}
-
-                        </div>
-
-
-                        <!-- BOTONES -->
-                        <div class="d-flex gap-2">
-
-                            {% if editar %}
-
-                                {{ form.submit(
-                                    value="Actualizar producto",
-                                    class="btn btn-primary"
+                                {{ form.nombre.label(
+                                    class="form-label-custom"
                                 ) }}
 
-                            {% else %}
+                                <div class="input-group-custom">
 
-                                {{ form.submit(
-                                    value="Registrar producto",
-                                    class="btn btn-primary"
+                                    <span class="input-icon">
+
+                                        <i class="bi bi-box-seam"></i>
+
+                                    </span>
+
+                                    {{ form.nombre(
+                                        class="form-control-custom",
+                                        placeholder="Ejemplo: Laptop Lenovo"
+                                    ) }}
+
+                                </div>
+
+                                {% for error in form.nombre.errors %}
+
+                                    <div class="form-error">
+
+                                        <i class="bi bi-exclamation-circle"></i>
+
+                                        {{ error }}
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <!-- CATEGORÍA -->
+                            <div class="form-group-custom mb-4">
+
+                                {{ form.categoria.label(
+                                    class="form-label-custom"
                                 ) }}
 
-                            {% endif %}
+                                <div class="input-group-custom">
+
+                                    <span class="input-icon">
+
+                                        <i class="bi bi-tags-fill"></i>
+
+                                    </span>
+
+                                    {{ form.categoria(
+                                        class="form-control-custom form-select-custom"
+                                    ) }}
+
+                                </div>
+
+                                {% for error in form.categoria.errors %}
+
+                                    <div class="form-error">
+
+                                        <i class="bi bi-exclamation-circle"></i>
+
+                                        {{ error }}
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
 
 
-                            <a
-                                href="{{ url_for('productos') }}"
-                                class="btn btn-secondary"
-                            >
-                                Cancelar
-                            </a>
+                            <!-- PRECIO Y STOCK -->
+                            <div class="row g-4">
 
-                        </div>
 
-                    </form>
+                                <!-- PRECIO -->
+                                <div class="col-md-6">
+
+                                    <div class="form-group-custom">
+
+                                        {{ form.precio.label(
+                                            class="form-label-custom"
+                                        ) }}
+
+                                        <div class="input-group-custom">
+
+                                            <span class="input-icon">
+
+                                                <i class="bi bi-currency-dollar"></i>
+
+                                            </span>
+
+                                            {{ form.precio(
+                                                class="form-control-custom",
+                                                placeholder="0.00"
+                                            ) }}
+
+                                        </div>
+
+                                        {% for error in form.precio.errors %}
+
+                                            <div class="form-error">
+
+                                                <i class="bi bi-exclamation-circle"></i>
+
+                                                {{ error }}
+
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- STOCK -->
+                                <div class="col-md-6">
+
+                                    <div class="form-group-custom">
+
+                                        {{ form.stock.label(
+                                            class="form-label-custom"
+                                        ) }}
+
+                                        <div class="input-group-custom">
+
+                                            <span class="input-icon">
+
+                                                <i class="bi bi-boxes"></i>
+
+                                            </span>
+
+                                            {{ form.stock(
+                                                class="form-control-custom",
+                                                placeholder="0"
+                                            ) }}
+
+                                        </div>
+
+                                        {% for error in form.stock.errors %}
+
+                                            <div class="form-error">
+
+                                                <i class="bi bi-exclamation-circle"></i>
+
+                                                {{ error }}
+
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- PROVEEDOR -->
+                            <div class="form-group-custom mt-4 mb-4">
+
+                                {{ form.id_proveedor.label(
+                                    class="form-label-custom"
+                                ) }}
+
+                                <div class="input-group-custom">
+
+                                    <span class="input-icon">
+
+                                        <i class="bi bi-truck"></i>
+
+                                    </span>
+
+                                    {{ form.id_proveedor(
+                                        class="form-control-custom form-select-custom"
+                                    ) }}
+
+                                </div>
+
+                                <small class="form-help">
+
+                                    <i class="bi bi-info-circle"></i>
+
+                                    Selecciona el proveedor relacionado
+                                    con este producto.
+
+                                </small>
+
+                                {% for error in form.id_proveedor.errors %}
+
+                                    <div class="form-error">
+
+                                        <i class="bi bi-exclamation-circle"></i>
+
+                                        {{ error }}
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <!-- SEPARADOR -->
+                            <hr class="form-divider">
+
+
+                            <!-- BOTONES -->
+                            <div class="form-actions">
+
+                                <a href="{{ url_for('productos') }}"
+                                   class="btn btn-cancel">
+
+                                    <i class="bi bi-arrow-left"></i>
+
+                                    Cancelar
+
+                                </a>
+
+
+                                {% if editar %}
+
+                                    <button type="submit"
+                                            class="btn btn-save">
+
+                                        <i class="bi bi-check-circle-fill"></i>
+
+                                        Actualizar producto
+
+                                    </button>
+
+                                {% else %}
+
+                                    <button type="submit"
+                                            class="btn btn-save">
+
+                                        <i class="bi bi-plus-circle-fill"></i>
+
+                                        Registrar producto
+
+                                    </button>
+
+                                {% endif %}
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INFORMACIÓN -->
+                <div class="form-info mt-4">
+
+                    <div class="form-info-icon">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Información segura
+                        </strong>
+
+                        <p class="mb-0">
+                            Los datos son procesados mediante el sistema
+                            de formularios de Flask y almacenados en
+                            PostgreSQL.
+                        </p>
+
+                    </div>
 
                 </div>
 
@@ -190,5 +409,545 @@ Registrar Producto - TecnoSoluciones
     </div>
 
 </div>
+
+
+<style>
+
+/* ==========================================================
+   PÁGINA
+   ========================================================== */
+
+.product-form-page {
+
+    min-height: 75vh;
+
+    background: #f5f7fb;
+
+}
+
+
+/* ==========================================================
+   ENCABEZADO
+   ========================================================== */
+
+.form-page-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 10px 5px;
+
+}
+
+
+.form-header-icon {
+
+    width: 64px;
+
+    height: 64px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0d6efd,
+            #084298
+        );
+
+    color: white;
+
+    font-size: 28px;
+
+    box-shadow:
+        0 8px 20px rgba(13, 110, 253, .25);
+
+}
+
+
+.form-section-label {
+
+    display: block;
+
+    color: #0d6efd;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    margin-bottom: 3px;
+
+}
+
+
+.form-page-title {
+
+    color: #172033;
+
+    font-size: 34px;
+
+    font-weight: 800;
+
+    margin: 0;
+
+}
+
+
+.form-page-description {
+
+    color: #64748b;
+
+    margin: 5px 0 0;
+
+}
+
+
+/* ==========================================================
+   TARJETA
+   ========================================================== */
+
+.product-form-card {
+
+    background: white;
+
+    border: 1px solid #e4e9f0;
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 35px rgba(15, 23, 42, .07);
+
+}
+
+
+/* ==========================================================
+   ESTADO
+   ========================================================== */
+
+.form-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e8edf3;
+
+}
+
+
+.form-status-icon {
+
+    width: 44px;
+
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #eaf2ff;
+
+    color: #0d6efd;
+
+    font-size: 19px;
+
+}
+
+
+.form-status strong {
+
+    color: #334155;
+
+}
+
+
+/* ==========================================================
+   CAMPOS
+   ========================================================== */
+
+.form-label-custom {
+
+    display: block;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+
+}
+
+
+.input-group-custom {
+
+    display: flex;
+
+    align-items: stretch;
+
+    width: 100%;
+
+}
+
+
+.input-icon {
+
+    width: 48px;
+
+    min-width: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid #dce3eb;
+
+    border-right: 0;
+
+    border-radius: 11px 0 0 11px;
+
+    background: #f8fafc;
+
+    color: #0d6efd;
+
+}
+
+
+.form-control-custom {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    border: 1px solid #dce3eb;
+
+    border-radius: 0 11px 11px 0;
+
+    padding: 10px 14px;
+
+    color: #334155;
+
+    background: white;
+
+    outline: none;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+
+}
+
+
+.form-control-custom:focus {
+
+    border-color: #0d6efd;
+
+    box-shadow:
+        0 0 0 3px rgba(13, 110, 253, .10);
+
+}
+
+
+.form-select-custom {
+
+    cursor: pointer;
+
+}
+
+
+.form-help {
+
+    display: block;
+
+    margin-top: 7px;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+}
+
+
+.form-help i {
+
+    color: #0d6efd;
+
+}
+
+
+/* ==========================================================
+   ERRORES
+   ========================================================== */
+
+.form-error {
+
+    margin-top: 6px;
+
+    color: #dc3545;
+
+    font-size: 13px;
+
+}
+
+
+.form-error i {
+
+    margin-right: 4px;
+
+}
+
+
+/* ==========================================================
+   SEPARADOR
+   ========================================================== */
+
+.form-divider {
+
+    margin: 30px 0 25px;
+
+    border-color: #edf0f4;
+
+}
+
+
+/* ==========================================================
+   BOTONES
+   ========================================================== */
+
+.form-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+}
+
+
+.btn-cancel {
+
+    min-height: 48px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 10px 20px;
+
+    border: 1px solid #dce3eb;
+
+    border-radius: 11px;
+
+    background: white;
+
+    color: #475569;
+
+    font-weight: 700;
+
+}
+
+
+.btn-cancel:hover {
+
+    background: #f8fafc;
+
+    color: #334155;
+
+}
+
+
+.btn-save {
+
+    min-height: 48px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 10px 22px;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0d6efd,
+            #0a58ca
+        );
+
+    color: white;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 7px 18px rgba(13, 110, 253, .22);
+
+}
+
+
+.btn-save:hover {
+
+    color: white;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* ==========================================================
+   INFORMACIÓN
+   ========================================================== */
+
+.form-info {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 13px;
+
+    padding: 16px 18px;
+
+    border-radius: 14px;
+
+    background: #eef8f2;
+
+    border: 1px solid #d8efdf;
+
+}
+
+
+.form-info-icon {
+
+    width: 40px;
+
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #dff3e5;
+
+    color: #198754;
+
+}
+
+
+.form-info strong {
+
+    color: #246b3b;
+
+}
+
+
+.form-info p {
+
+    margin-top: 3px;
+
+    color: #5f7d68;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 576px) {
+
+    .form-page-header {
+
+        align-items: flex-start;
+
+    }
+
+
+    .form-header-icon {
+
+        width: 54px;
+
+        height: 54px;
+
+        font-size: 23px;
+
+    }
+
+
+    .form-page-title {
+
+        font-size: 27px;
+
+    }
+
+
+    .form-actions {
+
+        flex-direction: column-reverse;
+
+    }
+
+
+    .form-actions a,
+    .form-actions button {
+
+        width: 100%;
+
+    }
+
+}
+
+</style>
 
 {% endblock %}

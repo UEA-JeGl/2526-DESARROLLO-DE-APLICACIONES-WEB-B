@@ -1,108 +1,323 @@
 {% extends "base.html" %}
 
 {% block title %}
-Registrar Factura - TecnoSoluciones
+    {% if factura %}
+        Editar factura - TecnoSoluciones
+    {% else %}
+        Nueva factura - TecnoSoluciones
+    {% endif %}
 {% endblock %}
+
 
 {% block content %}
 
-<div class="container mt-5 mb-5">
+<div class="container py-4">
+
+    <!-- ENCABEZADO -->
+
+    <div class="mb-4">
+
+        <a
+            href="{{ url_for('facturacion') }}"
+            class="btn btn-sm btn-outline-secondary mb-3"
+        >
+            <i class="bi bi-arrow-left me-1"></i>
+            Volver a facturación
+        </a>
+
+        <div>
+
+            {% if factura %}
+
+                <span class="badge bg-warning-subtle text-warning-emphasis mb-2">
+                    <i class="bi bi-pencil-square me-1"></i>
+                    Modificación
+                </span>
+
+                <h1 class="fw-bold mb-1">
+                    Editar factura
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Modifica la información de la factura seleccionada.
+                </p>
+
+            {% else %}
+
+                <span class="badge bg-primary-subtle text-primary mb-2">
+                    <i class="bi bi-receipt me-1"></i>
+                    Nueva factura
+                </span>
+
+                <h1 class="fw-bold mb-1">
+                    Registrar factura
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Ingresa los datos de la nueva factura.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- FORMULARIO -->
 
     <div class="row justify-content-center">
 
-        <div class="col-md-8">
+        <div class="col-lg-8">
 
-            <div class="card shadow">
+            <div class="card border-0 shadow-sm">
 
-                <div class="card-header bg-dark text-white">
-                    <h2 class="mb-0">Registrar Factura</h2>
+                <div class="card-header bg-white border-0 py-3">
+
+                    <h5 class="fw-bold mb-1">
+                        <i class="bi bi-file-earmark-text me-2"></i>
+                        Información de la factura
+                    </h5>
+
+                    <small class="text-muted">
+                        Complete todos los campos obligatorios.
+                    </small>
+
                 </div>
 
-                <div class="card-body">
 
-                    <form method="POST">
+                <div class="card-body p-4">
+
+                    <form
+                        method="POST"
+                        novalidate
+                    >
 
                         {{ form.hidden_tag() }}
 
+
                         <!-- NÚMERO -->
-                        <div class="mb-3">
 
-                            {{ form.numero.label(class="form-label") }}
+                        <div class="mb-4">
 
-                            {{ form.numero(
-                                class="form-control",
-                                placeholder="Ejemplo: FAC-004"
+                            {{ form.numero.label(
+                                class="form-label fw-semibold"
                             ) }}
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-hash"></i>
+                                </span>
+
+                                {{ form.numero(
+                                    class="form-control",
+                                    placeholder="Ejemplo: FAC-001"
+                                ) }}
+
+                            </div>
 
                             {% for error in form.numero.errors %}
-                                <div class="text-danger mt-1">
+
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>
                                     {{ error }}
                                 </div>
+
                             {% endfor %}
 
                         </div>
+
 
                         <!-- CLIENTE -->
-                        <div class="mb-3">
 
-                            {{ form.cliente.label(class="form-label") }}
+                        <div class="mb-4">
 
-                            {{ form.cliente(
-                                class="form-control",
-                                placeholder="Ingrese el nombre del cliente"
+                            {{ form.id_cliente.label(
+                                class="form-label fw-semibold"
                             ) }}
 
-                            {% for error in form.cliente.errors %}
-                                <div class="text-danger mt-1">
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-person-fill"></i>
+                                </span>
+
+                                {{ form.id_cliente(
+                                    class="form-select"
+                                ) }}
+
+                            </div>
+
+                            {% for error in form.id_cliente.errors %}
+
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>
                                     {{ error }}
                                 </div>
+
                             {% endfor %}
+
+                            <div class="form-text">
+                                Seleccione el cliente relacionado con esta factura.
+                            </div>
 
                         </div>
 
-                        <!-- FECHA -->
-                        <div class="mb-3">
 
-                            {{ form.fecha.label(class="form-label") }}
+                        <!-- FECHA Y TOTAL -->
 
-                            {{ form.fecha(class="form-control") }}
+                        <div class="row g-3">
 
-                            {% for error in form.fecha.errors %}
-                                <div class="text-danger mt-1">
-                                    {{ error }}
+                            <div class="col-md-6">
+
+                                <div class="mb-4">
+
+                                    {{ form.fecha.label(
+                                        class="form-label fw-semibold"
+                                    ) }}
+
+                                    <div class="input-group">
+
+                                        <span class="input-group-text">
+                                            <i class="bi bi-calendar-event"></i>
+                                        </span>
+
+                                        {{ form.fecha(
+                                            class="form-control",
+                                            type="date"
+                                        ) }}
+
+                                    </div>
+
+                                    {% for error in form.fecha.errors %}
+
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+
+                                    {% endfor %}
+
                                 </div>
-                            {% endfor %}
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <div class="mb-4">
+
+                                    {{ form.total.label(
+                                        class="form-label fw-semibold"
+                                    ) }}
+
+                                    <div class="input-group">
+
+                                        <span class="input-group-text">
+                                            $
+                                        </span>
+
+                                        {{ form.total(
+                                            class="form-control",
+                                            placeholder="0.00",
+                                            step="0.01",
+                                            min="0.01"
+                                        ) }}
+
+                                    </div>
+
+                                    {% for error in form.total.errors %}
+
+                                        <div class="text-danger small mt-1">
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                            {{ error }}
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <!-- TOTAL -->
-                        <div class="mb-3">
 
-                            {{ form.total.label(class="form-label") }}
+                        <!-- ESTADO -->
 
-                            {{ form.total(
-                                class="form-control",
-                                placeholder="Ingrese el total"
+                        <div class="mb-4">
+
+                            {{ form.estado.label(
+                                class="form-label fw-semibold"
                             ) }}
 
-                            {% for error in form.total.errors %}
-                                <div class="text-danger mt-1">
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-flag-fill"></i>
+                                </span>
+
+                                {{ form.estado(
+                                    class="form-select"
+                                ) }}
+
+                            </div>
+
+                            {% for error in form.estado.errors %}
+
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>
                                     {{ error }}
                                 </div>
+
                             {% endfor %}
 
                         </div>
+
+
+                        <!-- INFORMACIÓN -->
+
+                        <div class="alert alert-primary border-0">
+
+                            <div class="d-flex">
+
+                                <i class="bi bi-info-circle-fill fs-5 me-2"></i>
+
+                                <div>
+
+                                    <strong>
+                                        Información
+                                    </strong>
+
+                                    <div class="small mt-1">
+                                        La factura quedará relacionada con
+                                        el cliente seleccionado mediante
+                                        una clave foránea en PostgreSQL.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
 
                         <!-- BOTONES -->
-                        <div class="d-flex gap-2">
 
-                            {{ form.submit(class="btn btn-primary") }}
+                        <div class="d-flex justify-content-end gap-2 mt-4">
 
                             <a
                                 href="{{ url_for('facturacion') }}"
-                                class="btn btn-secondary">
+                                class="btn btn-outline-secondary"
+                            >
+                                <i class="bi bi-x-circle me-1"></i>
                                 Cancelar
                             </a>
+
+
+                            {{ form.submit(
+                                class="btn btn-primary px-4"
+                            ) }}
 
                         </div>
 

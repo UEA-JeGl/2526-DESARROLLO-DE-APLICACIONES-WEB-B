@@ -1,61 +1,458 @@
-```html
 {% extends "base.html" %}
+
+{% block title %}Dashboard | TecnoSoluciones{% endblock %}
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-4">
 
-    <div class="card shadow">
-        <div class="card-body text-center">
+    <!-- ENCABEZADO -->
+    <div class="dashboard-header mb-4">
 
-            <h1 class="mb-3">
-                Bienvenido a TecnoSoluciones
+        <div>
+            <span class="badge bg-primary mb-2">
+                <i class="bi bi-speedometer2"></i>
+                Panel de administración
+            </span>
+
+            <h1 class="fw-bold mb-1">
+                Bienvenido, {{ current_user.usuario }}
             </h1>
 
-            <p class="lead">
-                Has iniciado sesión correctamente.
+            <p class="text-muted mb-0">
+                Gestiona los productos, clientes, proveedores y facturación
+                de TecnoSoluciones desde un solo lugar.
             </p>
+        </div>
 
-            <p>
-                Usuario:
-                <strong>{{ current_user.usuario }}</strong>
-            </p>
+        <div class="dashboard-user">
+            <div class="user-icon">
+                <i class="bi bi-person-fill"></i>
+            </div>
 
-            <hr>
+            <div>
+                <small class="text-muted">Usuario conectado</small>
+                <div class="fw-bold">
+                    {{ current_user.usuario }}
+                </div>
+            </div>
+        </div>
 
-            <div class="d-flex justify-content-center gap-2 flex-wrap">
+    </div>
+
+
+    <!-- TARJETAS PRINCIPALES -->
+    <div class="row g-4 mb-4">
+
+        <!-- PRODUCTOS -->
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card h-100">
+
+                <div class="dashboard-card-icon bg-primary-subtle text-primary">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+
+                <h5 class="fw-bold mt-3">
+                    Productos
+                </h5>
+
+                <p class="text-muted">
+                    Administra productos, precios, stock y proveedores.
+                </p>
 
                 <a href="{{ url_for('productos') }}"
-                   class="btn btn-primary">
+                   class="btn btn-primary w-100 mt-auto">
+
+                    <i class="bi bi-arrow-right-circle"></i>
                     Gestionar productos
-                </a>
 
-                <a href="{{ url_for('clientes') }}"
-                   class="btn btn-secondary">
-                    Clientes
-                </a>
-
-                <a href="{{ url_for('proveedores') }}"
-                   class="btn btn-secondary">
-                    Proveedores
-                </a>
-
-                <a href="{{ url_for('facturacion') }}"
-                   class="btn btn-secondary">
-                    Facturación
-                </a>
-
-                <a href="{{ url_for('logout') }}"
-                   class="btn btn-danger">
-                    Cerrar sesión
                 </a>
 
             </div>
 
         </div>
+
+
+        <!-- CLIENTES -->
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card h-100">
+
+                <div class="dashboard-card-icon bg-success-subtle text-success">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+
+                <h5 class="fw-bold mt-3">
+                    Clientes
+                </h5>
+
+                <p class="text-muted">
+                    Registra y administra la información de los clientes.
+                </p>
+
+                <a href="{{ url_for('clientes') }}"
+                   class="btn btn-success w-100 mt-auto">
+
+                    <i class="bi bi-arrow-right-circle"></i>
+                    Gestionar clientes
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROVEEDORES -->
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card h-100">
+
+                <div class="dashboard-card-icon bg-warning-subtle text-warning">
+                    <i class="bi bi-truck"></i>
+                </div>
+
+                <h5 class="fw-bold mt-3">
+                    Proveedores
+                </h5>
+
+                <p class="text-muted">
+                    Consulta y administra empresas proveedoras.
+                </p>
+
+                <a href="{{ url_for('proveedores') }}"
+                   class="btn btn-warning w-100 mt-auto">
+
+                    <i class="bi bi-arrow-right-circle"></i>
+                    Gestionar proveedores
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- FACTURACIÓN -->
+        <div class="col-md-6 col-xl-3">
+
+            <div class="dashboard-card h-100">
+
+                <div class="dashboard-card-icon bg-danger-subtle text-danger">
+                    <i class="bi bi-receipt"></i>
+                </div>
+
+                <h5 class="fw-bold mt-3">
+                    Facturación
+                </h5>
+
+                <p class="text-muted">
+                    Consulta y registra información de facturación.
+                </p>
+
+                <a href="{{ url_for('facturacion') }}"
+                   class="btn btn-danger w-100 mt-auto">
+
+                    <i class="bi bi-arrow-right-circle"></i>
+                    Ver facturación
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SECCIÓN CRUD -->
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex flex-wrap justify-content-between
+                        align-items-center mb-4">
+
+                <div>
+                    <h4 class="fw-bold mb-1">
+                        <i class="bi bi-database-fill-gear text-primary"></i>
+                        Gestión del sistema
+                    </h4>
+
+                    <p class="text-muted mb-0">
+                        Accesos rápidos a las operaciones principales del sistema.
+                    </p>
+                </div>
+
+                <span class="badge bg-success">
+                    <i class="bi bi-check-circle"></i>
+                    Sistema activo
+                </span>
+
+            </div>
+
+
+            <div class="row g-3">
+
+                <!-- CREAR -->
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="quick-action">
+
+                        <div class="quick-action-icon text-success">
+                            <i class="bi bi-plus-circle-fill"></i>
+                        </div>
+
+                        <div>
+                            <h6 class="fw-bold mb-1">
+                                Crear
+                            </h6>
+
+                            <p class="small text-muted mb-0">
+                                Registrar nuevos datos.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LEER -->
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="quick-action">
+
+                        <div class="quick-action-icon text-primary">
+                            <i class="bi bi-search"></i>
+                        </div>
+
+                        <div>
+                            <h6 class="fw-bold mb-1">
+                                Consultar
+                            </h6>
+
+                            <p class="small text-muted mb-0">
+                                Visualizar información almacenada.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTUALIZAR -->
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="quick-action">
+
+                        <div class="quick-action-icon text-warning">
+                            <i class="bi bi-pencil-square"></i>
+                        </div>
+
+                        <div>
+                            <h6 class="fw-bold mb-1">
+                                Actualizar
+                            </h6>
+
+                            <p class="small text-muted mb-0">
+                                Modificar información existente.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ELIMINAR -->
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="quick-action">
+
+                        <div class="quick-action-icon text-danger">
+                            <i class="bi bi-trash3-fill"></i>
+                        </div>
+
+                        <div>
+                            <h6 class="fw-bold mb-1">
+                                Eliminar
+                            </h6>
+
+                            <p class="small text-muted mb-0">
+                                Eliminar registros seleccionados.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- INFORMACIÓN DEL PROYECTO -->
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="dashboard-card-icon bg-primary-subtle text-primary me-3">
+                            <i class="bi bi-laptop"></i>
+                        </div>
+
+                        <div>
+                            <h4 class="fw-bold mb-0">
+                                TecnoSoluciones
+                            </h4>
+
+                            <small class="text-muted">
+                                Sistema de gestión empresarial
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <p class="text-muted">
+                        Aplicación web desarrollada con Flask, PostgreSQL,
+                        HTML, Bootstrap y JavaScript para administrar
+                        información empresarial de manera sencilla y organizada.
+                    </p>
+
+                    <div class="row mt-4">
+
+                        <div class="col-sm-4 mb-3 mb-sm-0">
+
+                            <div class="info-item">
+                                <i class="bi bi-code-slash text-primary"></i>
+
+                                <div>
+                                    <small class="text-muted d-block">
+                                        Backend
+                                    </small>
+
+                                    <strong>
+                                        Flask
+                                    </strong>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-sm-4 mb-3 mb-sm-0">
+
+                            <div class="info-item">
+                                <i class="bi bi-database text-success"></i>
+
+                                <div>
+                                    <small class="text-muted d-block">
+                                        Base de datos
+                                    </small>
+
+                                    <strong>
+                                        PostgreSQL
+                                    </strong>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-sm-4">
+
+                            <div class="info-item">
+                                <i class="bi bi-bootstrap-fill text-primary"></i>
+
+                                <div>
+                                    <small class="text-muted d-block">
+                                        Interfaz
+                                    </small>
+
+                                    <strong>
+                                        Bootstrap
+                                    </strong>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ESTADO -->
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-4">
+                        <i class="bi bi-shield-check text-success"></i>
+                        Estado de sesión
+                    </h5>
+
+                    <div class="session-status mb-3">
+
+                        <div class="status-dot"></div>
+
+                        <div>
+                            <strong>Sesión activa</strong>
+
+                            <small class="text-muted d-block">
+                                Acceso autorizado
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span class="text-muted">
+                            Usuario
+                        </span>
+
+                        <strong>
+                            {{ current_user.usuario }}
+                        </strong>
+
+                    </div>
+
+                    <a href="{{ url_for('logout') }}"
+                       class="btn btn-outline-danger w-100">
+
+                        <i class="bi bi-box-arrow-right"></i>
+                        Cerrar sesión
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
 
 {% endblock %}
-```

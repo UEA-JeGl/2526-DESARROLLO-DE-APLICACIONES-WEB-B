@@ -15,7 +15,6 @@ Inicio | {{ nombre_empresa }}
 
         <div class="row align-items-center g-5">
 
-            <!-- Texto -->
             <div class="col-lg-6">
 
                 <div class="hero-badge">
@@ -70,7 +69,6 @@ Inicio | {{ nombre_empresa }}
             </div>
 
 
-            <!-- Imagen -->
             <div class="col-lg-6">
 
                 <div class="hero-visual">
@@ -88,6 +86,7 @@ Inicio | {{ nombre_empresa }}
                             <i class="bi bi-cpu-fill"></i>
 
                             <div>
+
                                 <strong>
                                     Tecnología para tu negocio
                                 </strong>
@@ -95,6 +94,7 @@ Inicio | {{ nombre_empresa }}
                                 <small>
                                     Soluciones digitales modernas y eficientes
                                 </small>
+
                             </div>
 
                         </div>
@@ -133,7 +133,6 @@ Inicio | {{ nombre_empresa }}
 
         <div class="row align-items-center g-5">
 
-            <!-- Imagen -->
             <div class="col-lg-6">
 
                 <div class="about-visual">
@@ -151,10 +150,13 @@ Inicio | {{ nombre_empresa }}
                             <i class="bi bi-stars"></i>
 
                             <div>
+
                                 <strong>Innovación</strong>
+
                                 <span>
                                     Soluciones tecnológicas
                                 </span>
+
                             </div>
 
                         </div>
@@ -180,7 +182,6 @@ Inicio | {{ nombre_empresa }}
             </div>
 
 
-            <!-- Información -->
             <div class="col-lg-6">
 
                 <div class="section-heading">
@@ -221,13 +222,17 @@ Inicio | {{ nombre_empresa }}
                             </div>
 
                             <div>
+
                                 <strong>Soluciones modernas</strong>
+
                                 <p>
                                     Aplicamos tecnologías actuales.
                                 </p>
+
                             </div>
 
                         </div>
+
 
                         <div class="about-feature">
 
@@ -236,13 +241,17 @@ Inicio | {{ nombre_empresa }}
                             </div>
 
                             <div>
+
                                 <strong>Trabajo confiable</strong>
+
                                 <p>
                                     Buscamos resultados de calidad.
                                 </p>
+
                             </div>
 
                         </div>
+
 
                         <div class="about-feature">
 
@@ -251,10 +260,13 @@ Inicio | {{ nombre_empresa }}
                             </div>
 
                             <div>
+
                                 <strong>Atención personalizada</strong>
+
                                 <p>
                                     Nos adaptamos a cada necesidad.
                                 </p>
+
                             </div>
 
                         </div>
@@ -307,7 +319,6 @@ Inicio | {{ nombre_empresa }}
 
                 <div class="service-modern-card h-100">
 
-                    <!-- Imagen local -->
                     <div class="service-image">
 
                         <img
@@ -318,7 +329,6 @@ Inicio | {{ nombre_empresa }}
                     </div>
 
 
-                    <!-- Icono -->
                     <div class="service-modern-icon">
 
                         {% if servicio.icono %}
@@ -369,11 +379,13 @@ Inicio | {{ nombre_empresa }}
         <div class="services-bottom">
 
             <div>
+
                 <i class="bi bi-lightbulb-fill"></i>
 
                 <span>
                     Tecnología pensada para tus necesidades
                 </span>
+
             </div>
 
             <a href="#registro" class="btn btn-primary">
@@ -426,12 +438,17 @@ Inicio | {{ nombre_empresa }}
             </div>
 
 
-            <!-- Formulario -->
+            <!-- =================================================
+                 FORMULARIO
+            ================================================== -->
+
             <form id="formServicio">
 
                 <div class="row g-4">
 
-                    <!-- Nombre -->
+
+                    <!-- NOMBRE -->
+
                     <div class="col-md-6">
 
                         <label for="nombre" class="form-label">
@@ -454,31 +471,47 @@ Inicio | {{ nombre_empresa }}
                     </div>
 
 
-                    <!-- Categoría -->
+                    <!-- SERVICIO -->
+
                     <div class="col-md-6">
 
-                        <label for="categoria" class="form-label">
+                        <label
+                            for="categoria"
+                            class="form-label">
+
                             Servicio
+
                         </label>
+
 
                         <select
                             id="categoria"
                             name="categoria"
-                            class="form-select">
+                            class="form-select"
+                            required>
 
-                            <option value="">
+                            <option value="" selected disabled>
                                 Seleccione un servicio
                             </option>
 
-                            {% for servicio in servicios %}
-
-                            <option value="{{ servicio.nombre }}">
-                                {{ servicio.nombre }}
+                            <option value="Desarrollo Web">
+                                Desarrollo Web
                             </option>
 
-                            {% endfor %}
+                            <option value="Soporte Técnico">
+                                Soporte Técnico
+                            </option>
+
+                            <option value="Capacitación">
+                                Capacitación
+                            </option>
+
+                            <option value="Consultoría">
+                                Consultoría
+                            </option>
 
                         </select>
+
 
                         <div
                             id="errorCategoria"
@@ -488,7 +521,8 @@ Inicio | {{ nombre_empresa }}
                     </div>
 
 
-                    <!-- Descripción -->
+                    <!-- DESCRIPCIÓN -->
+
                     <div class="col-12">
 
                         <label
@@ -504,8 +538,8 @@ Inicio | {{ nombre_empresa }}
                             name="descripcion"
                             class="form-control"
                             rows="4"
-                            placeholder="Describa brevemente su necesidad">
-                        </textarea>
+                            placeholder="Describa brevemente su necesidad"
+                        ></textarea>
 
                         <div
                             id="errorDescripcion"
@@ -515,7 +549,8 @@ Inicio | {{ nombre_empresa }}
                     </div>
 
 
-                    <!-- Botón -->
+                    <!-- BOTÓN -->
+
                     <div class="col-12">
 
                         <button
@@ -546,7 +581,10 @@ Inicio | {{ nombre_empresa }}
             </form>
 
 
-            <!-- Tabla -->
+            <!-- =================================================
+                 TABLA DE SOLICITUDES
+            ================================================== -->
+
             <div class="mt-5">
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -556,8 +594,13 @@ Inicio | {{ nombre_empresa }}
                     </h3>
 
                     <span class="badge bg-primary">
-                        <span id="contador">0</span>
+
+                        <span id="contador">
+                            0
+                        </span>
+
                         solicitudes
+
                     </span>
 
                 </div>
@@ -592,7 +635,6 @@ Inicio | {{ nombre_empresa }}
                         </thead>
 
                         <tbody id="listaServicios">
-
                         </tbody>
 
                     </table>
@@ -632,18 +674,25 @@ Inicio | {{ nombre_empresa }}
                 <div class="col-lg-6">
 
                     <span class="section-label">
+
                         <i class="bi bi-chat-dots-fill"></i>
+
                         CONTACTO
+
                     </span>
 
                     <h2>
+
                         ¿Necesitas una
                         <span>solución tecnológica?</span>
+
                     </h2>
 
                     <p>
+
                         Estamos preparados para ayudarte con
                         tus proyectos y necesidades tecnológicas.
+
                     </p>
 
                 </div>
@@ -654,15 +703,21 @@ Inicio | {{ nombre_empresa }}
                     <div class="contact-modern-item">
 
                         <div class="contact-modern-icon">
+
                             <i class="bi bi-envelope-fill"></i>
+
                         </div>
 
                         <div>
-                            <strong>Correo electrónico</strong>
+
+                            <strong>
+                                Correo electrónico
+                            </strong>
 
                             <span>
                                 contacto@tecnosoluciones.com
                             </span>
+
                         </div>
 
                     </div>
@@ -671,15 +726,21 @@ Inicio | {{ nombre_empresa }}
                     <div class="contact-modern-item">
 
                         <div class="contact-modern-icon">
+
                             <i class="bi bi-telephone-fill"></i>
+
                         </div>
 
                         <div>
-                            <strong>Teléfono</strong>
+
+                            <strong>
+                                Teléfono
+                            </strong>
 
                             <span>
                                 +593 999 999 999
                             </span>
+
                         </div>
 
                     </div>
@@ -688,15 +749,21 @@ Inicio | {{ nombre_empresa }}
                     <div class="contact-modern-item">
 
                         <div class="contact-modern-icon">
+
                             <i class="bi bi-geo-alt-fill"></i>
+
                         </div>
 
                         <div>
-                            <strong>Ubicación</strong>
+
+                            <strong>
+                                Ubicación
+                            </strong>
 
                             <span>
                                 Ecuador
                             </span>
+
                         </div>
 
                     </div>
@@ -709,18 +776,29 @@ Inicio | {{ nombre_empresa }}
             <div class="contact-footer">
 
                 <span>
+
                     <i class="bi bi-shield-check"></i>
+
                     Atención profesional
+
                 </span>
 
+
                 <span>
+
                     <i class="bi bi-lightning-charge-fill"></i>
+
                     Respuesta rápida
+
                 </span>
 
+
                 <span>
+
                     <i class="bi bi-award-fill"></i>
+
                     Calidad tecnológica
+
                 </span>
 
             </div>

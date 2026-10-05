@@ -1,61 +1,178 @@
+```html
 {% extends "base.html" %}
+
+{% block title %}
+Iniciar sesión - TecnoSoluciones
+{% endblock %}
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
+
     <div class="row justify-content-center">
-        <div class="col-md-6">
 
-            <div class="card shadow">
-                <div class="card-body">
+        <div class="col-md-6 col-lg-5">
 
-                    <h2 class="text-center mb-4">
+            <div class="card border-0 shadow-lg">
+
+                <!-- ENCABEZADO -->
+
+                <div class="card-header text-center bg-white border-0 pt-4">
+
+                    <div class="mb-3">
+
+                        <i class="bi bi-person-circle"
+                           style="font-size: 4rem; color: #2563eb;">
+                        </i>
+
+                    </div>
+
+                    <h2 class="fw-bold mb-1">
                         Iniciar sesión
                     </h2>
 
-                    <form method="POST">
+                    <p class="text-muted mb-0">
+                        Accede a tu cuenta de TecnoSoluciones
+                    </p>
+
+                </div>
+
+
+                <!-- FORMULARIO -->
+
+                <div class="card-body p-4">
+
+                    <form method="POST" novalidate>
 
                         {{ form.hidden_tag() }}
 
-                        <div class="mb-3">
-                            {{ form.usuario.label(class="form-label") }}
-                            {{ form.usuario(class="form-control") }}
 
-                            {% for error in form.usuario.errors %}
-                                <div class="text-danger">
+                        <!-- CORREO -->
+
+                        <div class="mb-4">
+
+                            {{ form.correo.label(class="form-label fw-semibold") }}
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope-fill"></i>
+                                </span>
+
+                                {{ form.correo(
+                                    class="form-control",
+                                    placeholder="ejemplo@correo.com"
+                                ) }}
+
+                            </div>
+
+                            {% for error in form.correo.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    <i class="bi bi-exclamation-circle me-1"></i>
+
                                     {{ error }}
+
                                 </div>
+
                             {% endfor %}
+
                         </div>
 
-                        <div class="mb-3">
-                            {{ form.password.label(class="form-label") }}
-                            {{ form.password(class="form-control") }}
+
+                        <!-- CONTRASEÑA -->
+
+                        <div class="mb-4">
+
+                            {{ form.password.label(class="form-label fw-semibold") }}
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-lock-fill"></i>
+                                </span>
+
+                                {{ form.password(
+                                    class="form-control",
+                                    placeholder="Ingrese su contraseña"
+                                ) }}
+
+                            </div>
 
                             {% for error in form.password.errors %}
-                                <div class="text-danger">
+
+                                <div class="text-danger small mt-1">
+
+                                    <i class="bi bi-exclamation-circle me-1"></i>
+
                                     {{ error }}
+
                                 </div>
+
                             {% endfor %}
+
                         </div>
 
+
+                        <!-- BOTÓN -->
+
                         <div class="d-grid">
-                            {{ form.submit(class="btn btn-primary") }}
+
+                            {{ form.submit(
+                                class="btn btn-primary btn-lg"
+                            ) }}
+
                         </div>
 
                     </form>
 
-                    <div class="text-center mt-3">
-                        <a href="{{ url_for('registro') }}">
-                            ¿No tienes una cuenta? Regístrate
+
+                    <!-- REGISTRO -->
+
+                    <div class="text-center mt-4">
+
+                        <p class="text-muted mb-2">
+                            ¿No tienes una cuenta?
+                        </p>
+
+                        <a
+                            href="{{ url_for('registro') }}"
+                            class="btn btn-outline-primary"
+                        >
+
+                            <i class="bi bi-person-plus-fill me-1"></i>
+
+                            Crear cuenta
+
                         </a>
+
                     </div>
 
                 </div>
+
+            </div>
+
+
+            <!-- INFORMACIÓN -->
+
+            <div class="text-center mt-4">
+
+                <small class="text-muted">
+
+                    <i class="bi bi-shield-check me-1"></i>
+
+                    Acceso seguro a TecnoSoluciones
+
+                </small>
+
             </div>
 
         </div>
+
     </div>
+
 </div>
 
 {% endblock %}
+```

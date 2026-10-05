@@ -1,125 +1,226 @@
-```html
 {% extends "base.html" %}
 
 {% block title %}
-Registrar Cliente - TecnoSoluciones
+    {{ titulo }} - TecnoSoluciones
 {% endblock %}
 
 {% block content %}
 
-<div class="container mt-5 mb-5">
+<div class="container py-5">
+
+    <!-- ENCABEZADO -->
+
+    <div class="row mb-4">
+
+        <div class="col-12">
+
+            <div class="d-flex align-items-center">
+
+                <div class="me-3">
+
+                    <div
+                        class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+                        style="width: 55px; height: 55px;"
+                    >
+
+                        <i class="bi bi-person-plus-fill fs-4"></i>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <h2 class="fw-bold mb-1">
+                        {{ titulo }}
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Registra o actualiza la información del cliente.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FORMULARIO -->
 
     <div class="row justify-content-center">
 
-        <div class="col-md-7 col-lg-6">
+        <div class="col-lg-8">
 
-            <div class="card shadow border-0">
+            <div class="card border-0 shadow-sm">
 
-                <div class="card-body p-4">
-
-                    <div class="text-center mb-4">
-
-                        <div class="mb-3">
-                            <i class="bi bi-person-plus-fill fs-1 text-primary"></i>
-                        </div>
-
-                        <h2 class="fw-bold">
-                            Registrar cliente
-                        </h2>
-
-                        <p class="text-muted">
-                            Ingresa los datos del nuevo cliente.
-                        </p>
-
-                    </div>
+                <div class="card-body p-4 p-md-5">
 
                     <form method="POST">
 
                         {{ form.hidden_tag() }}
 
-                        <div class="mb-3">
 
-                            {{ form.nombre.label(
-                                class="form-label fw-bold"
-                            ) }}
-
-                            {{ form.nombre(
-                                class="form-control",
-                                placeholder="Nombre completo"
-                            ) }}
-
-                            {% for error in form.nombre.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            {{ form.correo.label(
-                                class="form-label fw-bold"
-                            ) }}
-
-                            {{ form.correo(
-                                class="form-control",
-                                placeholder="correo@ejemplo.com"
-                            ) }}
-
-                            {% for error in form.correo.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            {{ form.tipo.label(
-                                class="form-label fw-bold"
-                            ) }}
-
-                            {{ form.tipo(
-                                class="form-select"
-                            ) }}
-
-                            {% for error in form.tipo.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-
-                        </div>
+                        <!-- NOMBRE -->
 
                         <div class="mb-4">
 
-                            {{ form.estado.label(
-                                class="form-label fw-bold"
+                            {{ form.nombre.label(
+                                class="form-label fw-semibold"
                             ) }}
 
-                            {{ form.estado(
-                                class="form-select"
-                            ) }}
+                            <div class="input-group">
 
-                            {% for error in form.estado.errors %}
+                                <span class="input-group-text bg-light">
+
+                                    <i class="bi bi-person-fill"></i>
+
+                                </span>
+
+                                {{ form.nombre(
+                                    class="form-control",
+                                    placeholder="Ingrese el nombre completo"
+                                ) }}
+
+                            </div>
+
+                            {% for error in form.nombre.errors %}
+
                                 <div class="text-danger small mt-1">
+
+                                    <i class="bi bi-exclamation-circle me-1"></i>
+
                                     {{ error }}
+
                                 </div>
+
                             {% endfor %}
 
                         </div>
 
-                        <div class="d-flex gap-2">
 
-                            <a href="{{ url_for('clientes') }}"
-                               class="btn btn-secondary w-50">
+                        <!-- CORREO -->
+
+                        <div class="mb-4">
+
+                            {{ form.correo.label(
+                                class="form-label fw-semibold"
+                            ) }}
+
+                            <div class="input-group">
+
+                                <span class="input-group-text bg-light">
+
+                                    <i class="bi bi-envelope-fill"></i>
+
+                                </span>
+
+                                {{ form.correo(
+                                    class="form-control",
+                                    placeholder="ejemplo@correo.com"
+                                ) }}
+
+                            </div>
+
+                            {% for error in form.correo.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    <i class="bi bi-exclamation-circle me-1"></i>
+
+                                    {{ error }}
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- TELÉFONO -->
+
+                        <div class="mb-4">
+
+                            {{ form.telefono.label(
+                                class="form-label fw-semibold"
+                            ) }}
+
+                            <div class="input-group">
+
+                                <span class="input-group-text bg-light">
+
+                                    <i class="bi bi-telephone-fill"></i>
+
+                                </span>
+
+                                {{ form.telefono(
+                                    class="form-control",
+                                    placeholder="Ingrese el número de teléfono"
+                                ) }}
+
+                            </div>
+
+                            {% for error in form.telefono.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    <i class="bi bi-exclamation-circle me-1"></i>
+
+                                    {{ error }}
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- INFORMACIÓN -->
+
+                        <div class="alert alert-info border-0 mb-4">
+
+                            <div class="d-flex">
+
+                                <i class="bi bi-info-circle-fill me-2 mt-1"></i>
+
+                                <div>
+
+                                    <strong>Información:</strong>
+
+                                    <div class="small mt-1">
+
+                                        Verifique que los datos ingresados
+                                        sean correctos antes de guardar.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- BOTONES -->
+
+                        <div class="d-flex justify-content-end gap-2">
+
+                            <a
+                                href="{{ url_for('clientes') }}"
+                                class="btn btn-outline-secondary"
+                            >
+
+                                <i class="bi bi-arrow-left me-1"></i>
+
                                 Cancelar
+
                             </a>
 
+
                             {{ form.submit(
-                                class="btn btn-primary w-50"
+                                class="btn btn-primary px-4"
                             ) }}
 
                         </div>
@@ -137,4 +238,3 @@ Registrar Cliente - TecnoSoluciones
 </div>
 
 {% endblock %}
-```

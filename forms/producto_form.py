@@ -1,9 +1,25 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DecimalField, IntegerField, SelectField, SubmitField
-from wtforms.validators import DataRequired, Length, NumberRange
+
+from wtforms import (
+    StringField,
+    DecimalField,
+    IntegerField,
+    SelectField,
+    SubmitField
+)
+
+from wtforms.validators import (
+    DataRequired,
+    Length,
+    NumberRange
+)
 
 
 class ProductoForm(FlaskForm):
+
+    # ==========================================================
+    # NOMBRE
+    # ==========================================================
 
     nombre = StringField(
         "Nombre del producto",
@@ -18,6 +34,11 @@ class ProductoForm(FlaskForm):
             )
         ]
     )
+
+
+    # ==========================================================
+    # CATEGORÍA
+    # ==========================================================
 
     categoria = SelectField(
         "Categoría",
@@ -37,8 +58,15 @@ class ProductoForm(FlaskForm):
         ]
     )
 
+
+    # ==========================================================
+    # PRECIO
+    # ==========================================================
+
     precio = DecimalField(
         "Precio",
+        places=2,
+        rounding=None,
         validators=[
             DataRequired(
                 message="El precio es obligatorio."
@@ -49,6 +77,11 @@ class ProductoForm(FlaskForm):
             )
         ]
     )
+
+
+    # ==========================================================
+    # STOCK
+    # ==========================================================
 
     stock = IntegerField(
         "Stock",
@@ -63,6 +96,11 @@ class ProductoForm(FlaskForm):
         ]
     )
 
+
+    # ==========================================================
+    # PROVEEDOR
+    # ==========================================================
+
     id_proveedor = SelectField(
         "Proveedor",
         coerce=int,
@@ -72,6 +110,11 @@ class ProductoForm(FlaskForm):
             )
         ]
     )
+
+
+    # ==========================================================
+    # BOTÓN
+    # ==========================================================
 
     submit = SubmitField(
         "Guardar producto"

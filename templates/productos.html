@@ -1,21 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}
-Productos - TecnoSoluciones
-{% endblock %}
+{% block title %}Productos | TecnoSoluciones{% endblock %}
 
 {% block content %}
-
-<!-- ==========================================================
-     ENCABEZADO DE PRODUCTOS
-     ========================================================== -->
 
 <section class="products-page">
 
     <div class="container py-5">
 
         <!-- ENCABEZADO -->
-        <div class="products-hero mb-5">
+        <div class="products-hero mb-4">
 
             <div class="row align-items-center g-4">
 
@@ -28,6 +22,7 @@ Productos - TecnoSoluciones
                         </div>
 
                         <div>
+
                             <span class="section-label">
                                 GESTIÓN DEL INVENTARIO
                             </span>
@@ -35,6 +30,7 @@ Productos - TecnoSoluciones
                             <h1 class="products-title mb-0">
                                 Productos
                             </h1>
+
                         </div>
 
                     </div>
@@ -42,7 +38,7 @@ Productos - TecnoSoluciones
                     <p class="products-description">
                         Administra los productos de TecnoSoluciones,
                         controla el inventario y consulta la información
-                        de cada proveedor.
+                        relacionada con cada proveedor.
                     </p>
 
                 </div>
@@ -54,7 +50,7 @@ Productos - TecnoSoluciones
 
                         <i class="bi bi-plus-circle-fill"></i>
 
-                        <span>Registrar producto</span>
+                        Registrar producto
 
                     </a>
 
@@ -65,10 +61,7 @@ Productos - TecnoSoluciones
         </div>
 
 
-        <!-- ==================================================
-             MENSAJES
-             ================================================== -->
-
+        <!-- MENSAJES -->
         {% with mensajes = get_flashed_messages(with_categories=true) %}
 
             {% if mensajes %}
@@ -113,19 +106,19 @@ Productos - TecnoSoluciones
         {% endwith %}
 
 
-        <!-- ==================================================
-             RESUMEN
-             ================================================== -->
-
+        <!-- RESUMEN -->
         <div class="product-summary mb-4">
 
             <div class="summary-left">
 
                 <div class="summary-icon">
+
                     <i class="bi bi-database-fill"></i>
+
                 </div>
 
                 <div>
+
                     <span class="summary-label">
                         INVENTARIO ACTUAL
                     </span>
@@ -133,6 +126,7 @@ Productos - TecnoSoluciones
                     <h5 class="mb-0">
                         Productos registrados
                     </h5>
+
                 </div>
 
             </div>
@@ -152,10 +146,7 @@ Productos - TecnoSoluciones
         </div>
 
 
-        <!-- ==================================================
-             PRODUCTOS
-             ================================================== -->
-
+        <!-- LISTADO DE PRODUCTOS -->
         <div class="row g-4">
 
             {% for producto in productos %}
@@ -164,8 +155,7 @@ Productos - TecnoSoluciones
 
                 <div class="product-card h-100">
 
-                    <!-- CABECERA DE TARJETA -->
-
+                    <!-- CABECERA -->
                     <div class="product-card-header">
 
                         <div class="product-image">
@@ -183,8 +173,7 @@ Productos - TecnoSoluciones
                     </div>
 
 
-                    <!-- INFORMACIÓN -->
-
+                    <!-- CUERPO -->
                     <div class="product-card-body">
 
                         <h3 class="product-name">
@@ -195,11 +184,12 @@ Productos - TecnoSoluciones
 
 
                         <!-- CATEGORÍA -->
-
                         <div class="product-info">
 
                             <div class="info-icon">
+
                                 <i class="bi bi-tags-fill"></i>
+
                             </div>
 
                             <div>
@@ -218,11 +208,12 @@ Productos - TecnoSoluciones
 
 
                         <!-- PRECIO -->
-
                         <div class="product-info">
 
                             <div class="info-icon price-icon">
+
                                 <i class="bi bi-currency-dollar"></i>
+
                             </div>
 
                             <div>
@@ -232,7 +223,9 @@ Productos - TecnoSoluciones
                                 </span>
 
                                 <strong class="product-price">
+
                                     ${{ "%.2f"|format(producto.precio) }}
+
                                 </strong>
 
                             </div>
@@ -241,11 +234,12 @@ Productos - TecnoSoluciones
 
 
                         <!-- STOCK -->
-
                         <div class="product-info">
 
                             <div class="info-icon stock-icon">
+
                                 <i class="bi bi-boxes"></i>
+
                             </div>
 
                             <div>
@@ -264,7 +258,6 @@ Productos - TecnoSoluciones
 
 
                         <!-- ESTADO STOCK -->
-
                         <div class="stock-status">
 
                             {% if producto.stock == 0 %}
@@ -303,7 +296,6 @@ Productos - TecnoSoluciones
 
 
                         <!-- PROVEEDOR -->
-
                         <div class="product-provider">
 
                             <div class="provider-icon">
@@ -339,10 +331,10 @@ Productos - TecnoSoluciones
                     </div>
 
 
-                    <!-- ACCIONES -->
-
+                    <!-- ACCIONES CRUD -->
                     <div class="product-card-footer">
 
+                        <!-- UPDATE -->
                         <a href="{{ url_for(
                             'editar_producto',
                             id_producto=producto.id_producto
@@ -356,6 +348,7 @@ Productos - TecnoSoluciones
                         </a>
 
 
+                        <!-- DELETE -->
                         <form action="{{ url_for(
                             'eliminar_producto',
                             id_producto=producto.id_producto
@@ -391,7 +384,6 @@ Productos - TecnoSoluciones
             {% else %}
 
             <!-- SIN PRODUCTOS -->
-
             <div class="col-12">
 
                 <div class="empty-products">
@@ -434,21 +426,27 @@ Productos - TecnoSoluciones
 </section>
 
 
-<!-- ==========================================================
-     ESTILOS ESPECÍFICOS DE PRODUCTOS
-     ========================================================== -->
-
 <style>
 
+/* ==========================================================
+   PÁGINA
+   ========================================================== */
+
 .products-page {
+
     background: #f5f7fb;
+
     min-height: 75vh;
+
 }
 
 
-/* ENCABEZADO */
+/* ==========================================================
+   ENCABEZADO
+   ========================================================== */
 
 .products-hero {
+
     background: linear-gradient(
         135deg,
         #ffffff 0%,
@@ -456,19 +454,24 @@ Productos - TecnoSoluciones
     );
 
     border: 1px solid #e3eaf5;
+
     border-radius: 24px;
 
     padding: 35px;
 
     box-shadow:
         0 10px 30px rgba(15, 23, 42, 0.07);
+
 }
 
+
 .products-icon {
+
     width: 62px;
     height: 62px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -486,36 +489,59 @@ Productos - TecnoSoluciones
 
     box-shadow:
         0 8px 20px rgba(13, 110, 253, 0.25);
+
 }
+
 
 .section-label {
+
     color: #0d6efd;
+
     font-size: 12px;
+
     font-weight: 800;
+
     letter-spacing: 1.5px;
+
 }
+
 
 .products-title {
+
     color: #172033;
+
     font-weight: 800;
+
     font-size: 38px;
+
 }
+
 
 .products-description {
+
     color: #64748b;
+
     max-width: 700px;
+
     margin: 15px 0 0 0;
+
     font-size: 16px;
+
     line-height: 1.7;
+
 }
 
 
-/* BOTÓN REGISTRAR */
+/* ==========================================================
+   BOTÓN REGISTRAR
+   ========================================================== */
 
 .btn-register-product {
+
     display: inline-flex !important;
 
     align-items: center;
+
     justify-content: center;
 
     gap: 9px;
@@ -529,17 +555,19 @@ Productos - TecnoSoluciones
     box-shadow:
         0 7px 18px rgba(13, 110, 253, 0.25);
 
-    visibility: visible !important;
-    opacity: 1 !important;
 }
 
 
-/* RESUMEN */
+/* ==========================================================
+   RESUMEN
+   ========================================================== */
 
 .product-summary {
+
     display: flex;
 
     justify-content: space-between;
+
     align-items: center;
 
     background: white;
@@ -552,19 +580,28 @@ Productos - TecnoSoluciones
 
     box-shadow:
         0 5px 18px rgba(15, 23, 42, 0.05);
+
 }
+
 
 .summary-left {
+
     display: flex;
+
     align-items: center;
+
     gap: 14px;
+
 }
 
+
 .summary-icon {
+
     width: 45px;
     height: 45px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -575,9 +612,12 @@ Productos - TecnoSoluciones
     color: #0d6efd;
 
     font-size: 20px;
+
 }
 
+
 .summary-label {
+
     display: block;
 
     font-size: 11px;
@@ -587,27 +627,43 @@ Productos - TecnoSoluciones
     font-weight: 800;
 
     letter-spacing: 1px;
+
 }
+
 
 .product-count {
+
     text-align: right;
+
 }
+
 
 .product-count span {
+
     font-size: 28px;
+
     font-weight: 800;
+
     color: #0d6efd;
+
 }
+
 
 .product-count small {
+
     display: block;
+
     color: #64748b;
+
 }
 
 
-/* TARJETA */
+/* ==========================================================
+   TARJETA
+   ========================================================== */
 
 .product-card {
+
     background: white;
 
     border: 1px solid #e4e9f0;
@@ -622,19 +678,26 @@ Productos - TecnoSoluciones
     transition:
         transform 0.25s ease,
         box-shadow 0.25s ease;
+
 }
 
+
 .product-card:hover {
+
     transform: translateY(-5px);
 
     box-shadow:
         0 15px 35px rgba(15, 23, 42, 0.12);
+
 }
 
 
-/* CABECERA */
+/* ==========================================================
+   CABECERA DE TARJETA
+   ========================================================== */
 
 .product-card-header {
+
     min-height: 120px;
 
     display: flex;
@@ -651,9 +714,12 @@ Productos - TecnoSoluciones
             #0d6efd,
             #0a58ca
         );
+
 }
 
+
 .product-image {
+
     width: 65px;
     height: 65px;
 
@@ -669,9 +735,12 @@ Productos - TecnoSoluciones
     color: white;
 
     font-size: 30px;
+
 }
 
+
 .product-id {
+
     color: rgba(255,255,255,0.85);
 
     font-size: 13px;
@@ -683,16 +752,23 @@ Productos - TecnoSoluciones
     padding: 7px 11px;
 
     border-radius: 20px;
+
 }
 
 
-/* CUERPO */
+/* ==========================================================
+   CUERPO
+   ========================================================== */
 
 .product-card-body {
+
     padding: 25px;
+
 }
 
+
 .product-name {
+
     color: #172033;
 
     font-size: 22px;
@@ -700,12 +776,16 @@ Productos - TecnoSoluciones
     font-weight: 800;
 
     margin-bottom: 22px;
+
 }
 
 
-/* INFORMACIÓN */
+/* ==========================================================
+   INFORMACIÓN
+   ========================================================== */
 
 .product-info {
+
     display: flex;
 
     align-items: center;
@@ -715,9 +795,12 @@ Productos - TecnoSoluciones
     padding: 11px 0;
 
     border-bottom: 1px solid #eef1f5;
+
 }
 
+
 .info-icon {
+
     width: 38px;
     height: 38px;
 
@@ -733,19 +816,30 @@ Productos - TecnoSoluciones
     background: #eef5ff;
 
     color: #0d6efd;
+
 }
+
 
 .price-icon {
+
     background: #ecfdf3;
+
     color: #198754;
+
 }
+
 
 .stock-icon {
+
     background: #fff7e6;
+
     color: #f59f00;
+
 }
 
+
 .info-label {
+
     display: block;
 
     font-size: 11px;
@@ -759,28 +853,41 @@ Productos - TecnoSoluciones
     letter-spacing: .5px;
 
     margin-bottom: 2px;
+
 }
 
+
 .product-info strong {
+
     color: #334155;
 
     font-size: 14px;
+
 }
 
+
 .product-price {
+
     color: #198754 !important;
 
     font-size: 17px !important;
+
 }
 
 
-/* STOCK */
+/* ==========================================================
+   STOCK
+   ========================================================== */
 
 .stock-status {
+
     padding: 15px 0 5px;
+
 }
 
+
 .stock-badge {
+
     display: inline-flex;
 
     align-items: center;
@@ -794,27 +901,43 @@ Productos - TecnoSoluciones
     font-size: 12px;
 
     font-weight: 800;
+
 }
+
 
 .stock-available {
+
     background: #e9f8ef;
+
     color: #198754;
+
 }
+
 
 .stock-low {
+
     background: #fff3cd;
+
     color: #946200;
+
 }
+
 
 .stock-empty {
+
     background: #fdecec;
+
     color: #dc3545;
+
 }
 
 
-/* PROVEEDOR */
+/* ==========================================================
+   PROVEEDOR
+   ========================================================== */
 
 .product-provider {
+
     display: flex;
 
     align-items: center;
@@ -828,9 +951,12 @@ Productos - TecnoSoluciones
     background: #f8fafc;
 
     border-radius: 12px;
+
 }
 
+
 .provider-icon {
+
     width: 40px;
     height: 40px;
 
@@ -844,18 +970,25 @@ Productos - TecnoSoluciones
     color: #475569;
 
     border-radius: 10px;
+
 }
 
+
 .product-provider strong {
+
     color: #334155;
 
     font-size: 14px;
+
 }
 
 
-/* ACCIONES */
+/* ==========================================================
+   ACCIONES CRUD
+   ========================================================== */
 
 .product-card-footer {
+
     display: flex;
 
     gap: 10px;
@@ -865,9 +998,12 @@ Productos - TecnoSoluciones
     border-top: 1px solid #edf0f4;
 
     background: #fafbfd;
+
 }
 
+
 .btn-product-action {
+
     flex: 1;
 
     display: inline-flex !important;
@@ -884,24 +1020,31 @@ Productos - TecnoSoluciones
 
     font-weight: 700 !important;
 
-    visibility: visible !important;
-
-    opacity: 1 !important;
 }
+
 
 .delete-product-form {
+
     flex: 1;
+
     margin: 0;
+
 }
+
 
 .delete-product-form .btn {
+
     width: 100%;
+
 }
 
 
-/* SIN PRODUCTOS */
+/* ==========================================================
+   SIN PRODUCTOS
+   ========================================================== */
 
 .empty-products {
+
     background: white;
 
     border: 2px dashed #dce3ed;
@@ -914,9 +1057,12 @@ Productos - TecnoSoluciones
 
     box-shadow:
         0 5px 20px rgba(15, 23, 42, 0.04);
+
 }
 
+
 .empty-icon {
+
     width: 85px;
     height: 85px;
 
@@ -934,15 +1080,21 @@ Productos - TecnoSoluciones
     color: #0d6efd;
 
     font-size: 38px;
+
 }
 
+
 .empty-products h3 {
+
     color: #172033;
 
     font-weight: 800;
+
 }
 
+
 .empty-products p {
+
     color: #64748b;
 
     max-width: 500px;
@@ -950,35 +1102,50 @@ Productos - TecnoSoluciones
     margin: 10px auto 25px;
 
     line-height: 1.7;
+
 }
 
 
-/* RESPONSIVE */
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
 
 @media (max-width: 768px) {
 
     .products-hero {
+
         padding: 25px;
+
     }
 
     .products-title {
+
         font-size: 30px;
+
     }
 
     .btn-register-product {
+
         width: 100%;
+
     }
 
     .product-summary {
+
         padding: 15px;
+
     }
 
     .product-card-footer {
+
         flex-direction: column;
+
     }
 
     .delete-product-form {
+
         width: 100%;
+
     }
 
 }

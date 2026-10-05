@@ -63,5 +63,3 @@ class ClienteForm(FlaskForm):
     submit = SubmitField(
         "Registrar cliente"
     )
-
-
