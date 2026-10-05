@@ -389,20 +389,63 @@ def crear_tabla_clientes():
 
         with conexion.cursor() as cursor:
 
+            # Crear la tabla si no existe
             cursor.execute(
                 """
                 CREATE TABLE IF NOT EXISTS clientes (
                     id SERIAL PRIMARY KEY,
                     nombre VARCHAR(100) NOT NULL,
                     correo VARCHAR(120) NOT NULL,
-                    telefono VARCHAR(20) NOT NULL
+                    telefono VARCHAR(20)
                 );
+                """
+            )
+
+            # Agregar telefono si la tabla ya existía
+            cursor.execute(
+                """
+                ALTER TABLE clientes
+                ADD COLUMN IF NOT EXISTS telefono VARCHAR(20);
+                """
+            )
+
+            # Eliminar columnas antiguas que ya no utiliza el sistema
+            cursor.execute(
+                """
+                ALTER TABLE clientes
+                DROP COLUMN IF EXISTS tipo;
+                """
+            )
+
+            cursor.execute(
+                """
+                ALTER TABLE clientes
+                DROP COLUMN IF EXISTS estado;
+                """
+            )
+
+            # Completar teléfono de registros antiguos
+            cursor.execute(
+                """
+                UPDATE clientes
+                SET telefono = '0000000000'
+                WHERE telefono IS NULL;
+                """
+            )
+
+            # Dejar teléfono obligatorio
+            cursor.execute(
+                """
+                ALTER TABLE clientes
+                ALTER COLUMN telefono SET NOT NULL;
                 """
             )
 
         conexion.commit()
 
-        print("Tabla clientes verificada correctamente.")
+        print(
+            "Tabla clientes verificada y actualizada correctamente."
+        )
 
     except Exception as e:
 
