@@ -1,3 +1,4 @@
+```html
 {% extends "base.html" %}
 
 {% block title %}
@@ -10,69 +11,73 @@ Crear cuenta - TecnoSoluciones
 
     <div class="row justify-content-center">
 
-        <div class="col-md-7 col-lg-6">
+        <div class="col-md-7 col-lg-5">
 
-            <div class="card border-0 shadow-lg">
+            <div class="card shadow-lg border-0 rounded-4">
 
-                <!-- ENCABEZADO -->
+                <div class="card-body p-4 p-md-5">
 
-                <div class="card-header bg-white border-0 text-center pt-4">
-
-                    <div class="mb-3">
+                    <div class="text-center mb-4">
 
                         <i class="bi bi-person-plus-fill"
                            style="font-size: 4rem; color: #2563eb;">
                         </i>
 
+                        <h2 class="fw-bold mt-3">
+                            Crear cuenta
+                        </h2>
+
+                        <p class="text-muted">
+                            Regístrate en TecnoSoluciones
+                        </p>
+
                     </div>
 
-                    <h2 class="fw-bold mb-1">
-                        Crear cuenta
-                    </h2>
 
-                    <p class="text-muted mb-0">
-                        Regístrate en TecnoSoluciones
-                    </p>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
 
-                </div>
+                        {% if messages %}
+
+                            {% for category, message in messages %}
+
+                                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                                    {{ message }}
+
+                                    <button type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="alert">
+                                    </button>
+
+                                </div>
+
+                            {% endfor %}
+
+                        {% endif %}
+
+                    {% endwith %}
 
 
-                <!-- FORMULARIO -->
-
-                <div class="card-body p-4">
-
-                    <form method="POST" novalidate>
+                    <form method="POST">
 
                         {{ form.hidden_tag() }}
 
 
-                        <!-- NOMBRE -->
+                        <div class="mb-3">
 
-                        <div class="mb-4">
+                            {{ form.usuario.label(
+                                class="form-label fw-semibold"
+                            ) }}
 
-                            {{ form.nombre.label(class="form-label fw-semibold") }}
+                            {{ form.usuario(
+                                class="form-control form-control-lg",
+                                placeholder="Ingrese su usuario"
+                            ) }}
 
-                            <div class="input-group">
+                            {% for error in form.usuario.errors %}
 
-                                <span class="input-group-text">
-                                    <i class="bi bi-person-fill"></i>
-                                </span>
-
-                                {{ form.nombre(
-                                    class="form-control",
-                                    placeholder="Ingrese su nombre completo"
-                                ) }}
-
-                            </div>
-
-                            {% for error in form.nombre.errors %}
-
-                                <div class="text-danger small mt-1">
-
-                                    <i class="bi bi-exclamation-circle me-1"></i>
-
+                                <div class="text-danger small">
                                     {{ error }}
-
                                 </div>
 
                             {% endfor %}
@@ -80,86 +85,54 @@ Crear cuenta - TecnoSoluciones
                         </div>
 
 
-                        <!-- CORREO -->
+                        <div class="mb-3">
 
-                        <div class="mb-4">
+                            {{ form.password.label(
+                                class="form-label fw-semibold"
+                            ) }}
 
-                            {{ form.correo.label(class="form-label fw-semibold") }}
-
-                            <div class="input-group">
-
-                                <span class="input-group-text">
-                                    <i class="bi bi-envelope-fill"></i>
-                                </span>
-
-                                {{ form.correo(
-                                    class="form-control",
-                                    placeholder="ejemplo@correo.com"
-                                ) }}
-
-                            </div>
-
-                            {% for error in form.correo.errors %}
-
-                                <div class="text-danger small mt-1">
-
-                                    <i class="bi bi-exclamation-circle me-1"></i>
-
-                                    {{ error }}
-
-                                </div>
-
-                            {% endfor %}
-
-                        </div>
-
-
-                        <!-- CONTRASEÑA -->
-
-                        <div class="mb-4">
-
-                            {{ form.password.label(class="form-label fw-semibold") }}
-
-                            <div class="input-group">
-
-                                <span class="input-group-text">
-                                    <i class="bi bi-lock-fill"></i>
-                                </span>
-
-                                {{ form.password(
-                                    class="form-control",
-                                    placeholder="Mínimo 6 caracteres"
-                                ) }}
-
-                            </div>
+                            {{ form.password(
+                                class="form-control form-control-lg",
+                                placeholder="Ingrese su contraseña"
+                            ) }}
 
                             {% for error in form.password.errors %}
 
-                                <div class="text-danger small mt-1">
-
-                                    <i class="bi bi-exclamation-circle me-1"></i>
-
+                                <div class="text-danger small">
                                     {{ error }}
-
                                 </div>
 
                             {% endfor %}
 
-                            <div class="form-text">
-
-                                La contraseña debe tener al menos 6 caracteres.
-
-                            </div>
-
                         </div>
 
 
-                        <!-- BOTÓN -->
+                        <div class="mb-4">
+
+                            {{ form.confirmar_password.label(
+                                class="form-label fw-semibold"
+                            ) }}
+
+                            {{ form.confirmar_password(
+                                class="form-control form-control-lg",
+                                placeholder="Repita su contraseña"
+                            ) }}
+
+                            {% for error in form.confirmar_password.errors %}
+
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
 
                         <div class="d-grid">
 
                             {{ form.submit(
-                                class="btn btn-primary btn-lg"
+                                class="btn btn-primary btn-lg rounded-3"
                             ) }}
 
                         </div>
@@ -167,20 +140,14 @@ Crear cuenta - TecnoSoluciones
                     </form>
 
 
-                    <!-- ENLACE LOGIN -->
-
                     <div class="text-center mt-4">
 
-                        <p class="text-muted mb-2">
+                        <span class="text-muted">
                             ¿Ya tienes una cuenta?
-                        </p>
+                        </span>
 
-                        <a
-                            href="{{ url_for('login') }}"
-                            class="btn btn-outline-primary"
-                        >
-
-                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                        <a href="{{ url_for('login') }}"
+                           class="text-decoration-none fw-semibold">
 
                             Iniciar sesión
 
@@ -192,21 +159,6 @@ Crear cuenta - TecnoSoluciones
 
             </div>
 
-
-            <!-- INFORMACIÓN -->
-
-            <div class="text-center mt-4">
-
-                <small class="text-muted">
-
-                    <i class="bi bi-shield-check me-1"></i>
-
-                    Tus datos serán protegidos de forma segura.
-
-                </small>
-
-            </div>
-
         </div>
 
     </div>
@@ -214,3 +166,4 @@ Crear cuenta - TecnoSoluciones
 </div>
 
 {% endblock %}
+```
